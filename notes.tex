@@ -1,0 +1,537 @@
+%===============================================
+%   rhnotes.tex — Framework for RH-coding Notes
+%===============================================
+\documentclass[11pt,a4paper]{article}
+
+%----- ENHANCED TYPOGRAPHY -----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}        % clean vector font
+\usepackage{microtype}      % better justification & kerning
+\usepackage{palatino} 
+\usepackage{braket}    % Palatino for text & math
+\usepackage{mathtools}  % in the preamble
+
+%----- PAGE LAYOUT -----
+\usepackage{geometry}
+\geometry{top=1in, bottom=1in, left=1in, right=1in}
+\usepackage{setspace}
+\onehalfspacing  % 1.5 line spacing
+
+%----- FANCY HEADERS & FOOTERS -----
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LO]{\small \rightmark}
+\fancyhead[RO]{\small \leftmark}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% make sections feed into \leftmark/\rightmark
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
+
+%----- SECTION NUMBERING & TOC DEPTH -----
+\setcounter{secnumdepth}{3}  % number down to \subsubsection
+\setcounter{tocdepth}{2}     % show ToC down to \subsection
+
+%----- AMS MATH & THEOREM STYLES -----
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{amsthm}
+
+% definitions, examples, remarks upright
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+\newtheorem{remark}[definition]{Remark}
+
+% theorems, lemmas, corollaries italic
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+
+% unnumbered proof environment
+\theoremstyle{remark}
+
+%----- OTHER PACKAGES -----
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc, matrix, decorations.pathreplacing, positioning}
+\usepackage{tikz-cd}
+\usepackage{hyperref}
+\hypersetup{colorlinks,
+linkcolor=blue, citecolor=purple, urlcolor=teal}
+\usepackage{enumitem}
+\setlist[itemize]{nosep, left=1.5em}
+\usepackage{booktabs}
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\small,
+numbers=left,
+numbersep=5pt,
+frame=single,
+breaklines=true
+}
+\usepackage{xcolor}
+\definecolor{shade}{HTML}{F5F5F5}
+\usepackage{float}
+%----- CUSTOM MACROS -----
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\dist}[2]{d\bigl(#1,#2\bigr)}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}} 
+\newcommand{\Q}{\mathbb{Q}} 
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\angles}[1]{\langle #1 \rangle}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+
+% \usepackage{mathtools} 
+% \DeclarePairedDelimiter{\angles}{\langle}{\rangle} 
+% \DeclarePairedDelimiter{\braces}{\left\{}{\right\}} 
+% \DeclarePairedDelimiter{\abs}{\lvert}{\rvert} 
+% \DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+%----- TITLE METADATA -----
+\title{\LARGE\bfseries Advanced Calculus}
+\author{Georges Khater \\ \small American University of Beirut, Math 223}
+\date{\today}
+
+%===============================================
+\begin{document}
+\maketitle
+\tableofcontents
+\bigskip
+
+\section{Metric Spaces}
+\begin{definition}
+    Let $X$ be a set, a \emph{metric} $d$ is a map 
+    $$d \colon X \times X \to \R$$
+    such that: 
+    \begin{enumerate}[label = (\roman*)]
+        \item $d(x,y) \geq 0$ with equality iff $x = y$. 
+        \item $d(x,y) = d(y,x)$
+        \item $d(x,z) \leq d(x,y) + d(y,z)$
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    Given a vector space $V$ and norm $\norm{.}$ we can define the metric 
+    $$d(x,y) = \norm{x-y}$$
+\end{example}
+
+\textbf{Question.} Given a vector space $V$ and a metric $d$ on $V$, does $d$ "come from" a norm? i.e does there exist some norm $\norm{}$ s.t 
+$$d(x,y) = \norm{x-y}$$
+The answer in general is no (consider the discrete metric, or even any bounded metric: this contradicts homogeneity). 
+
+\paragraph{Notation.} Take $(X,d)$ metric space $\delta > 0$ and $x_0 \in X$, the \emph{$\delta$-neighborhood} of $x_0$ 
+$$N_\delta(x_0) := \set{x \in X \colon d(x,x_0) < \delta}$$
+
+\begin{definition}
+    $(X,d)$ metric space and $E \subset X$ 
+    \begin{enumerate}[label = (\roman*)]
+        \item $x_0 \in X$ is an \emph{interior point} of $E$ iff $\exists \delta > 0$ s.t 
+        $$N_\delta (x_0) \subset E$$
+        \item $x_0 \in X$ is a \emph{limit point} iff $\forall \delta > 0$ 
+        $$N_\delta^* (x_0) \cap E \neq \varnothing$$
+        (We denote by $E'$ the set of limit points of $E$) 
+        \item $E$ is \emph{open} iff every $x_0 \in E$ is an interior point of $E$. 
+        \item $E$ is \emph{closed} iff every $E' \subset E$.  
+        \item The \emph{closure} of $E$ denoted $\overline{E}$ is 
+        $$\overline{E} := E \cup E'$$
+    \end{enumerate}
+\end{definition}
+
+\paragraph{Review.} Fix $(X,d)$ a metric space. 
+\begin{enumerate}
+    \item $N_\delta(x_0)$ is open $\forall \delta > 0, \ \forall x_0 \in X$. 
+    \item $E$ is open iff $E^c$ is closed. 
+    \item $\overline{E}$ is closed, in fact $\overline{E}$ is the smallest closed set containing $E$. 
+    \item The union of any collection of open sets is open. 
+    \item A finite intersection of a collection of open sets is open. 
+    \item Intersection of any collection of closed sets is closed. 
+    \item Finite union of closed is closed.  
+    \item If $x \in E'$ then $N_\delta(x) \cap E'$ is an infinite set. 
+\end{enumerate} 
+
+\begin{definition}
+    Let $x_n$ be a sequence in $X$, we say that $x_n$ converges to $x_0 \in X$ iff $\forall \varepsilon > 0$ $\exists N \in \N$ s.t 
+    $$d(x_n, x_0) < \varepsilon \quad \forall n \geq N$$  
+\end{definition}
+
+\begin{enumerate}
+    \item The limit of a sequence (if exists) is unique. 
+    \item $x_n$ converges to $x_0$ in $(X,d)$ iff $d(x_n, x_0)$ converges $0$ in $(\R, \norm{})$. 
+\end{enumerate}
+
+\begin{example}
+    $x_n = (1/n + 1, e^{-n})$ in $\R^2$. Find the limit of $x_n$ in $(\R^2, \norm{.}_{\infty})$, $(\R^2, \norm{.}_1)$, $(\R^2, \norm{.}_2)$. 
+    \begin{itemize}
+        \item $$\norm{(1/n + 1, e^{-n}, (1,0))}_{\infty} = \max (1/n, e^{-n}) \leq 1/n + e^{-n} \to 0$$
+        \item $x_0 = (1, 0)$ 
+        $$\norm{(1/n + 1, e^{-n}, - (1, 0))}_1 = \norm{(1/n, e^{-n})}_1 = |1/n| + |e^{-n}| \to 0$$
+
+        \item $$\norm{(1/n + 1, e^{-n}) - (1,0)}_2 = \sqrt{1/n^2 + e^{-2n}} \to 0$$
+    \end{itemize}
+\end{example}
+
+\begin{remark}
+    $x_n \to x_0$ in $(\R^k, \norm{.}_\infty)$ 
+    $$(x_{1,n}, x_{2,n}, \cdots, x_{k,n}) \to (x{1,0}, \cdots, x_{k,0})$$
+    Iff 
+    \begin{align*}
+        x_{1,n} &\to x_{1,0} \\
+        x_{2,n} &\to x_{2,0} \\
+        &\vdots \\
+        x_{k,n} &\to x_{k,0} 
+    \end{align*} 
+    in $(\R, \norm{.})$. 
+\end{remark}
+
+\begin{proof}
+    $|x_{i, n} - x_{i,0} \leq \norm{x_n - x_0}_\infty \leq |x_{1,n} - x_{1,0}| + \cdots + |x_{k,n} - x_{k,0}|$
+    Therefore $x_n \to x_0$ in $(\R^k, \norm{.}_\infty)$ $\iff$ $\norm{x_n - x_0}_\infty \to 0$ and $\iff$ $|x_{i,n} - x_{i,0}| \to 0$ $\forall i$ and hence 
+    $\iff$ $x_{i,n} \to x_{i,0}$ $\forall i$. 
+\end{proof}
+
+\begin{remark}
+    Take $x \in \R^n$, then 
+    $$\norm{x}_\infty = \max_i (x_i) \leq |x_1| + \cdots + |x_n| = \norm{x}_1 \leq n \norm{x}_\infty$$
+    Therefore 
+    $$ \norm{x}_\infty \leq \norm{x}_1 \leq n \cdot \norm{x}_\infty$$
+    Similarly, show something for $\norm{x}_2$ and $\norm{x}_\infty$. 
+\end{remark}
+
+\begin{definition}
+    Given a vector space $V$ and norms $\norm{.}_a$ and $\norm{.}_b$ we say that $\norm{.}_a$ and $\norm{.}_b$ are 
+    equivalent iff $\exists c_1, c_2 > 0 \in \R$ s.t $\forall x \in V$
+    $$c_1 \norm{x}_b \leq \norm{.}_a \leq c_2 \norm{x}_b$$
+\end{definition}
+
+\begin{lemma}
+    $(X,d)$ metric space and $E \subseteq X$, then $E$ is closed iff for sequence $x_n \in E$ that converges 
+    $\lim_{n \to \infty} x_n \in E$. 
+\end{lemma}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\implies$] Assume that there exists a sequence $x_n$ in $E$ that converges to $x_0$ s.t $x_0 \not\in E$, 
+        take $\varepsilon > 0$, then since $x_n \to x_0$ then $\exists N \in \N$ s.t 
+        $$x_n \in N_\varepsilon (x_0) \quad \forall n \geq N$$
+        But $x_n \in E$, 
+        $$N_\varepsilon^*(x_0) \cap E \neq \varnothing$$
+        Therefore 
+        $$x_0 \in E'$$
+        Contradiction to the fact that $E$ is closed. 
+
+        \item Take $x_0 \in E'$, let $\varepsilon_n = 1/n$ then 
+        $$\exists x_n \in N_n^* (x_0) \cap E$$
+        Consider $\set{x_n}_{n \in \N}$ $x_n$ is a sequence in $E$ s.t 
+        $$d(x_n, x_0) < 1/n \implies x_n \to x_0$$
+        and hence $x_0 \in E$. 
+    \end{itemize}
+\end{proof}
+
+\begin{theorem}
+    Given a vector space $V$ and norms $\norm{.}_a$ and $\norm{.}_b$ then the following are all equivalent: 
+    \begin{enumerate}
+        \item $\norm{.}_a$ and $\norm{.}_b$ are equivalent ($c_1 \norm{x}_b \leq \norm{x}_a \leq c_2 \norm{x}_b$). 
+        \item $x_n \to x_0$ in $\norm{.}_a$ $\iff$ $x_n \to x_0$ in $\norm{.}_b$. 
+        \item $E$ is closed in $(V, \norm{.}_a)$ $\iff$ $E$ is closed in $(V, \norm{.}_b)$. 
+        \item $U$ is open in $(V, \norm{.}_a)$ $\iff$ $U$ is open in $(V, \norm{.}_b)$. 
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$1 \implies 2$] $$c_1 \norm{x_n - x_0}_b \leq \norm{x_n - x_0}_a \leq c_2 \norm{x_n - x_0} \leq \frac{c_2}{c_1} \norm{x_n - x_0}_a$$
+        Apply Squeeze. 
+        \item[$2 \implies 3$] By the Lemma. 
+        \item[$3 \implies 4$] Trivial. 
+        \item[$4 \implies 1$] $B_{\norm{.}_a} (0, 1)$ open in $(V, \norm{.}_a)$ therefore it is open in $(V, \norm{.}_b)$. 
+        Hence $0$ is an interior point in $(V, \norm{.}_b)$. Hence $\exists \delta > 0$ 
+        $$B_{\norm{.}_b} (0, \delta) \subseteq B_{\norm{.}_a} (0, 1)$$
+        Let $x \in V$, $x \neq 0$. 
+        $$\frac{\delta}{2} \cdot \frac{x}{\norm{x}_b} \in B_{\norm{.}_b}(0, \delta) \subseteq B_{\norm{.}_a} (0,1)$$
+        Therefore 
+        $$\norm{\frac{\delta}{a} \frac{x}{\norm{x}_b}}_a < 1$$
+        We get 
+        \begin{align*}
+            \frac{\delta}{2 \norm{x}_b} \norm{x_a} < 1 &\implies \norm{x}_a \leq \frac{2}{\delta} \norm{x}_b \ \forall x \in V
+        \end{align*}
+    \end{itemize}
+\end{proof}
+
+\subsection{Compact Sets} 
+\begin{definition}
+    $(X, d)$ metric space, $K \subseteq X$. We say that $K$ is \emph{compact} iff for every open cover 
+    $$\mathcal{G} = \set{G_\alpha}_{\alpha \in I}$$
+    of $K$ has a finite subcover. 
+\end{definition}
+
+\begin{example}
+    $(0, 1]$ is not compact in $(R, \abs{.})$, take 
+    $$\mathcal{G} = \set{(1/n, 10)}_{n \in \N}$$
+    which has no finite subcover. 
+\end{example}
+
+\begin{theorem}[Heine-Borel]
+    In $\R$ $[a,b]$ is compact.
+\end{theorem}
+
+\begin{example}
+    If $X$ is finite, then $X$ is compact. 
+\end{example}
+
+\begin{proof}
+    Let $X = \set{x_1, \cdots, x_n}$ and let 
+    $$\mathcal{G} = \set{G_\alpha}_{\alpha \in I}$$
+    be an open cover $X$. Then for every $x_i$, fix some $G_{\alpha_i}$ s.t 
+    $$x = \set{x_1, \cdots, x_n} \subseteq \bigcup_{i=1}^n G_{\alpha_i}$$
+\end{proof}
+
+\begin{proposition}
+    $(X, d)$ metric space and $K \subseteq X$ then every closed subset $E$ of $K$ is compact. 
+\end{proposition}
+
+\begin{proof}
+    Let $\mathcal{G} = \set{G_\alpha}_{\alpha \in I}$ be an open cover of $E$, then 
+    $$E \subseteq \bigcup_{\alpha \in I} G_\alpha$$
+    Therefore 
+    $$K \subseteq \bigcup G_\alpha \cup E^c, \quad \text{$E^c$ open}$$
+    Therefore 
+    $$\mathcal{G'} = \mathcal{G} \cup \set{E^c} \quad \text{is an open cover of $K$}$$
+    Therefore it has a finite subcover and 
+    $$K \subseteq G_{\alpha_1} \cup \cdots \cup G_{\alpha_k} \cup E^c$$
+    Hence 
+    $$E \subseteq G_{\alpha_1} \cup \cdots \cup G_{\alpha_k}$$
+    Which is a finite subcover of $\mathcal{G}$. 
+\end{proof}
+
+\begin{definition}
+    $(X,d)$ metric space and $x_n$ sequence in $X$ and 
+    $$\varphi \colon \N \to \N \quad \text{strictly increasing}$$
+    We say that $b_n = a_{\varphi(n)}$ is a \emph{subsequence} of $a_n$. 
+\end{definition}
+
+\begin{proposition}
+    $x_n$ converges to $x_0$ $\iff$ every subsequence $x_{n_k}$ converges to $x_0$. 
+\end{proposition}
+
+\begin{definition}
+    $(X,d)$ metric space and $K \subseteq X$. We say that $K$ is sequentially compact iff every sequence $x_n \in K$ has a convergent subsequence in $K$. 
+\end{definition}
+
+\begin{proposition}
+    $(X,d)$ metric space, $K$ sequentially compact iff every infinite $E \subseteq K$ has a limit point in $K$. 
+\end{proposition}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\implies$] Let $K$ be sequentially compact, take $E \subseteq K$ an infinite set. We can extract from $E$ a sequence of 
+        distinct elements $x_n \in E \subseteq K$. Therefore $x_n$ has a convergence subsequence $x_{n_k}$ s.t the limit of $x_{n_k} = x_0 \in K$. 
+        Moreover, $x_{n_k}$ are distinct in $E$ therefore $x_0 \in E' \cap K$.
+        
+        \item[$\impliedby$] Let $x_n$ be a sequence in $K$, take 
+        $$E = \set{x_n}_{n \in \N}$$ 
+        We have two cases: 
+        \begin{itemize}
+            \item \textbf{$E$ is finite.} Then $\exists x_0$ and $\exists n_1 < n_2 < \cdots$ (infinitely many) s.t 
+            $$x_{n_k} = x_0, \quad \forall k \in \N$$
+            Therefore 
+            $$\lim_{k \to \infty} x_{n_k} = x_0 \in E$$
+            We found a converging subsequence. 
+
+            \item \textbf{$E$ is infinite.} Then by the assumption, we have that $E$ has a limit point $x_0$ in $K$. 
+            \begin{itemize}
+                \item[$\varepsilon = 1$] $\exists n_1$ s.t $x_{n_1} \in N_1^*(x_0) \cap E$. 
+                \item[$\varepsilon = 1/2$] $\exists n_2 > n_1$ s.t $x_{n_2} \in N_{1/2}^*(x_0) \cap E$ (since $N_{1/2}^*(x_0) \cap E$ is infinite).  
+            \end{itemize} 
+            we can construct $n_k > n_{k-1}$ s.t $x_{n_k} \in N^*_{1/k} (x_0) \cap E$, therefore 
+            $$\lim_{n \to \infty} x_{n_k} = x_0 \in K$$
+        \end{itemize}
+    \end{itemize}
+\end{proof}
+
+\begin{example}
+    In $(\Q, \abs{.})$, $K = \Q \cap [0,1]$ is closed and bounded. $P_n$ increasing sequence in $\Q \cap [0,1]$ s.t 
+    $$P_n \to 1/\sqrt{2} \in \R$$
+    Consider 
+    $$\mathcal{G} = \set{(-1, P_1) \cap \Q, (-1, P_2) \cap \Q, \cdots, (-1, P_n) \cap \Q, \cdots, (1/\sqrt{2}, 10) \cap \Q}$$
+\end{example}
+
+\begin{proposition}
+    $K \subseteq X$ is compact $K$ is sequentially compact.     
+\end{proposition}
+
+\begin{proof}
+    \begin{itemize}
+        \item Let $E \subseteq K$ infinite, suppose that $E' \cap K = \varnothing$. Take $x \in K \implies x \not\in E'$, 
+        therefore $\exists \delta_x > 0$ s.t 
+        $$N_{\delta_x}^*(x) \cap E = \varnothing$$
+        Let $\mathcal{G} = \set{N_{\delta_x}(x)}_{x \in K}$, is an open cover of $K$ compact, hence it has a finite subcover 
+        $$K \subseteq N_{\delta_{x_1}} (x_1) \cup \cdots \cup N_{\delta_{x_1}}(x_k)$$
+        But $E \subset K \implies E = (E \cap K)$ hence 
+        \begin{align*}
+            E &\subseteq (N_{\delta_{x_1}} (x_1) \cap E) \cup \cdots \cup (N_{\delta_{x_1}}(x_k) \cap E)\\
+            &\subseteq \set{x_1, \cdots, x_k}
+        \end{align*}
+        therefore $E$ is finite, contradiction.
+    \end{itemize}
+\end{proof}
+
+\subsection{Complete sets}
+\begin{definition}
+    Given a sequence $x_n$, we say that $x_n$ is Cauchy iff for every $\varepsilon > 0$ there exists $N \in \N$ s.t 
+    $$d(x_n, x_m) < \varepsilon \quad \text{for $n, m \geq N$}$$
+\end{definition}
+
+\begin{proposition}
+    If $x_n$ converges, then $x_n$ is Cauchy. 
+\end{proposition}
+
+\begin{proof}
+    Triangle inequality.
+\end{proof}
+
+\begin{remark}
+    The converse is false. In $(\Q, \abs{.})$, in $(\R, \abs{.})$ there exists some sequence $x_n \in \Q$ s.t 
+    $$x_n \to \sqrt{2} \quad \text{as } n \to \infty$$
+    But $x_n \to \sqrt{2}$ implies that $x_n$ is Cauchy in $(\R, \abs{.})$, therefore $x_n$ is Cauchy in $\Q$. 
+    Suppose $x_n$ converges to $P$ in $(\Q, \abs{.})$, therefore $x_n \to p \in (\R, \abs{.})$ by uniqueness of limit, 
+    $p = \sqrt{2}$, contradiction. 
+\end{remark}
+
+\begin{definition}
+    $(X, d)$ metric space and $K \subseteq X$, we say that $K$ is complete iff every Cauchy Sequence in $K$ converges in $K$.
+\end{definition}
+
+\begin{example}
+    $(\R, \abs{.})$ is complete (Math $210$)
+\end{example}
+
+\begin{proposition}
+    If $K$ is complete then $K$ is closed. 
+\end{proposition}
+
+\begin{proof}
+    Let $x_n$ be a sequence in $K$ s.t $x_n \to x_0 \in X$. Since $x_n$ converges, then $x_n$ is Cauchy and $K$ is complete then 
+    $x_n$ converges in $K$, therefore $x_0 \in K$.      
+\end{proof}
+
+\begin{proposition}
+    $K$ complete and $E \subseteq K$ is closed, then $E$ is complete. 
+\end{proposition}
+
+\begin{proof}
+    Let $x_n$ be a Cauchy sequence in $E$, then $x_n$ is Cauchy in $K$ which is complete, therefore $x_n \to x_0 \in K$. 
+    But since $E$ is closed, we get that $x_0 \in E$. 
+\end{proof}
+
+\begin{proposition}
+    $(X, d)$ metric space and $x_n$ Cauchy sequence in $K \subseteq X$. If $x_n$ has a convergent subsequence $x_{n_k}$ then $x_n$ converges to 
+    the subsequential limit.  
+\end{proposition}
+
+\begin{proof}
+    Triangle inequality. 
+\end{proof}
+
+\begin{proposition}
+    $(X,d)$ metric space and $K \subseteq X$ is sequentially compact then $K$ is complete (and therefore closed). 
+\end{proposition}
+
+\begin{proof}
+    Let $\set{x_n}$ be a Cauchy sequence in $K$, $K$ is sequentially compact therefore $x_n$ has a convergent subsequence $x_{n_k}$ that converges in $K$. 
+    Therefore by the previous proposition we get that $x_n$ converges in $K$. 
+\end{proof}
+
+\begin{theorem}
+    Let $V$ be a finite dimensional inner product space over $\R$, then $V$ is complete w.r.t norm induced by the inner product. Therefore 
+    $K\subseteq V$ is complete $\iff$ $K$ is closed. 
+    
+    (For the converse $K \subseteq V$ which is closed, then $K$ is complete).
+\end{theorem}
+
+\begin{proof}
+    Let $S = \set{v_1, \cdots, v_l}$ be an orthonormal basis of $V$, take $x_n$ be a cauchy sequence in $V$. Therefore 
+    $$x_n = r_{1,l} v_1 + \cdots + r_{l,n} v_l$$
+    Take $r_{1,n} = \angles{x_n, v_1}$ therefore 
+    \begin{align*}
+        \abs{r_{1,m} - r_{1,n}} &= |\angles{x_{m}, v_1} -\angles{x_n, v_1}| \\
+        &= \abs{\angles{x_m - x_n, v_1}} \\
+        &\leq \norm{x_m - x_n} \norm{v_1} \quad \text{By C.S} \\ 
+    \end{align*}    
+    Let $\varepsilon > 0$ then $\exists N \in \N$ s.t 
+    $$\norm{x_m - x_n} < \varepsilon \implies r_{1,n} \text{ is Cauchy in $\R$}$$
+    THerefore $r_{1,n}$ converges to $r_1 \in \R$. Do the same fore very coordinate, and define 
+    $$x = r_1 v_1 + \cdots + r_n v_n$$
+    Therefore 
+    \begin{align*}
+        \norm{x_n - x} &= \norm{(r_{1,n} - r_1) v_1 + \cdots + (r_{1,l} - r_l) v_l} \\
+        &\leq \norm{r_{1,n} - r_1} \norm{v_1} + \cdots + \norm{r_{l,n} - r_l} \norm{v_l}
+    \end{align*}
+    Therefore 
+    $$x_n \to x$$
+\end{proof}
+
+\subsection{Total Boundedness}
+
+\begin{definition}
+    $(X, d)$ metric space and $K \subseteq X$ we say that $K$ is totally bounded iff for every $\varepsilon > 0$ $\exists x_1, \cdots, x_t \in K$ s.t 
+    $$K \subseteq N_{\varepsilon} (x_1) \cup \cdots \cup N_\varepsilon (x_t)$$ 
+\end{definition}
+
+\begin{definition}
+    $K \subseteq X$ is bounded iff $\exists R > 0$ s.t 
+    $$K \subseteq N_R (x_0) \quad \text{for some $x_0 \in K$}$$
+    We say that a sequence is bounded iff 
+    $$E = \set{x_n}_{n \in \N} \quad \text{is bounded}$$
+\end{definition}
+
+\begin{proposition}
+    Cauchy sequences are bounded.
+\end{proposition}
+
+\begin{proposition}
+    $K \subseteq X$ is totally bounded it is bounded. 
+\end{proposition}
+
+Note that the converse is false. 
+\begin{example}
+    $(\R, d_{disc})$, $\R$ is bounded since 
+    $$\R \subseteq N_2(0)$$
+    but it isn't totally bounded, take $\varepsilon = 1/2$ then if it is totally bounded, then $\exists x_1 \cdots x_t \in \R$ s.t 
+    $$\R \subseteq N_{1/2} (x_1) \cup \cdots \cup N_{1/2} (x_t) = \set{x_1, \cdots, x_t}$$
+\end{example}
+
+\begin{proof}
+    Take $\varepsilon = 1$ then $K \subseteq N_1(x_1) \cup N_1 (x_t)$ for $x_1, \cdots, x_t \in K$. 
+    Take $x_1$ and let $d = \max_{k \in \set{1, \cdots, t}} (x_1, x_t)$, therefore for any $x \in K$ we have that 
+    $$d(x, x_1) \leq d(x, x_i) + d(x_i, x_1)$$
+    for some $x_i$ s.t $x \in N_1(x_i)$ (Exists by the above), therefore 
+    $$d(x, x_1) \leq 1 + d \implies x \in N_{1 + d} (x_1)$$
+\end{proof}
+
+\begin{proposition}
+    $K$ is sequentially compact then $K$ is totally bounded.
+\end{proposition}
+
+\begin{proof}
+    Suppose not, then $\exists \varepsilon_0$ s.t $K$ cannot be covered by finitely many $\varepsilon_0$-neighborhoods. Fix some $x_1$ then 
+    $\exists x_2 \in K \setminus N_{\varepsilon_0} (x_1)$, Similarly there exists some $x_3 \in K \setminus N_{\varepsilon_0} (x_1) \cup N_{\varepsilon_0} (x_2)$ 
+    and in general 
+    $$\exists x_n \in K \setminus ( N_{\varepsilon_0} (x_1) \cup \cdots \cup  N_{\varepsilon_0} (x_{n-1}))$$
+    Therefore we have that for $n \neq m$
+    $$d(x_n, x_m) \geq \varepsilon_0$$
+    Therefore $x_n$ doesn't have a convergent subsequence; contradiction. 
+\end{proof}
+
+
+
+\end{document}
