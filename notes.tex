@@ -529,6 +529,133 @@ Note that the converse is false.
     Therefore $x_n$ doesn't have a convergent subsequence; contradiction. 
 \end{proof}
 
+\begin{lemma}
+    Every subset of a totally bounded set is totally bounded. 
+\end{lemma}
+
+\begin{proof}
+    $K \subseteq X$ totally bounded, and $E \subseteq K$; take $\varepsilon > 0$, therefore $\exists x_1, x_2, \cdots, x_t \in K$ s.t 
+    $$K \subseteq N_{\varepsilon/2}(x_1) \cup \cdots \cup N_{\varepsilon/2} (x_t)$$
+    Ignore the neighborhood that don't intersect $E$, renumbering we have $x_1, \cdots, x_l$ s.t 
+    $$N_{\varepsilon/2} (x_i) \cap E \neq \varnothing$$
+    We get 
+    $$E \subseteq N_{\varepsilon/2} (x_1) \cup \cdots \cup N_{\varepsilon/2} (x_l)$$
+    Take $y_i \in N_{\varepsilon/2} (x_i) \cap E$, then 
+    $$N_{\varepsilon} (y_i) \supseteq N_{\varepsilon/2} (x_i)$$
+    Therefore $E \subseteq N_{\varepsilon}(y_1) \cup \cdots \cup N_{\varepsilon} (y_l)$ and hence $E$ is totally bounded. 
+\end{proof}
+
+\begin{example}
+    $[0,1]$ is totally bounded (since it is compact), therefore $(0,1)$ is totally bounded.  
+\end{example}
+
+\begin{proposition}
+    $(X,d)$ Metric space, $K \subseteq X$ is complete and totally bounded then $K$ is compact. 
+\end{proposition}
+
+\begin{proof}
+    Assume $K$ is not compact, fix $\mathcal{G} = \set{G_\alpha}_{\alpha \in I}$ an open cover of $K$ with no finite subcover. 
+    Let $\varepsilon = 1$, $K$ is totally bounded then $K$ can be covered by finitely many $1$-balls with center in $K$. Hence $\exists x_1 \in K$ s.t 
+    $K_1 = N_1 (x_1) \cap K$ cannot be covered by finitely many open sets in $\mathcal{G}$. But $K_1$ is totally bounded (subset of $K$), 
+    now let $\varepsilon = 1/2$, $\exists x_2 \in K_1$ s.t $K_2 = N_{1/2} (x_2) \cap K_1$ cannot be covered by finitely many open sets in $\mathcal{G}$. 
+    Similarly, we construct a sequence $x_n$ and 
+    $$K_n = N_{1/n} (x_{n}) \cap K_{n-1} \quad x_n \in K_{n-1}$$
+    such that $K_n$ cannot be covered by finitely many $G_\alpha$'s. Notice that 
+    $$K_0 = K \supseteq K_1 \supseteq K_2 \supseteq \cdots$$
+    \textbf{Claim.} $x_n$ is Cauchy. Indeed, let $\varepsilon > 0$ then $\exists N$ s.t 
+    $$1/N < \varepsilon / 2$$
+    Now take $m, n > N$, then 
+    $$x_n \in K_{n-1} \subseteq K_N, \quad x_m \in K_{m-1} \subseteq K_N$$
+    therefore $x_n, x_m \in K_N = N_{1/N} (x_N) \cap K_{n-1}$, and hence 
+    $$d(x_n, x_m) \leq 2/N < \varepsilon$$
+    By completeness of $K$, we get that $x_n$ converges to some $x_0 \in K$; since $\mathcal{G} = \set{G_\alpha}$ is an open cover of $K$, 
+    there exists $\alpha_0 \in I$ s.t $x_0 \in G_{\alpha_0}$ (open set). So $\exists \varepsilon_0$ s.t 
+    $$N_{\varepsilon_0} (x_0) \subseteq G_{\alpha_0}$$
+    But $x_n \to x_0$ then $\exists N_1$ s.t 
+    $$x_N \in N_{\varepsilon_0/2} (x_0) \text{ and } 1/N < \varepsilon_0 /2$$
+    Therefore 
+    $$K_N \subseteq N_{1/N} (x_n) \subseteq N_{\varepsilon_0} (x_0) \subseteq G_{\alpha_0}$$
+    contradiction.
+\end{proof}
+
+\begin{theorem}
+    $V$ finite dimensional product normed space (over $\R$). Let 
+    $S = \set{v_1, \cdots, v_n}$ a basis of $V$. Then the cube 
+    $$Q_S = \set{r_1 v_1 + r_2 v_2 + \cdots + r_n v_n \colon 0 \le r_i \le 1}$$
+    is compact. 
+\end{theorem}
+
+\begin{proof}
+    Let $x^k = r_{1,k} v_1 + r_{2,k} v_2 + \cdots + r_{n,k} v_n$ a sequence in $Q_S$, now clearly 
+    $$r_{1,k} \text{ is a sequence in $[0,1]$, compact set}$$
+    Therefore $r_{1,k}$ has a convergent subsequence $r_{1,k_n}$. Similarly $r_{2, k_l} \in [0,1]$ therefore 
+    $r_{2,k_l}$ has a convergent subsequence $r_{2,k_{l_t}}$. Doing this $n$ times we get that $\exists$ a subsequence 
+    $\set{k_j}$ s.t 
+    $$r_{1,k_j}, \ r_{2,k_j}, \cdots, \ r_{n,k_j} \to r_1, r_2, \cdots, r_n$$ 
+    take 
+    $$x_0 = r_1 v_1 + \cdots + r_n v_n$$
+    We can show that 
+    $$\norm{x_0 - x^{k_j}} \le |r_{1,k_j} - r_1| \norm{v_1} + \cdots + |r_{n,k_j} - r_n| \norm{v_n} \to 0$$
+    then 
+    $$x^{k_j} \to 0$$ 
+    Hence $Q_S$ is (sequentially) compact. 
+\end{proof}
+
+\begin{theorem}
+    Let $V$ be a finite inner product space then 
+    $$K \subseteq V \text{ is compact} \iff K \text{ closed and bounded}$$ 
+\end{theorem}
+
+\begin{proof}
+    \begin{itemize}
+        \item $K$ compact $\implies$ complete $\implies$ closed and $\implies$ totally bounded $\implies$ bounded.
+        \item $K$ is bounded, therefore $\exists R > 0$ s.t $K \subseteq B_{\norm{.}} (0, R)$. Let $S = \set{v_1, \cdots, v_n}$ be a basis of $V$ and 
+        Take $x \in K$ therefore 
+        $$x = r_1 v_1 + \cdots + r_n v_n$$
+        then $r_i = \norm{\angles{x, v_i}} \le \norm{x} \cdot \norm{v_i}$ 
+        $$B_{\norm{.}} (0, R) \subseteq \set{r_1 v_1 + \cdots + r_n v_n \colon r_i \le R}$$
+        Therefore $K \subseteq$ some cube and hence $K$ is compact.  
+    \end{itemize} 
+\end{proof}
+
+\begin{proposition}
+    In a finite dimensional inner product space we get that bounded $\iff$ totally bounded. 
+\end{proposition}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\implies$] Bounded $\implies$ can be put in a cube (compact) $\implies$ Totally bounded. 
+        \item[$\impliedby$] True in general.
+    \end{itemize}
+\end{proof}
+
+\subsection{Continuity}
+\begin{definition}
+    $X, Y$ metric spaces and $E \subseteq X$ and $f \colon E \to Y$ map; $x_0 \in E'$ we say that 
+    $$\lim_{x \to x_0} f(x) = y \in Y$$
+    iff for every $\varepsilon > 0$ $\exists \delta > 0$ s.t 
+    $$f(x) \in N_\varepsilon(y_0) \text{ for } x \in N_\delta^*(x_0) \cap E$$
+\end{definition}
+
+\begin{definition}
+    $f \colon E \to Y$ continuous at $x_0$ iff for every $\varepsilon > 0$, $\exists \delta > 0$ s.t $f(x) \in N_{\varepsilon}(x_0)$ for 
+    $x \in N_\delta(x_0) \cap E$; i.e 
+    $$d_Y(f(x), f(x_0)) < \varepsilon \quad \text{for } 0 < d_X(x, x_0) < \delta$$
+\end{definition}
+
+\begin{remark}
+    $f$ is continuous at $x_0$ $\iff$ $x_0$ is an isolated point or $x_0 \in E'$ and $\lim{x \to x_0} f(x) = f(x_0)$. 
+\end{remark}
+
+
+\begin{proposition}
+    $\lim_{x \to x_0} = y_0$ iff for every sequence $x_n \to x_0$ we have that $f(x_n) \to y_0$.
+    Therefore $f$ is continuous at $x_0$ iff for every $x_n \to x_0$ we have that $f(x_n) \to x_0$. 
+\end{proposition}
+
+\begin{corollary}
+    if $f, g$ are continuous then $f + g, \ cf, \ f \cdot g, \ f / g$ are all continuous at $x_0$.
+\end{corollary}
 
 
 \end{document}
