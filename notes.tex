@@ -649,13 +649,167 @@ Note that the converse is false.
 
 
 \begin{proposition}
-    $\lim_{x \to x_0} = y_0$ iff for every sequence $x_n \to x_0$ we have that $f(x_n) \to y_0$.
-    Therefore $f$ is continuous at $x_0$ iff for every $x_n \to x_0$ we have that $f(x_n) \to x_0$. 
+    $\lim_{x \to x_0} f(x) = y_0$ iff for every sequence $x_n \to x_0$ we have that $f(x_n) \to y_0$.
+    Therefore $f$ is continuous at $x_0$ iff for every $x_n \to x_0$ we have that $f(x_n) \to f(x_0)$. 
 \end{proposition}
 
 \begin{corollary}
     if $f, g$ are continuous then $f + g, \ cf, \ f \cdot g, \ f / g$ are all continuous at $x_0$.
 \end{corollary}
 
+\begin{example}
+    $f(x, y) = \frac{xy}{x^2 + y^2}$ we want to find 
+    $$\lim_{(x,y) \to (0,0)}$$
+    Take the sequence $(x_n, y_n) = (1/n, 0)$ then 
+    $$\lim_{n \to \infty} (x_n, y_n) = (0,0)$$
+    and 
+    $$f(x_n, y_n) = 0 \to 0 \text{ as $n \to \infty$}$$
+    Now take $(x_n, y_n) = (1/n, 1/n)$, then 
+    $$\lim_{n \to \infty} (x_n, y_n) = (0,0)$$
+    but 
+    $$f(x_n, x_n) = \frac{1/n \cdot 1/n}{1/n^2 + 1/n^2} = 1/2 \to 1/2 \text{ as $n \to \infty$}$$ 
+    Therefore 
+    $$\lim_{n \to \infty} f(x, y) \text{ does not exist}$$
+
+    Now we do the same for 
+    $$f(x,y) = \frac{x^2 y}{x^2 + y^2}$$
+    Notice that 
+    $$0 \le \abs{f(x,y)} = \abs{\frac{x^2}{x^2 + y^2} y} \le |y|$$
+    but 
+    $$\lim_{(x,y) \to (0,0)} |y| = 0$$
+    therefore by squeeze we get that 
+    $$\lim_{(x,y) \to 0} |f(x,y)| = 0$$
+    Hence 
+    $$\lim_{(x, y) \to 0} f(x,y) = 0$$
+\end{example}
+
+\paragraph{Some useful inequalities} 
+\begin{align*}
+    x^2 + y^2 &\ge x^2 \\
+    x^2 + y^2 &\ge y^2 \\
+    x^2 + y^2 &\ge 2(xy)
+\end{align*}
+
+\begin{example}
+    Let $(V, \norm{.})$ a normed space and 
+    $$\varphi \colon V \to \R, \quad \varphi(x) = \norm{x}$$
+    Then $\varphi$ is continuous. 
+    
+    Let $x_n$ a sequence in $V$ that converges to $x_0$ in $(V, \norm{.})$ therefore 
+    $$\norm{x_n - x_0} \to 0$$
+    We want to show that $\varphi(x_n) \to \varphi(x_0)$ i.e that 
+    $$|\norm{x_n} - \norm{x_0}| = 0$$
+    But as shown in PS1, we have that 
+    $$\abs{\norm{x_n} - \norm{x_0}} \le \norm{x_n - x_0}$$
+\end{example}
+
+\begin{proposition}
+    $f \colon X \to Y$ is continuos iff $f^{-1}(G)$ open in $X$ for every $G$ open in $Y$ iff $f^{-1} (H)$ is closed in $X$ 
+    for every $H$ closed in $Y$. 
+\end{proposition}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\implies$] let $x_n$ be a sequence in $f^{-1}(H)$ that converges to $x_0$ in $X$. Hence 
+        $f(x_n)$ is a sequence in $H$ by continuity of $f$ we have that 
+        $$\lim_{n \to \infty} f(x_n) = f(x_0)$$
+        Moreover since $H$ is closed, we get that $f(x_0) \in H$. Hence 
+        $$x_0 \in f^{-1}(H)$$ 
+        Therefore if $f$ is continuous $f^{-1} (G)$ is open in $X$ for every $G$ open in $Y$. 
+
+        \item[$\impliedby$] Now we show that if $f^{-1}(G)$ is open in $X$ for all $G$ open in $Y$ then $f$ is continuous. Fix $x_0 \in X$, 
+        let $\varepsilon > 0$ then consider the open set in $Y$ $N_\varepsilon (f(x_0))$ hence $f^{-1} \left(N_\varepsilon(f(x_0))\right)$ is open 
+        in $X$. But $x_0 \in  f^{-1} \left(N_\varepsilon(f(x_0))\right)$ hence $\exists \delta > 0$ s.t 
+        $$f \left(N_\delta(x_0)\right) \subseteq N_\varepsilon(f(x_0))$$
+    \end{itemize}
+\end{proof}
+
+\begin{example}
+    $E = \set{x,y \in \R^2 \colon y \ge x} \text{ is open in $\R^2$}$, define the continuous function
+    $$f \colon \R^2 \to \R, f(x,y) = y - x$$
+    Then 
+    $$E = f^{-1} \left((0, \infty)\right)$$
+    which is an open set. 
+\end{example}
+
+\begin{example}
+    $f \colon X \to Y$ continuous and consider the $c$-level set with $c \in Y$
+    $$E = \set{x \in X \colon f(x) = c} = f^{-1} \left(\set{c}\right)$$
+    is closed in $X$. 
+
+    Therefore $E = \set{(x,y) \colon x^2 + 3y^2 = 1}$ is closed in $\R^2$, $S^n$ is closed. 
+\end{example}
+
+\begin{remark}
+    $V, W$ normed spaces and 
+    $$\norm{.}_a, \ \norm{.}_b \text{ equivalent norms on $V$}$$
+    so $f \colon (V, \norm{.}_a) \to W$ is continuous iff 
+    $f \colon (V, \norm{.}_b) \to W$ is continuous. 
+
+    Equivalently: $V, W$ normed spaces and 
+    $$\norm{.}_a, \ \norm{.}_b \text{ equivalent norms on $W$}$$
+    so $f \colon V \to (W, \norm{.}_a)$ is continuous iff 
+    $f \colon V \to (W, \norm{.}_b)$ is continuous. 
+\end{remark}
+
+\begin{example}
+    Take $f \colon \R^m \to \R^n$ defined as follows 
+    $$f(x) = (f_1(x), \cdots, f_n(x)) \quad x = (x_1, \cdots, x_m)$$
+    Then $f$ is continuous iff $f_i \colon \R^m \to R^n$ is continuous for $1 \le i \le n$. 
+\end{example}
+
+\begin{theorem}[Extreme Value Theorem]
+    $X,Y$ metric spaces and $K \subseteq X$ compact and $f \colon K \to Y$ continuous. Then 
+    $f(K)$ is compact. 
+\end{theorem}
+
+\begin{corollary}
+    If $Y = \R$, then the above implies that $f$ attains its maximum and minimum in $K$. 
+\end{corollary}
+
+\begin{proof}
+    Let $y_n$ be a sequence in $f(K)$, therefore $\exists x_n \in K$ s.t 
+    $f(x_n) = y_n$. Since $K$ is compact, $x_n$ has a convergent subsequence $x_{n_k}$ that converges to $x_0 \in K$, using continuity we get that 
+    $$y_{n_k} \to f(x_0) \in f(K)$$
+\end{proof}
+
+\begin{theorem}
+    All norms in a finite dimensional vector space are equivalent. 
+\end{theorem}
+
+\begin{proof}
+    $V$ is a finite dimensional vector space, then by PS1 we can define an inner product on $V$. Let $\norm{.}$ be the norm induced 
+    by our choice of inner product. Let $S = \set{v_1, \cdots, v_n}$ an orthonormal basis of $V$. Let $\norm{.}_a$ be an arbitrary norm on $V$, 
+    we will show that $\norm{.}$ and $\norm{.}_a$ are equivalent. Let $x \in V$, then 
+    $$x = r_1 v_1 + \cdots + r_n v_n, \quad |r_i| = \angles{x, v_i} \le \norm{x}$$
+    Therefore $\forall x \in V$
+    \begin{align*}
+        \norm{x}_a &= \norm{r_1 v_1 + \cdots + r_n v_n} \\
+        &\le |r_1| \norm{v_1}_a + \cdots + |r_n| \norm{v_n}_a \\
+        &\le (\norm{v_1}_a + \cdots + \norm{v_n}_a) \cdot \norm{x} \\
+        &\le c_1 \cdot \norm{x}
+    \end{align*}
+    Now define the function $\varphi \colon (V, \norm{.}) \to \R$ s.t 
+    $$\varphi(x) = \norm{x}_a$$
+    We claim that $\varphi$ is continuous, indeed let $x_n \in V$ s.t $x_n \to x_0$ in $\norm{.}$. Therefore 
+    \begin{align*}
+        \abs{\varphi(x_n) - \varphi(x_0)} &= \abs{\norm{x_n}_a - \norm{x_0}_a} \\
+        &\le \norm{x_n - x_0} \\
+        &\le c_1 \norm{x_n - x_0} \to 0
+    \end{align*}  
+    Therefore $\lim_{n \to \infty} \varphi(x_n) = \varphi(x_0)$, so $\varphi$ is continuous. 
+    Let $K = \set{x \in V \colon \norm{x} = 1}$ closed and bounded in the inner product space $(V, \norm{.})$. Then it is compact in 
+    $(V, \norm{.})$ therefore $\varphi(K)$ is compact in $\R$ so it attains its minimum in $K$. Notice that $\varphi(x) = 0 \iff x = 0$, hence 
+    $\forall x \in K, \ \varphi(x) > 0$. Then 
+    $$\min_{x \in K} \varphi(x) > 0$$
+    Let $x \in V$ and $x \ne 0$ then $\frac{x}{\norm{x}} \in K$, therefore 
+    $$\varphi(\frac{x}{|x|}) = \norm{\frac{x}{\norm{x}}}_a \ge \min \varphi(K)$$
+    Therefore 
+    $$\norm{x}_a \ge \min (\varphi(K)) \norm{x}$$
+\end{proof}
+
+\begin{corollary}
+    If $V$ is finite dimensional then compact iff closed and bounded (independently of the choice of norm).
+\end{corollary}
 
 \end{document}
