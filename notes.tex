@@ -812,4 +812,124 @@ Note that the converse is false.
     If $V$ is finite dimensional then compact iff closed and bounded (independently of the choice of norm).
 \end{corollary}
 
+\subsection{Connected sets} 
+\begin{definition}
+    $(X,d)$ metric space and $\Omega \subseteq X$, we say that $\Omega$ is disconnected iff $\exists U, V \subseteq X$ open sets s.t 
+    $$\Omega = (U \cup V) \cap \Omega$$
+    With $U \cap \Omega, \ V \cap \Omega \ne \varnothing$ and $U \cap \Omega \cap V = \varnothing$. 
+
+    Otherwise $\Omega$ is connected. 
+\end{definition}
+
+\begin{example}
+    Let $\Omega = (1, 2] \cup (3,4)$ disconnected, since 
+    $$\Omega \subseteq (0, 2.5) \cup (2.5, 17)$$
+
+    $\Q$ is disconnected in $\R$ since 
+    $$\Q \subseteq (-\infty, \sqrt{2}) \cup (\sqrt{2}, \infty)$$
+\end{example}   
+
+\begin{proposition}
+    $X$ is a connected metric space iff the only sets that are both open and closed are $\varnothing, X$.  
+\end{proposition}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\implies$] Assume that $U$ is open and closed an $U \not\in \set{\varnothing, X}$ then $U^c$ is also not open and closed and not in $\set{\varnothing, X}$ but 
+        $$X  = U \cup U^c$$
+        Therefore $X$ is disconnected. 
+
+        \item[$\impliedby$] Assume that $X$ is disconnected, then $X = U \cup V$ with $U, V$ open disjoint and nonempty. Therefore $V = U^c$ and $U$ is open 
+        then $V$ is closed. Hence $V$ is a clopen set of $X$ but $V \not\in \set{\varnothing, X}$ contradiction. 
+    \end{itemize}
+\end{proof}
+
+\begin{definition}
+    $I \subseteq \R$ is an interval for $x, y \in I$ s.t $x < y$ then $z \in I, \ \forall x < z < y$. 
+\end{definition}
+
+\begin{theorem}
+    $\Omega \subseteq \R$ is connected iff $\Omega$ is an interval. 
+\end{theorem}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\implies$] Assume that $\Omega$ is not an interval, therefore $\exists x, y \in \Omega$ s.t $x < z < y$ and $z \not\in \Omega$, therefore 
+        $$\Omega \subseteq (-\infty, z) \cup (z, \infty)$$
+        Therefore $\Omega$ is disconnected. 
+
+        \item[$\impliedby$] Let $\Omega$ be an interval. Suppose $\Omega$ is not connected, then $\exists U, V$ open and disjoint in $\Omega$ in $\R$ s.t 
+        $$\Omega \subseteq U \cup V$$
+        Then $\exists x \in U \cap \Omega$ and $y \in V \cap \Omega$ and assume wlog that $x < y$; therefore 
+        $[x,y] \subseteq \Omega$ consider 
+        $$z = \sup \set{[x,y] \cup U}$$
+        Note that $z \in [x,y]$ therefore $z \in \Omega$ therefore either $z \in U$ or $z \in V$. Notice that $z > x$ since $x \in U$ an open set. 
+        Also notice that $z < y$ since if $z = y \in V$ we have that $\exists \varepsilon_1$ s.t 
+        $$(y - \varepsilon, y) = (z - \varepsilon, z) \subseteq [x,y] \cap V$$
+        since $z$ is the sup we get that 
+        $$(z - \varepsilon, z) \cap [x,y] \cap U \ne \varnothing$$
+        contradiction.
+
+        Therefore $z \in (x,y)$, suppose that $z \in U$ then $(z, z + \varepsilon_0) \subseteq (x,y) \cap U$ contradiction because 
+        $z + \varepsilon_0 /2 > z = \sup [x,y] \cap y$. Suppose that $z \in V$ then $\exists \varepsilon_1$ s.t $(z - \varepsilon_1, z) \subseteq (x, y) \cap V$. 
+        Since $z$ is the sup then $\exists z^*$ an element s.t 
+        $$z - \varepsilon_1 < z^* < z \text{ and } z^* \in U$$
+        $z^* \in U \cap V$ contradiction.   
+    \end{itemize}
+\end{proof}
+
+\begin{theorem}[Intermediate Value Theorem]
+    $f \colon X \to Y$ continuous, if $X$ is connected then $f(X)$ is connected. In particular if $Y = \R$ we have the following: 
+    \begin{itemize}
+        \item If $y_0 < y_1 \in f(X)$ then $\forall \alpha$ s.t $y_0 < \alpha < y_1$ $f^{-1} (\set{c}) \ne \varnothing$. 
+    \end{itemize} 
+\end{theorem}
+
+\begin{proof}
+    Suppose that $f(X)$ is disconnected, then $\exists U, V \subseteq Y$ open sets that separate $f(X)$. Therefore 
+    \begin{align*}
+        X &= f^{-1} (f(X)) \\
+        &= f^{-1} (U \cap V) \cap f(X) \\
+        &= \left[f^{-1} (U) \cup f^{-1} (V)\right] \cap X
+    \end{align*}
+    But $f$ is continuous therefore $f^{-1} (U), \ f^{-1} (V)$ are open and disjoint. Now $U \cap f(X) \ne \varnothing$ therefore 
+    $f^{-1}(U) \ne \varnothing$, same for $V$; then $X$ is disconnected. 
+\end{proof}
+
+\begin{definition}
+    $X$ is path connected iff for every $a, b \in X$ there exists a continuous function 
+    $$\alpha \colon [0,1] \to X$$ 
+    s.t $\alpha(0) = a, \ \alpha(1) = b$. 
+\end{definition}
+
+\begin{remark}
+    Let $X$ be a vector space, the case where for every $a, b \in X$ the line segment $(1-t)a + tb \in X$ $\forall t \in [0,1]$ we say that $X$ is convex. 
+\end{remark}
+
+\begin{example}
+    $B_R(x_0)$ is always convex and hence path connected in a vector space. Indeed, take $a, b \in B_R(x_0)$ consider 
+    \begin{align*}
+        \norm{(1-t) a + tb -x_0} &< (1-t)\norm{a - x_0} + t \norm{b - x_0} \\
+        &< (1-t) R + R = R
+    \end{align*}
+\end{example}
+
+\begin{proposition}
+    $(X,d)$ metric space then $X$ is path connected $\implies$ $X$ is connected. 
+\end{proposition}
+
+\begin{proof}
+    Let $X$ be disconnected then we have $U,V$ nonempty disjoint and open
+    $$X = U \cup V$$
+    Then $\exists a \in U$ and $b \in V$, since $X$ is path connected $\exists \alpha \colon [0,1] \to X$ s.t 
+    $$\alpha(0) = a, \quad \alpha(1) = b$$
+    $[0,1]$ is connected, therefore $\alpha([0,1])$ is also connected but 
+    $$[0,1] = \alpha^{-1} (U) \cup \alpha^{-1} (V)$$
+    But $\alpha$ is continuous, therefore $\alpha^{-1} (U) \ni 0$ and $\alpha^{-1} (V) \ni V$ which is a contradiction since $[0,1]$ is connected.  
+\end{proof}
+
+\begin{theorem}
+    $V$ vector space and $\Omega \subseteq V$ open then $\Omega$ is connected iff $\Omega$ is path connected. 
+\end{theorem}
+
 \end{document}
