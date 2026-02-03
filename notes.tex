@@ -929,7 +929,113 @@ Note that the converse is false.
 \end{proof}
 
 \begin{theorem}
-    $V$ vector space and $\Omega \subseteq V$ open then $\Omega$ is connected iff $\Omega$ is path connected. 
+    $(V, \norm{.})$ vector space and $\Omega \subseteq V$ open then $\Omega$ is connected iff $\Omega$ is path connected. 
 \end{theorem}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\impliedby$] True in general.
+        \item[$\implies$] We will show that $A$ is closed by showing that $A$ is open. Take $z \in A^c$ so there is no path joining $z$ to $x_0$. 
+        But $\Omega$ is open, so $\exists \delta > 0$ s.t 
+        $$B_\delta (z) \subseteq \Omega$$
+        Now every point in $B_\delta(z)$ cannot be joined to $x_0$; Hence
+        $$B_\delta(z) \subseteq A^c$$
+        so $A^c$ is open. 
+
+        Therefore $A$ open, closed and nonempty in $\Omega$ a connected space, hence $A = \Omega$.
+    \end{itemize}
+\end{proof}
+
+\begin{example}[Topological sine]
+    $\Omega = \set{(x, \sin(1/x)) \mid \ x > 0} \cup \set{(0,0)}$; let 
+    $$A = \set{(x, \sin 1/x) \colon x > 0}$$
+    then $A$ is connected (image of a continuous function), with 
+    $$\overline{A} = A \cup (\set{0} \times [-1,1])$$
+    Therefore $A \subseteq \Omega \subseteq \overline{A}$. 
+
+    Suppose that $\Omega$ was connected, take $x_0 > 0$, suppose that $\exists \alpha \colon [0,1] \to \Omega$ from $(0,0)$ to $(x_0, \sin 1/x_0)$.
+    let $t^* = \sup \set{t \in [0,1] \mid x(t)} = 0$; therefore 
+    $$x(t^*) = 0$$
+    with $x(t^*) < 1$, hence 
+    $$\alpha (t^*) = (0,0)$$
+    Take $\varepsilon = 1$, then by the IVT $\exists t^* < t_1 < t^* + 1$ and $t_1 \in [0,1]$ s.t 
+    $$x(t_1) =  \frac{1}{(4n_1 + 1) \pi /2}$$
+    Take $\varepsilon= 1/2$, then $\exists t_2 \in [0,1]$ s.t $t^* < t_2 < t^* + 1/2$  s.t 
+    $$x(t_2) = \frac{1}{(4n_2 + 1) \pi /2}$$
+    We take a sequence $t_k \in [0,1]$ s.t $t^* < t_k < t^* + 1/k$
+    $$x(t_k) = \frac{1}{(4n_k + 1) \pi /2}$$
+    hence 
+    $$\alpha(t_k) = (\frac{1}{(4n_k + 1) \pi /2}, 1)$$
+    With $t_k \to t^*$, therefore 
+    $$\alpha (t^*) = (0,1)$$
+    contradicting the continuity of $\alpha$.
+\end{example}
+
+\section{Differentiability} 
+Review linear transformations. 
+
+\begin{proposition}
+    Let $V$ and $W$ normed spaces $T \colon V \to W$ linear transformation, then the following are all equivalent: 
+    \begin{itemize}
+        \item $T$ is continuous on $V$. 
+        \item $T$ is continuous on $0_V$. 
+        \item $\exists M > 0$ s.t 
+        $$\norm{Tx}_W \le M \norm{x}_V$$
+    \end{itemize}
+\end{proposition}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$1 \implies 2$] Trivial. 
+        \item[$2 \implies 3$] $T$ is continuous at $0$, hence for $\varepsilon = 1$ $\exists \delta > 0$ s.t 
+        $$\norm{Tx - T0}_W < 1 \quad \forall \norm{x-0}_V < \delta$$
+        Therefore 
+        $$\norm{Tx}_W < 1 \quad \forall \norm{x}_V < \delta$$
+        Take any $x \ne 0$ then 
+        $$\norm{\frac{x}{\norm{x}_V} \cdot \delta / 2}_V = \delta / 2$$
+        Therefore 
+        $$\norm{T \left(\frac{x}{\norm{x}_V} \cdot \delta / 2\right)}_W < 1$$
+        therefore 
+        $$\norm{Tx}_W < \frac{2}{\delta} \norm{x}$$
+        \item[$3\implies 1$] 
+        $$\norm{Tx - Ty}_W = \norm{T(x-y)}_W \le M \norm{x-y}_V$$
+    \end{itemize}
+\end{proof}
+
+\begin{example}[The derivative as a linear transformation]
+    Take $C^1 ([0,1])$ the space of continuously differentiable functions, with the sup norm
+    $$\norm{f}_\infty = \sup{|f(x)| \colon x \in [0,1]}$$
+    and take $C([0,1])$ to be the space of continuous functions with the sup norm. Take 
+    $$\frac{d}{dx} \colon C^1([0,1]) \to C([0,1])$$
+    Note that this is a linear transformation. 
+
+    \textbf{Is it continuous?} If it was then $\exists M$ s.t 
+    $$\norm{f}_\infty \le M \norm{f}_\infty \quad \forall f$$
+    take $f_n(x) = x^n$, then 
+    $$\norm{f_n}_\infty = 1$$
+    but $f_n'(x) = n x^{n-1}$ with 
+    $$\norm{f_n'}_\infty = n$$
+    Contradiction to the Archimedean property. 
+\end{example}
+
+\begin{theorem}
+    Let $V$ be finite dimensional, and $T \colon V \to W$ linear transformation then $T$ is continuous. 
+\end{theorem}
+
+\begin{proof}
+    Let $\alpha = \set{v_1, \cdots, v_n}$ be a basis of $V$. Let $x \in V$, then $\exists r_1, \cdots, r_n$ s.t 
+    $$x = r_1 v_1 + \cdots + r_n v_n$$
+    Since all norms are equivalent in a finite dimensional vector space, 
+    wlog work with the inner product norm and make $\alpha$ an orthonormal basis. 
+    \begin{align*}
+        \norm{Tx}_W &= \norm{r_1 Tv_1 + \cdots + r_n Tv_n}_W \\
+        &\le |r_1| \norm{T v_1}_W + \cdots + |r_n| \norm{T v_n} \\
+    \end{align*}
+    With 
+    $$\abs{r_i} = \abs{\angles{x, v_i}} \le \norm{x}$$
+    Therefore 
+    $$\norm{Tx}_W \le \norm{x}_V (\norm{Tv_1} + \cdots _ \norm{TV_n}) = M \norm{x}$$
+\end{proof}
+
 
 \end{document}
