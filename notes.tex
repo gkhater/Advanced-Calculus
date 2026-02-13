@@ -1191,5 +1191,167 @@ If $f$ is differentiable then
     hence this is not differentiable. 
 \end{example}
 
+\begin{example}
+    $f(x,y) = x \cdot \sqrt{y}$ for $x \in \R, \ y \ge 0$ then 
+    $$\frac{\partial f}{\partial x} = \sqrt{y}\quad x \in \R, \ y \ge 0$$
+    $$\frac{\partial f}{\partial y} = \frac{x}{2\sqrt{y}} \quad x \in \R, y > 0$$
+    But what happens to $\frac{\partial f}{\partial y}$ at $(x,0)$? 
+    \begin{align*}
+        \frac{\partial f}{\partial y} (x,0) &= \lim_{h \to 0} \frac{f(x, h) - f(x,0)}{h} \\
+        &= \lim_{h \to 0} \frac{x \sqrt h}{h} \\
+        &= \lim_{h \to 0} \frac{x}{\sqrt h}
+    \end{align*} 
+    If $x \ne 0$ we have that 
+    $$\lim_{h \to 0} \frac{x}{\sqrt{h}} \text{ doesn't exist}$$
+    hence $\frac{\partial f}{\partial y}$ doesn't exist at $(x,0)$ for $x \ne 0$. But for $x = 0$ we have that 
+    $$\frac{\partial f}{\partial y} (0,0) = 0$$ 
+
+    Now we ask, is $f(x,y) = x \sqrt{y}$ differentiable at $(0,0)$. Indeed 
+    $$\nabla f (0,0) = (f_x(0,0), f_y(0,0)) = (0,0)$$
+    and 
+    \begin{align*}
+        \frac{|f\left((0,0 )+ (h_1, h_2)\right)- f(0,0) - (0,0) \cdot (h_1,h_2)|}{\norm{h}} &= \frac{|h_1 \sqrt{h_2}|}{\sqrt{h_1^2 + h_2^2}} \\
+        &= \sqrt{\frac{h_1^2 |h_2|}{h_1^2 + h_2^2}} \\
+        &\le \sqrt{|h_2|} \to 0
+    \end{align*}
+    therefore $f$ is differentiable at $(0,0)$.
+\end{example}
+
+\begin{theorem}
+    $U \subseteq \R^n$ and $f \colon U \to \R^n$ with $f= (f_1, \cdots, f_m)$ then 
+    $f$ is differentiable iff $f_1, \cdots, f_n \colon U \to \R$ are all differentiable. Then 
+    $$[Df(x_0)]_{m \times n} = \begin{pmatrix}
+        \nabla f_1 (x_0) \\
+        \nabla f_2 (x_0)\\
+        \vdots \\
+        \nabla f_m(x_0)
+    \end{pmatrix} $$
+    Therefore 
+    $$Df(x_0) \begin{pmatrix}
+        h_1 \\ h_2 \\ \vdots \\ h_n
+    \end{pmatrix} = \begin{pmatrix}
+        \nabla f_1 (x_0) \cdot h \\
+        \nabla f_2 (x_0) \cdot h \\
+        \vdots \\ 
+        \nabla f_m (x_0) \cdot h
+    \end{pmatrix}$$
+\end{theorem}
+
+\begin{example}
+    $f(x,y) = (x^2 y^2, x^2 + y^2, x^2 - y^2)$ then 
+    $$[Df(x,y)] = \begin{pmatrix}
+        2xy^2 & 2x^2 y \\
+        2 x & 2y \\
+        2x & -2y
+    \end{pmatrix}$$
+    Therefore 
+    $$[Df(1,2)] = \begin{pmatrix}
+        2 & 4 \\
+        2 & 4 \\
+        2 & -4
+    \end{pmatrix}$$
+    Hence 
+    $$Df(1,2) \colon \begin{pmatrix}
+        h_1 \\ h_2
+    \end{pmatrix} \to \begin{pmatrix}
+        8h_1 + 4h_2 \\
+        2 h_1 + 4h_2 \\
+        2h_1 - 4h_2
+    \end{pmatrix}$$
+\end{example}
+
+\begin{proof}
+    \begin{itemize}
+        \item Suppose that $f$ is differentiable, then 
+        \begin{align*}
+            f(x_0 + h) = f(x_0) + Df(x_0) h + o(\norm{h}) 
+        \end{align*}
+        Taking the dot with $e_i \in \R^m$ we get 
+        \begin{align*}
+            f_i(x_0 + h) &= f_i(x_0) + Df(x_0) (h) \cdot e_i + o(\norm{h})
+        \end{align*}
+        Therefore $f_i$ is differentiable with 
+        $$D f_i (x_0) \colon h \to (Df(x_0) (h)) \cdot e_i$$
+
+        \item Suppose that each $f_i$ is differentiable then 
+        $$f_i(x_0 + h) = f_i(x_0) + Df_i(x_0) h + o_i(\norm{h})$$
+        Therefore 
+        $$f(x_0 + h) = f(x_0) + (Df_1(x_0)h, \cdots, Df_m(x_0) h) + (o_1(\norm{h}), \cdots, o_m(\norm{h}))$$
+        Hence $f$ is differentiable with 
+        $$Df(x_0) = \begin{pmatrix}
+            Df_1(x_0) \\
+            Df_2(x_0) \\
+            &\vdots \\
+            Df_m(x_0)
+        \end{pmatrix}$$
+        but $Df_i(x_0) = \nabla f_i(x_0)$. 
+        i.e 
+        $$Df(x_0) \colon h \to (\nabla f_i(x_0) \cdot h)_{1 \le i\le m}$$
+    \end{itemize}
+\end{proof}
+
+\begin{remark}
+    $f,g$ differentiable, then $f + \alpha g$ is differentiable, and 
+    $$D(f + \alpha g) = Df + \alpha Dg$$    
+\end{remark}
+
+\subsection{Chain Rule.} 
+\begin{theorem}
+    Let $U \subseteq \R^n$ and $f \colon U \to \R^m$ and $V \subset \R^m$ open and $g \colon V \to \R$, 
+    take $x_0 \in U$ s.t $f(x_0) \in V$. 
+
+    If $f$ is differentiable at $x_0$, and $g$ is differentiable at $f(x_0)$. Then $h := g \circ f$ is differentiable at $x_0$ with 
+    $$Dh(x_0) = D_g(f(x_0)) \circ D_f(x_0)$$
+    In matrix form 
+    $$[Dh(x_0)] = [D_g(f(x_0))] [Df(x_0)]$$
+\end{theorem}
+
+\begin{example}
+    $h \colon \R^m \to \R$ with 
+    $$h(u,v) = g(x(u,v), y(u,v))$$
+    Let $f (u,v) = (x(u,v),y(u,v))$ Therefore 
+    \begin{align*}
+        [Dh(u,v)] &= [Dg(x(u,v), y(u,v))]  [Df(u,v)] \\
+        \begin{pmatrix}
+            \frac{\partial h}{\partial u} & \frac{\partial h}{\partial v}
+        \end{pmatrix} &= \begin{pmatrix}
+            \frac{\partial g}{\partial x} & \frac{\partial y}{\partial x}
+        \end{pmatrix} \begin{pmatrix}
+            \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\
+            \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+        \end{pmatrix}
+    \end{align*}
+    Therefore ew get that 
+    $$\begin{pmatrix}
+            \frac{\partial h}{\partial u} & \frac{\partial h}{\partial v}
+        \end{pmatrix} = \begin{pmatrix}
+            \frac{\partial g}{\partial x} \frac{\partial x}{\partial u} + \frac{\partial g}{\partial y} \frac{\partial y}{\partial u} & 
+            \frac{\partial g}{\partial x} \frac{\partial x}{\partial v} + \frac{\partial g}{\partial y} \frac{\partial y}{\partial v}
+        \end{pmatrix}$$
+\end{example}
+
+\begin{example}
+    $\gamma \colon [a,b] \to \R^n$ and $f \colon \R^n \to \R$ with 
+    $$h(t) = f(\gamma(t))$$
+    Then 
+    \begin{align*}
+        [Dh(t)] &= [Df(\gamma(t))] [D\gamma(t)] \\
+        [h'(t)] &= (\nabla f (\gamma(t))) \begin{pmatrix}
+            \gamma_1' \\
+            \gamma_2' \\
+            \vdots \\
+            \gamma_n'
+        \end{pmatrix}  \\
+        &= \nabla f(\gamma(t)) \cdot \gamma'(t)
+    \end{align*} 
+    i.e $h \colon [a,b] \to \R$. 
+\end{example}
+
+\textbf{Consequences.}
+\begin{enumerate}
+    \item Mean value theorem for $\R^n \to \R$
+    \item $Df(x) = 0 \implies f$ is constant (in an open and connected domain). 
+    \item If $\frac{\partial f_i}{\partial x_i}$ exist and are continuous at $x_0$ then $f$ is differentiable at $x_0$.
+\end{enumerate}
 
 \end{document}
