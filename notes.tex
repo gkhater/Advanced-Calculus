@@ -1707,5 +1707,134 @@ $$g(t) = g(0) + (Df(x_0) \cdot \hat{u}) t + \angles{Df(x_0)\hat{u}, \hat{u}} \fr
 In general we get that 
 $$f(x_0 + h) = f(x_0) + \nabla f(x_0) \cdot h + \frac{\angles{D^2f(x_0), h}}{2} + o(|h|^2)$$
 
+Assume that $f = f(x_1, x_2)$, then 
+\begin{align*}
+    f(x_0 + h) &= f(x_0) + \frac{\nabla f}{\nabla x_1} h_1 + \frac{\nabla f}{\nabla x_2} h_2 + \begin{pmatrix}
+    f_{x_1 x_1} & f_{x_1 x_2} \\
+    f_{x_2 x_1} & f_{x_2 x_2} 
+\end{pmatrix} \begin{pmatrix}
+    h_1 \\ h_2
+\end{pmatrix} \cdot \begin{pmatrix}
+    h_1 \\ h_2
+\end{pmatrix} + o(|h|^2)\\
+    &= f(x_0) + f_{x_1} h_1 + f_{x_2} h_2 + \frac{1}{2} (f_{x_1 x_1}h_1^2 + f_{x_1 x_2} h_2h_1 + f_{x_2 x_1} h_1 h_2 + f_{x_2 x_2} h_2^2) + o(|h|^2)\\
+    &= \frac{f(x_0)}{0!} + \left(\frac{f_{x_1}h_1}{1!} + \frac{f_{x_2}h_2}{1!}\right) + \left(\frac{f_{x_1x_1} h_1^2}{2!} + \frac{f_{x_1x_2}h_1h_2}{1! 1!} + \frac{f_{x_2x_2}h_2^2}{2!}\right) + o(|h|^2)
+\end{align*}
+See the pattern here. 
+
+\textbf{Multi-index notation.} Take $\alpha = (\alpha_1, \cdots, \alpha_n)$ where $\alpha_i \in \N \cup \set{0}$. We denote the 
+order of $\alpha$ by 
+$$|\alpha| := \alpha_1 + \alpha_2 + \cdots + \alpha_n$$
+and the factorial of $\alpha$ by 
+$$\alpha! = \alpha_1 ! \alpha_2! \cdots \alpha_n!$$
+Then the $\alpha$-partial derivative of a function $f$ with $f \in C^{|\alpha|}$: 
+\begin{align*}
+    D^{\alpha = (\alpha_1, \cdots, \alpha_n)} := \frac{\partial^{\alpha_1}}{\partial x_1^{\alpha_1}} \frac{\partial^{\alpha_2}}{\partial x_2^{\alpha_2}} \cdots \frac{\partial^{\alpha_n}}{\partial x_n^{\alpha_n}}
+\end{align*} 
+Moreover exponent for $x \in \R^n$ 
+$$x^{\alpha} = x_1^{\alpha_1} \cdots, x_n^{\alpha_n}$$
+
+\begin{example}
+    $\frac{D^{(1,2,1)} (x^2y^2z^3)}{(1,2,1)!}$ with $f := f(x,y,z)$ we get 
+    \begin{align*}
+        \frac{D^{(1,2,1)} (x^2y^2z^3)}{(1,2,1)!} &= \frac{3 \cdot 2\cdot2x \cdot z^2}{1!2!1!} \\
+        &= 6xz^2
+    \end{align*}
+\end{example}
+
+\begin{theorem}[Taylor's theorem]
+    We have $U$ open subset of $\R^n$ and $x_0 \in U$ with 
+    $f \colon U \to \R$ $C^k$ function, then 
+    $$f(x_0+h) = \sum_{0 \le |\alpha| \le k} \frac{D^\alpha f (x_0) h^{\alpha}}{\alpha!} + o(|h|^k)$$
+    or 
+    $$f(x) = \sum_{0 \le |\alpha| \le k} \frac{D^\alpha f(x_0) (x-x_0)^\alpha}{\alpha!} + o(|x-x_0|^k)$$
+\end{theorem}
+
+\subsection{Extremum}
+\begin{definition}
+    $f \colon U \to \R$ $U \subseteq \R^n$ and $x_0 \in U$. We say that $f$ has a local minimum at $x_0$ iff 
+    $\exists \delta > 0$ s.t $f(x) \ge f(x_0) \ \forall x \in B(x_0, \delta)$.
+
+    We say that $f$ has a local maximum at $x_0$ iff $\exists \delta > 0$ s.t 
+    $f(x) \le f(x_0) \ \forall x \in B(x_0, \delta)$
+\end{definition}
+
+\begin{theorem}
+    If $f$ has a local min (or max) at $x_0$ and $f$ is differentiable at $x_0$ then $\nabla f(x_0) = 0$.
+\end{theorem}
+
+\begin{proof}
+    $f$ has a local minimum at $x_0$, then $\exists \delta > 0$ s.t $f(x) > f(x_0) \ \forall x \in B(x_0, \delta)$. Let $|t| < \delta$ and 
+    $\hat{u}$ a unit vector; since $f$ is differentiable at $x_0$, with $x_0 + t \hat{u} \in B(x_0, \delta)$. Hence
+    $$f(x_0 + t \hat{u}) = f(x_0) + (\nabla f(x_0) \cdot \hat{u})t + o(|t|) \ge f(x_0)$$
+    Therefore 
+    $$(\nabla f(x_0) \cdot \hat{u}) t + o(|t|) \ge 0$$
+    \begin{itemize}
+        \item if $t \ge 0$ we have that 
+        $$\nabla f(x_0) \cdot \hat{u} + \frac{o(|t|)}{t} \ge 0$$
+        let $t \to 0$ 
+        $$\nabla f(x_0) \cdot \hat{u} \ge 0$$
+        \item if $t \le 0$ we have that 
+        $$\nabla f(x_0) \cdot \hat{u} + \frac{o(|t|)}{t} \le 0$$
+        Let $t \to 0$ we have 
+        $$\nabla f(x_0) \cdot \hat{u} \le 0$$
+    \end{itemize} 
+    Therefore $\forall \hat{u}, \ |\hat{u}| = 1$ we have that 
+    $$\nabla f(x_0) \cdot \hat{u} = 0 \implies \nabla f(x_0) = 0$$
+\end{proof}
+
+\begin{example}
+    Find local min/max of the following: 
+    \begin{align*}
+        f(x,y) = x^2 + y^2
+    \end{align*}
+    We have 
+    $$\nabla f(x,y) = (2x,2y) = (0,0)$$
+    Hence 
+    $$\begin{cases}
+        2x = 0 \\
+        2y = 0
+    \end{cases} \implies (x,y) = 0$$
+    Therefore 
+    $$f(0,0) 0 \le x^2 + y^2 = f(x,y) \ \forall (x,y)$$
+    Therefore at $(0,0)$ ia have a minimum.
+
+    $$f(x,y) = x^2 - y^2$$
+    Therefore 
+    $$\nabla (x,y) = (2x,-2y) = 0 \implies x=y=0$$
+    Notice that $f(0,0) = 0$
+    Take $\delta > 0$, $B(0, \delta)$ take 
+    $$f(\delta/2, 0) = \delta^2/4 > 0, \quad f(0,\delta) = -\delta^2 /4 < 0$$
+    Therefore $(0,0)$ is neither a local min nor a local max (it is a saddle point). 
+\end{example}
+
+\textbf{Second derivative test.} 
+Review the spectral theorem and diagonalization. 
+
+Suppose that $A$ is symmetric and let $\lambda_1, \cdots, \lambda_n$ be the eigenvalues of $A$ with corresponding orthonormal basis 
+of eigenvectors $v_1, \cdots, v_n$, i.e 
+$$A v_i = \lambda_i v_i, \quad \angles{v_i, v_j} = \delta_{ij}$$
+Let $v \in \R^n$, then we can write $v$ as $r_1 v_1 + \cdots + r_n v_n$, therefore 
+$$Av = (\lambda_1 r_1) v_1 + \cdots + (\lambda_n r_n) v_n$$
+Therefore we get that 
+\begin{align*}
+    \angles{Av, v} &= \angles{r_1 \lambda_1 v_1 + \cdots + r_n \lambda_n v_n, r_1 v_1 + \cdots + r_n v_n} \\
+    &= r_1^2 \lambda_1 + r_2^2 \lambda_2 + \cdots + r_n^2 \lambda_n
+\end{align*}
+
+\begin{definition}
+    Let $A$ be an $n\times n$ symmetric matrix we say that $A$ is positive definite iff 
+    $$\angles{Av, v} > 0 \quad \forall v \ne 0$$
+    iff all eigenvalues of $A$ are positive.
+
+    We say that it is positive semi-definite iff 
+    $$\angles{Av, v} \ge 0 \quad \forall v \ne 0$$
+    iff all eigenvalues of $A$ are nonnegative. 
+
+    We define negative (semi) definite similarly. 
+
+    Otherwise, we say that $A$ is indefinite (at least two eigenvalues of opposite signs). 
+\end{definition}
+
 
 \end{document}
