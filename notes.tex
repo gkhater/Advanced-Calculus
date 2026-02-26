@@ -1577,7 +1577,7 @@ $$D[Df] = \begin{pmatrix}
     \nabla (f_1)_{x_1} \\
     \nabla (f_1)_{x_2} \\
     \vdots \\
-    \partial (f_m)_{x_m}
+    \nabla (f_m)_{x_m}
 \end{pmatrix}$$
 Note that 
 $$Df \colon U \to \mathcal{L} (\R^n, \R^m)$$
@@ -1625,13 +1625,14 @@ Therefore $D[Df]$ is a $mn \times n$ matrix, which we call the Hessian matrix.
     $\frac{\partial f}{\partial x_i \partial x_j}$ exist in a neighborhood of $a$ and are continuous at $a = (a_1, a_2)$. Define for $h,k > 0$ 
     $$w(h,k) = f(a_1 + h) - f(a_1 + h, a_2) - f(a_1, a_2 + h) + f(a_1, a_2)$$
     Define 
-    $$v(h,k) = f(a_1 + h, a_2 + k) - f(a_1 + h_1a_2)$$
+    $$v(h,k) = f(a_1 + h, a_2 + k) - f(a_1 + h, a_2)$$
     and 
     $$u(h,k) = f(a_1 + h, a_2 + k)  - f(a_1, a_2 + k)$$
     Notice that by MVT 
     \begin{align*}
-        w(h,k) &= v(h,k) - v(0,k) = v_h(c,k) \quad c \in [0,h] \\
-        &= \left(f_{x_1} (a_1 + c, a_2 + k) - f_{x_1} (a_1 + x, a_2) \right) h\\
+        w(h,k) &= v(h,k) - v(0,k) \\
+        &= v_h(c,k) \quad c \in [0,h] \\
+        &= \left(f_{x_1} (a_1 + c, a_2 + k) - f_{x_1} (a_1 + c, a_2) \right) h\\
         &= \left(f_{x_1 x_2} (a_1 + c, a_2 + d)\right) kh \quad d \in [0,k]
     \end{align*}
     Similarly 
@@ -1650,104 +1651,178 @@ Therefore $D[Df]$ is a $mn \times n$ matrix, which we call the Hessian matrix.
 \begin{definition}
     We say that $f \in C^k(U)$ ($k \in \N$) iff all partial derivatives of order $k$ of $f$ (of its components exist) and are continuous.  
 \end{definition}
-
 \paragraph{Taylor's theorem.}
-In one variable we have that if $g$ is $C^1$
-$$g(t_0 + h) = g(t_0) + g'(t_0) h + o(|h|)$$
-if $g$ is $C^2$ then 
-$$g(t_0 + h) = g(t_0) + g'(t_0) h + \frac{g''(t_0) h^2}{2!} + o(|h|^2)$$
-if $g$ is $C^k$ we get that 
-$$g(t_0 + h) = \sum_{i=0}^k \frac{g^{(i)} (t_0)}{i!} h^i + o(|h|^k)$$
-Now take $U \subset \R^n$ and take 
-$$f \colon U \to \R$$
-take $x_0 \in U$ and assume that $f$ is $C^1$ in $U$ also take $\hat{u}$ unit vector in $\R^n$. take 
-$$g(t) = f(x + t \hat{u})$$
-which is defined for $t  \le \delta$ small enough. Therefore 
-$$g \in C^1 ([-\delta, \delta])$$
-Hence 
-\begin{align*}
-    g(t) &= g(0) + \frac{g'(0)}{1!} \cdot t + o(|t|) \\
-\end{align*}
-But we have that 
-$$g'(0) = \nabla f(x_0 + t \hat{u}) \cdot \hat{u}$$
-Therefore 
-$$g'(0) = \partial f(x_0) \cdot \hat{u}$$
-Hence we get that 
-$$f(x_0 + t \hat{u}) = f (x_0) + \nabla (f (x_0) \cdot \hat{u})t + o(|t|)$$
-Therefore 
-\begin{align*}
-    f(x_0 + h) &= f(x_0 + |h| \frac{h}{|h|}) \\
-    &= f(x_0) + \nabla f(x_0) \cdot h+ o(|h|) \\
-    &= f(x_0) + \sum_{i=1}^n f_{x_i} h_i + o(|h|) 
-\end{align*}
-Assume that $f$ is $C^2$, then $g$ is $C^2$ then 
-\begin{align*}
-    g(t) = g(0) + g'(0) t + \frac{g''(0)t^2}{2} + o(|t|^2)
-\end{align*}
-but 
-\begin{align*}
-    g''(x) &= \left(\sum_{i=1}^n \frac{\partial f}{\partial x_i} (x_0 + t \hat{u}) u_i\right)'  \\
-    &= \left(\sum_{i=1}^n \nabla (\frac{\partial f}{\partial x_i}) (x_0 + t \hat{u}) \right) \cdot u_i \\
-\end{align*}
-Therefore 
-$$g''(0) = \sum_{i=1}^n \sum_{j=1}^n \frac{\partial f^2 }{\partial^2 x_j x_i} u_j u_i$$
-But we have that 
-$$D^2 f = \begin{pmatrix}
-    \frac{\partial f}{\partial x_1 \partial x_2} & \cdots & \frac{\partial f}{\partial x_n x_1} \\
-    \frac{\partial f}{\partial x_1 x_n} & \cdots & \frac{\partial f}{\partial x_n x_n}
-\end{pmatrix}$$
-therefore 
-$$g''(0) = D^2f \begin{pmatrix}
-    u_1 \\ \vdots \\ u_n
-\end{pmatrix} \cdot \begin{pmatrix}
-    u_1 \\ \vdots \\ u_n
-\end{pmatrix}$$
-This is denoted as $\angles{D^2f(x_0) \hat{u}, \hat{u}}$ therefore we get that 
-$$g(t) = g(0) + (Df(x_0) \cdot \hat{u}) t + \angles{Df(x_0)\hat{u}, \hat{u}} \frac{t^2}{2} + o(|t|^2)$$ 
-In general we get that 
-$$f(x_0 + h) = f(x_0) + \nabla f(x_0) \cdot h + \frac{\angles{D^2f(x_0), h}}{2} + o(|h|^2)$$
+In one variable, if $g$ is $C^1$ then
+\[
+g(t_0+h)=g(t_0)+g'(t_0)h+o(|h|).
+\]
+If $g$ is $C^2$, then
+\[
+g(t_0+h)=g(t_0)+g'(t_0)h+\frac{g''(t_0)}{2!}h^2+o(|h|^2).
+\]
+More generally, if $g$ is $C^k$, then
+\[
+g(t_0+h)=\sum_{i=0}^k \frac{g^{(i)}(t_0)}{i!}h^i+o(|h|^k).
+\]
 
-Assume that $f = f(x_1, x_2)$, then 
-\begin{align*}
-    f(x_0 + h) &= f(x_0) + \frac{\nabla f}{\nabla x_1} h_1 + \frac{\nabla f}{\nabla x_2} h_2 + \begin{pmatrix}
-    f_{x_1 x_1} & f_{x_1 x_2} \\
-    f_{x_2 x_1} & f_{x_2 x_2} 
-\end{pmatrix} \begin{pmatrix}
-    h_1 \\ h_2
-\end{pmatrix} \cdot \begin{pmatrix}
-    h_1 \\ h_2
-\end{pmatrix} + o(|h|^2)\\
-    &= f(x_0) + f_{x_1} h_1 + f_{x_2} h_2 + \frac{1}{2} (f_{x_1 x_1}h_1^2 + f_{x_1 x_2} h_2h_1 + f_{x_2 x_1} h_1 h_2 + f_{x_2 x_2} h_2^2) + o(|h|^2)\\
-    &= \frac{f(x_0)}{0!} + \left(\frac{f_{x_1}h_1}{1!} + \frac{f_{x_2}h_2}{1!}\right) + \left(\frac{f_{x_1x_1} h_1^2}{2!} + \frac{f_{x_1x_2}h_1h_2}{1! 1!} + \frac{f_{x_2x_2}h_2^2}{2!}\right) + o(|h|^2)
-\end{align*}
-See the pattern here. 
+Now take $U\subset \R^n$ open and a function
+\[
+f:U\to\R.
+\]
+Fix $x_0\in U$ and assume $f$ is $C^1$ in $U$. Take $\hat u$ a unit vector in $\R^n$, and define
+\[
+g(t)=f(x_0+t\hat u),
+\]
+which is defined for $|t|\le \delta$ small enough. Therefore
+\[
+g\in C^1([-\delta,\delta]).
+\]
+Hence
+\[
+g(t)=g(0)+\frac{g'(0)}{1!}\,t+o(|t|).
+\]
+But
+\[
+g'(t)=\nabla f(x_0+t\hat u)\cdot \hat u,
+\]
+so
+\[
+g'(0)=\nabla f(x_0)\cdot \hat u.
+\]
+Therefore
+\[
+f(x_0+t\hat u)=f(x_0)+\big(\nabla f(x_0)\cdot \hat u\big)\,t+o(|t|).
+\]
 
-\textbf{Multi-index notation.} Take $\alpha = (\alpha_1, \cdots, \alpha_n)$ where $\alpha_i \in \N \cup \set{0}$. We denote the 
-order of $\alpha$ by 
-$$|\alpha| := \alpha_1 + \alpha_2 + \cdots + \alpha_n$$
-and the factorial of $\alpha$ by 
-$$\alpha! = \alpha_1 ! \alpha_2! \cdots \alpha_n!$$
-Then the $\alpha$-partial derivative of a function $f$ with $f \in C^{|\alpha|}$: 
+Now for $h\in\R^n$ small, write $h=|h|\hat u$ where $\hat u=\frac{h}{|h|}$ (for $h\neq 0$). Taking $t=|h|$ above gives
 \begin{align*}
-    D^{\alpha = (\alpha_1, \cdots, \alpha_n)} := \frac{\partial^{\alpha_1}}{\partial x_1^{\alpha_1}} \frac{\partial^{\alpha_2}}{\partial x_2^{\alpha_2}} \cdots \frac{\partial^{\alpha_n}}{\partial x_n^{\alpha_n}}
-\end{align*} 
-Moreover exponent for $x \in \R^n$ 
-$$x^{\alpha} = x_1^{\alpha_1} \cdots, x_n^{\alpha_n}$$
+f(x_0+h)
+&=f\!\left(x_0+|h|\frac{h}{|h|}\right)\\
+&=f(x_0)+\big(\nabla f(x_0)\cdot \tfrac{h}{|h|}\big)\,|h|+o(|h|)\\
+&=f(x_0)+\nabla f(x_0)\cdot h+o(|h|)\\
+&=f(x_0)+\sum_{i=1}^n f_{x_i}(x_0)\,h_i+o(|h|).
+\end{align*}
+
+\medskip
+
+Assume now that $f$ is $C^2$. Then $g$ is $C^2$ and
+\[
+g(t)=g(0)+g'(0)t+\frac{g''(0)}{2}t^2+o(|t|^2).
+\]
+We have
+\[
+g'(t)=\sum_{i=1}^n \frac{\partial f}{\partial x_i}(x_0+t\hat u)\,\hat u_i,
+\]
+hence differentiating once more,
+\begin{align*}
+g''(t)
+&=\sum_{i=1}^n \left(\frac{\partial f}{\partial x_i}(x_0+t\hat u)\right)'\,\hat u_i\\
+&=\sum_{i=1}^n \left(\nabla\!\left(\frac{\partial f}{\partial x_i}\right)(x_0+t\hat u)\cdot \hat u\right)\hat u_i\\
+&=\sum_{i=1}^n\sum_{j=1}^n \frac{\partial^2 f}{\partial x_j\partial x_i}(x_0+t\hat u)\,\hat u_j\hat u_i.
+\end{align*}
+Therefore
+\[
+g''(0)=\sum_{i=1}^n\sum_{j=1}^n \frac{\partial^2 f}{\partial x_j\partial x_i}(x_0)\,\hat u_j\hat u_i.
+\]
+
+Let $D^2f(x_0)$ denote the Hessian matrix
+\[
+D^2f(x_0)=\left(\frac{\partial^2 f}{\partial x_i\partial x_j}(x_0)\right)_{1\le i,j\le n}.
+\]
+Then the previous expression can be written as the quadratic form
+\[
+g''(0)=\big\langle D^2f(x_0)\hat u,\hat u\big\rangle.
+\]
+Hence
+\[
+g(t)=g(0)+\big(\nabla f(x_0)\cdot \hat u\big)t+\frac{1}{2}\big\langle D^2f(x_0)\hat u,\hat u\big\rangle t^2+o(|t|^2).
+\]
+
+Equivalently, for $h\in\R^n$ small (again write $h=|h|\hat u$),
+\[
+f(x_0+h)=f(x_0)+\nabla f(x_0)\cdot h+\frac{1}{2}\big\langle D^2f(x_0)h,h\big\rangle+o(|h|^2).
+\]
+
+\medskip
+
+\textbf{Example ($n=2$).} If $f=f(x_1,x_2)$ and $h=(h_1,h_2)$, then
+\begin{align*}
+f(x_0+h)
+&=f(x_0)+f_{x_1}(x_0)h_1+f_{x_2}(x_0)h_2\\
+&\quad+\frac{1}{2}
+\begin{pmatrix}
+f_{x_1x_1}(x_0) & f_{x_1x_2}(x_0)\\
+f_{x_2x_1}(x_0) & f_{x_2x_2}(x_0)
+\end{pmatrix}
+\begin{pmatrix}
+h_1\\ h_2
+\end{pmatrix}\cdot
+\begin{pmatrix}
+h_1\\ h_2
+\end{pmatrix}
++o(|h|^2)\\
+&=f(x_0)+f_{x_1}(x_0)h_1+f_{x_2}(x_0)h_2\\
+&\quad+\frac{1}{2}\Big(f_{x_1x_1}(x_0)h_1^2+\big(f_{x_1x_2}(x_0)+f_{x_2x_1}(x_0)\big)h_1h_2+f_{x_2x_2}(x_0)h_2^2\Big)
++o(|h|^2).
+\end{align*}
+(If $f\in C^2$, then $f_{x_1x_2}(x_0)=f_{x_2x_1}(x_0)$.)
+
+This matches the pattern
+\[
+\frac{f(x_0)}{0!}
++\left(\frac{f_{x_1}(x_0)h_1}{1!}+\frac{f_{x_2}(x_0)h_2}{1!}\right)
++\left(\frac{f_{x_1x_1}(x_0)h_1^2}{2!}+\frac{f_{x_1x_2}(x_0)h_1h_2}{1!\,1!}
++\frac{f_{x_2x_2}(x_0)h_2^2}{2!}\right)
++o(|h|^2).
+\]
+
+\paragraph{Multi-index notation.}
+Take $\alpha=(\alpha_1,\dots,\alpha_n)$ where $\alpha_i\in\N\cup\{0\}$. Define the order of $\alpha$ by
+\[
+|\alpha|:=\alpha_1+\cdots+\alpha_n,
+\]
+and the factorial by
+\[
+\alpha!:=\alpha_1!\cdots \alpha_n!.
+\]
+For $f\in C^{|\alpha|}$, define the $\alpha$-partial derivative
+\[
+D^\alpha f
+:=\frac{\partial^{\alpha_1}}{\partial x_1^{\alpha_1}}
+\frac{\partial^{\alpha_2}}{\partial x_2^{\alpha_2}}
+\cdots
+\frac{\partial^{\alpha_n}}{\partial x_n^{\alpha_n}}\,f.
+\]
+For $x\in\R^n$, define
+\[
+x^\alpha:=x_1^{\alpha_1}\cdots x_n^{\alpha_n}.
+\]
 
 \begin{example}
-    $\frac{D^{(1,2,1)} (x^2y^2z^3)}{(1,2,1)!}$ with $f := f(x,y,z)$ we get 
-    \begin{align*}
-        \frac{D^{(1,2,1)} (x^2y^2z^3)}{(1,2,1)!} &= \frac{3 \cdot 2\cdot2x \cdot z^2}{1!2!1!} \\
-        &= 6xz^2
-    \end{align*}
+Let $f(x,y,z)=x^2y^2z^3$. Then
+\begin{align*}
+\frac{D^{(1,2,1)}f}{(1,2,1)!}
+&=\frac{1}{1!\,2!\,1!}\,
+\frac{\partial}{\partial x}\frac{\partial^2}{\partial y^2}\frac{\partial}{\partial z}(x^2y^2z^3)\\
+&=\frac{1}{2}\,\frac{\partial}{\partial x}\frac{\partial^2}{\partial y^2}(3x^2y^2z^2)\\
+&=\frac{1}{2}\,\frac{\partial}{\partial x}(6x^2z^2)\\
+&=6xz^2.
+\end{align*}
 \end{example}
 
 \begin{theorem}[Taylor's theorem]
-    We have $U$ open subset of $\R^n$ and $x_0 \in U$ with 
-    $f \colon U \to \R$ $C^k$ function, then 
-    $$f(x_0+h) = \sum_{0 \le |\alpha| \le k} \frac{D^\alpha f (x_0) h^{\alpha}}{\alpha!} + o(|h|^k)$$
-    or 
-    $$f(x) = \sum_{0 \le |\alpha| \le k} \frac{D^\alpha f(x_0) (x-x_0)^\alpha}{\alpha!} + o(|x-x_0|^k)$$
+Let $U\subset\R^n$ be open, $x_0\in U$, and $f:U\to\R$ be $C^k$. Then
+\[
+f(x_0+h)=\sum_{0\le |\alpha|\le k}\frac{D^\alpha f(x_0)}{\alpha!}\,h^\alpha
++o(|h|^k)
+\qquad (h\to 0),
+\]
+equivalently,
+\[
+f(x)=\sum_{0\le |\alpha|\le k}\frac{D^\alpha f(x_0)}{\alpha!}\,(x-x_0)^\alpha
++o(|x-x_0|^k)
+\qquad (x\to x_0).
+\]
 \end{theorem}
 
 \subsection{Extremum}
@@ -1808,7 +1883,7 @@ $$x^{\alpha} = x_1^{\alpha_1} \cdots, x_n^{\alpha_n}$$
     Therefore $(0,0)$ is neither a local min nor a local max (it is a saddle point). 
 \end{example}
 
-\textbf{Second derivative test.} 
+\paragraph*{Second derivative test.} 
 Review the spectral theorem and diagonalization. 
 
 Suppose that $A$ is symmetric and let $\lambda_1, \cdots, \lambda_n$ be the eigenvalues of $A$ with corresponding orthonormal basis 
@@ -1835,6 +1910,140 @@ Therefore we get that
 
     Otherwise, we say that $A$ is indefinite (at least two eigenvalues of opposite signs). 
 \end{definition}
+
+\begin{remark}
+    $A$ is symmetric, then $\lambda_i \ge 0$. Wlog $\lambda_1 \le \lambda_2 \le \cdots \le \lambda_n$, therefore 
+    $$\lambda_1 |v|^2 \le \angles{Av,v} \le \lambda_n |v|^2$$
+    $A$ is positive semi-definite $\iff$ $\exists c \ge 0$ s.t 
+    $$\angles{Av,v} \ge c |v|^2$$  
+\end{remark}
+
+\begin{definition}
+    $U \subset \R^n$ and $f \colon U \to \R$ a $C^1$ function. We say that $x_0$ is a critical point of $f$ iff 
+    $$\nabla f(x_0) = 0$$
+    (Candidate of extremum)
+
+    We say that $f \in C(U)$ attains a saddle point at $x_0$ iff $\nabla f(x_0) = 0$ but $f$ doesn't attain a local extremum at $x_0$.  
+\end{definition}
+
+\begin{theorem}[Second derivative test]
+    $U \subset \R^n$ open and $f \colon U \to \R$ a $C^2$ function, take $x_0 \in U$ s.t 
+    $$\nabla f(x_0) = 0$$
+    \begin{enumerate}
+        \item If $D^2f(x_0)$ is positive definite, then $f$ attains a local minimum.
+        \item If $D^2f(x_0)$ is negative definite, then $f$ attains a local maximum.
+        \item If $D^2f(x_0)$ has two eigenvalues with opposite signs, then $f$ has a saddle point at $x_0$.
+    \end{enumerate}
+    The test is inconclusive if $Df(x_0)$ is semi-definite.
+\end{theorem}
+
+\begin{proof}
+    By Taylor's theorem, we have that 
+    $$f(x) = f(x_0) + \nabla f(x_0) \cdot (x-x_0) + \frac{1}{2}\angles{D^2f(x_0) (x-x_0), x-x_0} + o(|x-x_0|^2)$$
+    (Since $\nabla f(x_0) = 0$) we get  
+    \begin{align*}
+        f(x)- f(x_0) &= 1/2 \angles{D^2f(x_0) (x-x_0), x-x_0} + o(|x-x_0|^2) \\
+        &\ge C |x-x_0|^2 + o(|x-x_0|^2)& C > 0 \\
+        &= |x-x_0|^2 \left(C + \frac{o(|x-x_0|^2)}{|x-x_0|^2}\right) \\
+        &\ge 0 &\text{for $|x-x_0| < \delta$}
+    \end{align*}
+    Therefore 
+    $$f(x) \ge f(x_0) \text{ for $|x-x_0| < \delta$}$$
+    Hence $x_0$ is a local minimum.
+
+    We can prove $2$ the exact same way. 
+
+    For $3$, suppose that $\lambda, \ \lambda'$ are two eigenvalues of $D^2f(x_0)$ with 
+    $$\lambda > 0, \quad \lambda' < 0$$
+    Let $v, \ v'$ be the corresponding normalized eigenvectors. Take 
+    $$x = x_0 + tv$$
+    Therefore 
+    \begin{align*}
+        f(x_0 + tv) - f(x_0) &= \frac{1}{2} \angles{D^2f(x_0)tv, tv} + o(|t|^2) \\
+        &= \frac{1}{2} t^2 \left(\angles{D^2f(x_0)v, v} + \frac{o(|t|^2)}{t^2}\right) \\
+        &= \frac{1}{2} t^2 \left(\lambda + o(|t|^2)/t^2\right) \\
+        &\ge 0 &\text{$t$ small enough}
+    \end{align*}
+    Similarly, for $t$ small enough
+    $$f(x_0 + tv') - f(x_0) \le 0$$
+    Hence $f$ has a saddle point at $x_0$.
+\end{proof}
+
+\begin{example}
+    Math 201: 
+    \begin{itemize}
+        \item Solve $\nabla f(x_0) = 0$
+        \item $D^2f(x_0)$ find its eigenvalues. 
+        \item Apply second derivative test (if applicable). 
+    \end{itemize}
+\end{example}
+
+\subsection{Inverse function theorem.}
+\begin{lemma}[Banach fixed point theorem]
+    $X$ complete metric space, $T \colon X \to X$ a contraction, i.e $\exists c \in [0,1]$ s.t 
+    $$d(f(x),f(y)) \le c d(x,y) \ \forall x, y \in X$$
+    Then $f$ admits a unique fixed point.
+\end{lemma}
+
+\begin{proof}
+    Take $x_1 \in X$ and $x_{n+1} = f(x_n)$, we show that $x_n$ is Cauchy. Indeed, 
+    \begin{align*}
+        d(x_2, x_3) &= d(x_2, f(x_2)) \le C d(x_2, x_1)
+        d(x_4, x_3) &\le Cd(x_3,x_2) \le C^2 d(x_2, x_1)
+        &\vdots\\
+        d(x_{n+1}, x_n) &\le C^{n-1} d(x_2, x_1)
+    \end{align*}
+    Pick any $m > n$ then 
+    \begin{align*}
+        d(x_m, x_n) &\le d(x_{n+1}, x_n) + d(x_{n+2}, x_{n+1}) + \cdots + d(x_{m-1}, x_m) \\
+        &\le (C^{n-1} + C^n + \cdots + C^{m-2}) d(x_2, x_1) \\
+        &= C^{n-1} (1 + C + C^2 + \cdots + C^{m-n-1}) d(x_2, x_1) \\
+        &\le \frac{C^{n-1}}{1-C} d(x_2, x_1)
+    \end{align*}
+    Let $\varepsilon > 0$ then 
+    $$\frac{C^{n-1}}{1-C} d(x_2, x_1) \to 0$$
+    i.e $\exists N$ s.t $\forall n \ge N$ we have 
+    $$\frac{C^{n-1}}{1-C} d(x_2, x_1) < \varepsilon$$
+    Therefore for $m, n \ge N$ we have 
+    $$d(x_m, x_n) < \varepsilon$$
+    Hence $x_n$ is Cauchy therefore it converges to some $x_0$ (since $X$ is complete). Moreover, $L$ is Lipschitz continuous, 
+    and $x_{n+1} = f(x_n)$ let $n \to \infty$ we get 
+    $$x_0 = f(x_0)$$
+    we have found a fixed point. 
+
+    Let $x_0, x_0'$ be fixed points, 
+    \begin{align*}
+        d(f(x_0), f(x_0')) &\le C d(x_0, x_0') \\
+        d(x_0, x_0') < d(x_0, x_0') 
+    \end{align*}
+    Therefore $d(x_0, x_0') = 0$ hence $x_0' = x_0$. 
+\end{proof}
+
+\begin{theorem}[Inverse function theorem]
+    $U \subset \R^n$ open and $f \colon U \to \R^n$ a $C^1$ function and $x_0 \in U$ if 
+    $\det [Df(x_0)] \ne 0$ then $\exists O_1$ open neighborhood of $x_0$ and $O_2$ open neighborhood of $f(x_0)$ s.t 
+    $f \colon O_1 \to O_2$ is bijective. Moreover, $f^{-1} \in C_1(O_2)$ and 
+    $$(Df^{-1}) (f(x)) = (Df(x))^{-1} \quad \forall x \in O_1$$
+\end{theorem}
+
+\begin{remark}
+    It is enough to assume that $Df(x_0) = I_n$; suppose that we have the setting of the theorem 
+    $$\det (Df(x_0)) \ne 0$$
+    Then take 
+    $$g(x) = (Df(x_0))^{-1} f(x) = (Df(x_0)) \circ f (x)$$
+    Therefore by chain rule and the fact that $DT = T$, we have 
+    $$Dg(x_0) = (Df(x_0))^{-1} (Df(x)) = I_n$$ 
+    Apply the IFT at $g$, we find $O_1 \ni x_0$ and $O_2 \ni g(x_0)$ s.t 
+    $g \colon O_1 \to O_2$ is a Diffeomorphism, but 
+    $$g(x) = Df(x_0)^{-1} \circ f(x) \implies f(x) = Df(x_0) (g(x)) \colon O_1 \to Df(x_0) O_2$$
+    Note that $Df(x_0)^{-1}$ is a linear transformation, hence continuous and contains $f(x_0)$. Moreover the composition 
+    of diffeomorphisms is a diffeomorphism.
+    
+    More generally, suppose $h, h^{-1} \in C_1$ therefore 
+    $$h^{-1} \circ h = \operatorname{id}$$
+    therefore by chain rule 
+    $$Dh^{-1} (h(x)) \circ Dh(x) = I_n \implies Dh^{-1} (h(x)) = (Dh(x))^{-1}$$
+\end{remark}
 
 
 \end{document}
