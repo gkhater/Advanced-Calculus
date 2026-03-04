@@ -2024,6 +2024,8 @@ Therefore we get that
     $\det [Df(x_0)] \ne 0$ then $\exists O_1$ open neighborhood of $x_0$ and $O_2$ open neighborhood of $f(x_0)$ s.t 
     $f \colon O_1 \to O_2$ is bijective. Moreover, $f^{-1} \in C_1(O_2)$ and 
     $$(Df^{-1}) (f(x)) = (Df(x))^{-1} \quad \forall x \in O_1$$
+
+    We say that $f$ is a local diffeomorphism.
 \end{theorem}
 
 \begin{remark}
@@ -2045,5 +2047,110 @@ Therefore we get that
     $$Dh^{-1} (h(x)) \circ Dh(x) = I_n \implies Dh^{-1} (h(x)) = (Dh(x))^{-1}$$
 \end{remark}
 
+\begin{remark}
+    We will use the $L_\infty$ norm on $\R^n$ and on $M_{n \times n} (\R)$.
+    Clearly 
+    $$\frac{1}{\sqrt{n}} \le \norm{x}_\infty \le \norm{x}_2 \le \sqrt{n} \norm{x}_\infty$$
+\end{remark}
+
+\begin{remark}
+    $GL_n(\R)$ is an open subset of $M_{n \times n} (\R)$.
+\end{remark}
+
+\begin{proof}[Proof of the Inverse Function Theorem]
+    We have that $Df(x_0) = I_n$ and $Df$ is continuous, i.e. given any $\varepsilon_0$ $\exists \delta > 0$ 
+    s.t. for $\norm{x-x_0}_{\infty} < \delta$ ($x \in B(x_0, \delta)$) we have 
+    $$\norm{Df(x) - I}_\infty < \varepsilon$$
+    and $[Df(x_0)] \in GL_n(\R)$ (since open). But notice that 
+    $$Df(x) - I = f(x) - x$$
+    Define the function 
+    $$g(x) = f(x) - x$$
+    We have that for $\norm{x-x_0}_{\infty} < \delta$ we have that 
+    $$\norm{Df(x)}_\infty < \varepsilon_0$$
+    By MVT, for $1 \le i \le n$, 
+    \begin{align*}
+        \norm{g_i(x) - g_i(y)} &= \abs{\nabla g_i(c) \cdot (x-y)} \\
+        &\le \abs{\nabla g_i(c)} \abs{x-y} \\
+        &\le \norm{\nabla g_i(c)}_\infty \norm{x-y}_\infty \sqrt{n} \sqrt{n}
+        &\le \norm{Dg(c)_\infty} \norm{x-y}_\infty \cdot n \\
+        &\le \varepsilon_0 n \norm{x-y}_\infty
+    \end{align*}
+    Then if we left $\varepsilon_0 = \frac{1}{2n}$ then by the above $\exists \delta > 0$ s.t for $x \in B(x_0, \delta)_\infty$ we have that 
+    $$\abs{g_i(x)-g_i(y)} < \frac{1}{2} \norm{x-y}_\infty$$
+    this holds for every $1 \le i \le n$, therefore 
+    \begin{align*}
+        \norm{g(x) - g(y)}_\infty &< 1/2 \norm{x-y}_\infty \\
+        \norm{f(x) - x - f(y) + y}_\infty &\le \norm{x-y}_\infty \\
+        \norm{x-y}_\infty - \norm{f(x)-f(y)}_\infty \le \norm{f(x) - f(y) - (x-y)}_\infty &\le \norm{x-y}_\infty \\
+        \norm{f(x)-f(y)}_\infty &\ge \frac{1}{2} \norm{x-y}_\infty
+    \end{align*}
+    Therefore $f(x) = f(y) \iff x = y$ therefore we showed that $f$ is injective on $B(x_0, \delta)$. 
+    
+    Let $y \in \R^n$, we wan to find $x \in B(x_0, r)$ s.t 
+    $$f(x) = y$$
+    i.e. we want to find an $x$ s.t 
+    $$f(x) - x = y - x \iff x = x - f(x) + y = y - g(x)$$
+    This is equivalent to saying that $x$ is a fixed point of the map 
+    $$x \to y - g(x)$$
+    Hence, for $y \in \R^n$ define 
+    $$T_y \colon B(x_0, \delta) \to \R^n, \quad T_y(x) = x-f(x) + y = y-g(x)$$
+    Notice that
+    \begin{align*}
+        \norm{T_y x - T_yz}_\infty &= \norm{g(x) - g(z)}_\infty \\
+        &\le \frac{1}{2} \norm{x-z}_\infty 
+    \end{align*}
+    Take $X = \overline{B(x_0, \delta/2)}$, we want 
+    $$T_y X \subseteq X$$
+    Want 
+    $$\norm{T_y x - x_0} \le \delta/2 \quad \forall x \in \overline{B(x_0, \delta/2)}$$
+    But we have that 
+    \begin{align*}
+        \norm{T_y x - x_0} &= \norm{y-g(x) + g(x_0) - f(x_0)} \\
+        &\le \norm{g(x) - g(x_0)}_\infty + \norm{y - f(x_0)}_\infty \\
+        &\le \frac{1}{2} \norm{x-x_0}_\infty + \norm{y-f(x_0)} \\
+        &\le \frac{\delta}{4} + \norm{y-f(x_0)}_\infty \\
+        &< \delta &\text{if } \norm{y-f(x_0)} < \delta/4
+    \end{align*}
+    Therefore for $y \in B(f(x_0), \delta/4)$, we have 
+    $$T_y (\overline{B(x_0, \delta/2)}) \subseteq B(x_0, \delta/2) \subseteq \overline{B(x_0, \delta/2)}$$
+    Therefore for such $y$, we have that $T_y$ is a contraction. I.e. for such $y$ there exists a unique 
+    fixed point $x \in B(x_0, \delta/2)$, i.e. 
+    $$T_y x = x \implies f(x) = y$$
+    Therefore 
+    $$O_1 = B(x_0, \delta/2), \quad O_2 = B(f(x_0), \delta/4)$$
+    Therefore 
+    $$f \colon O_1 \to O_2 \text{ is bijective}$$
+    It remains to show that $f^{-1} \colon O_2 \to O_1$ is $C^1$. 
+
+    Recall that we already have $\forall x,x' \in O_1$ 
+    $$\norm{f(x)-f(x')}_\infty \ge \frac{1}{2} \norm{x-x'}$$
+    Therefore $\forall y,y' \in O_2$ we have 
+    $$\norm{f^{-1} (y) - f^{-1}(y')} \le 2 \norm{y-y'}$$
+    We want to show that $f^{-1}$ is differentiable 
+    \begin{align*}
+        k &= f (f^{-1} (y+k)) - f(f^{-1}(y)) \\
+        &= Df (f^{-1}(y)) \left(f^{-1}(y+k) - f^{-1}(y)\right) + o(\norm{f^{-1}(y+k) - f^{-1}(y)}) \\
+    \end{align*}
+    Since $Df(f^{-1}(y)) \in GL_n(\R)$, then 
+    $$f^{-1}(y + k) - f^{-1} (y) = (Df(f^{-1}(y)))^{-1} k + (Df(f^{-1}(y)))^{-1} o(\norm{f^{-1}(y+k) - f^{-1}(y)})$$
+    It remains to show that 
+    $$(Df(f^{-1}(y)))^{-1} o(\norm{f^{-1}(y+k) - f^{-1}(y)}) = o(\norm{k})$$
+    Indeed, 
+    \begin{align*}
+        \frac{o(\norm{f^{-1}(y+k) - f^{-1}(y)})}{\norm{k}} &= \frac{o(\norm{f^{-1}(y+k) - f^{-1}(y)})}{\norm{f^{-1}(y+k) - f^{-1}(y)}} \cdot \frac{\norm{f^{-1}(y+k) - f^{-1}(y)}}{\norm{k}}
+    \end{align*}
+    Therefore 
+    \begin{align*}
+        \frac{o(\norm{f^{-1}(y+k) - f^{-1}(y)})}{\norm{k}} &= \frac{o(\norm{f^{-1}(y+k) - f^{-1}(y)})}{\norm{f^{-1}(y+k) - f^{-1}(y)}} \cdot 2
+    \end{align*}
+    Hence 
+    $$\lim_{k \to 0} \frac{o(\norm{f^{-1}(y+k) - f^{-1}(y)})}{\norm{k}} = 0$$
+    Therefore by continuity of $Df(f^{-1}(y))^{-1}$ we get that 
+    $$Df(f^{-1}(y))^{-1} \left(\frac{o(\norm{f^{-1}(y+k) - f^{-1}(y)})}{\norm{k}}\right)$$
+    Therefore $f^{-1}$ is differentiable and 
+    $$Df^{-1}(y) = Df (f^{-1}(y))^{-1}$$
+    Moreover, since $Df$ is continuous, the map $A \to A^{-1}$ is continuous and $f^{-1}$ is continuous. 
+    Therefore $Df^{-1}$ is continuous, being the composition of continuous functions. 
+\end{proof}
 
 \end{document}
