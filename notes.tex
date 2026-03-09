@@ -2153,4 +2153,166 @@ Therefore we get that
     Therefore $Df^{-1}$ is continuous, being the composition of continuous functions. 
 \end{proof}
 
+\begin{corollary}
+    Say we have $U \subseteq \R^n$ and $f \colon U \to \R^n$ $C^1$ function, if $\det [Df(x)] \ne 0$ for every $x \in U$, then 
+    $f$ is an open map.  
+\end{corollary}
+
+\begin{proof}
+    Homework.
+\end{proof}
+
+\subsection{Implicit function theorem.} 
+\textbf{Motivation.} $x, y \in \R$ defined so that 
+$$f(x,y) = 0$$
+Suppose $y := y(x)$, i.e. for each $x$ there exists a unique $y$ s.t.
+$$f(x,y) = 0$$
+Suppose that $y(x)$ is $C^1$, what is $y'(x)$? 
+
+Notice that $f(x,y(x)) = 0 \ \forall x$, therefore by chain rule we get 
+\begin{align*}
+    \frac{\partial f}{\partial x} + y'(x) \frac{\partial f}{\partial y} = 0 \\
+\end{align*}
+Therefore 
+$$y'(x) = - \frac{f_x (x,y(x))}{f_y(x,y(x))}$$
+provided that $f_y \ne 0$, 
+
+More generally suppose that we have $f \colon \R^{n + m} \to \R^m$ and take $(x, y)$ with $x \in \R^n, \ y \in \R^m$. 
+Consider the level curve 
+$$f(x,y) = 0$$
+suppose that for each $x$ there exists some unique $y$ s.t. 
+$$f(x,y) = 0$$
+let $h$ be that function and assign for each $x \in \R^n$ some $h(x)$ s.t. 
+$$f(x, h(x)) = 0, \quad h \colon R^n \to \R^m$$
+Suppose that $h$ is $C^1$, can we find $Dh(x)$. 
+
+Similarly as above differentiate w.r.t. $x$, 
+\begin{align*}
+    D(f(x), h(x)) (x) &= 0_{L.T} \\
+    Df(x, h(x)) D(x,h(x)) &= 0 \\
+\end{align*}
+In matrix form 
+\begin{align*}
+     \begin{pmatrix}
+        \frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_n} & \frac{\partial f_1}{\partial y_1} & \cdots & \frac{\partial f_1}{\partial y_m} \\
+        \vdots & & \vdots & \vdots & & \vdots \\
+        \frac{\partial f_n}{\partial x_1} & \cdots & \frac{\partial f_n}{\partial x_n} & \frac{\partial f_n}{\partial y_1} & \cdots & \frac{\partial f_n}{\partial y_m}
+    \end{pmatrix}
+    \begin{pmatrix}
+        1 & 0 & \cdots & 0 \\
+        0 & 1 & \cdots &  0 \\
+        \vdots & & &\vdots \\
+        0 & 0 & \cdots & 1 \\
+        \frac{\partial h_1}{\partial x_1} & \cdots & & \frac{\partial h_1}{\partial x_n} \\
+        \vdots & & &\vdots \\
+        \frac{\partial h_m}{\partial x_1} & \cdots & & \frac{\partial h_m}{\partial x_n}
+     \end{pmatrix}&= 0 \\
+    \begin{pmatrix}
+        D_xf (x, h(x)) & D_yf (x,h(x))
+    \end{pmatrix} \begin{pmatrix}
+        I_n \\ Dh(x)
+    \end{pmatrix}&= 0 \\
+    (D_xf) (x,h(x)) + D_yf(x,h(x)) Dh(x) &= 0
+\end{align*}
+Hence provided that $D_y(x,h(x))$ is invertible we get that 
+$$Dh(x) = (D_y f(x,h(x)))^{-1} D_xf(x,h(x))$$
+
+\textbf{More motivation.} $U \subset \R^{2}$ and $f(x,y) = 0$ we need to solve $y$ as a function of $x$. 
+say there exists $(x_0, y_0) \in U$ s.t. $f(x_0, y_0) = 0$. Say $f$ is $C^1$, therefore 
+$$f(x,y) \sim f(x_0, y_0) + f_x(x_0, y_0) (x-x_0) + f_y(x_0, y_0) (y-y_0)$$
+We want to solve $y$ as a function of $x$ when $f(x,y) = 0$. 
+Looking only at the RHS, to solve $y$ uniquely as a function of $x$ we need 
+\begin{align*}
+    f_y(x_0, y_0) &= - f_x (x-x_0) \\
+    y-y_0 &= \frac{f_x}{f_y} (x-x_0)
+\end{align*}
+provided that $f_y \ne 0$. 
+
+\begin{theorem}[Implicit Function Theorem]
+    $U \subset \R^{n+m}$ and $f \colon U \to \R^m$ a $C^1$ function, $(x_0, y_0) \in U$ then say 
+    $f(x_0, y_0) = 0$. Write $(x,y) \colon \ x \in \R^n, \ y \in \R^m$. Assume that 
+    $\det [D_yf(x_0, y_0)] \ne 0$, then $\exists U_0 \ni x_0 $ and $V_0 \ni y_0$ open neighborhoods, s.t. 
+    for every $x \in U_0$ there exists a unique $y \in V_0$ s.t. $f(x,y) = 0$. Moreover, the function 
+    $$h \colon U_0 \to V_0$$
+    s.t. $f(x, h(x)) = 0$ is a $C^1$ function.  
+\end{theorem}
+
+\begin{remark}
+    In the scenario above, by chain rule we get that 
+    $$Dh(x) = -(D_yf(x,h(x)))^{-1} \circ D_xf(x,h(x))$$
+    Usually used at $x_0$, 
+    $$Dh(x_0) = -(D_yf(x_0,h(y_0)))^{-1} \circ D_xf(x_0,h(x_0))$$
+\end{remark}
+
+\begin{proof}
+    Take $F \colon U \to \R^{n_m}$ with 
+    $$F(x,y) = (x, f(x,y)) = (x_1, \cdots, x_n, f_1, \cdots, x_m)$$
+    notice that $F(x_0, y_0) = (x_0, f(x_0, y_0)) = (x_0, 0)$, and that 
+    \begin{align*}
+        DF(x_0, y_0) &= \begin{pmatrix}
+            I_n & 0 \\
+            D_x f & D_y F
+        \end{pmatrix}
+    \end{align*}    
+    Therefore 
+    $$\det(DF(x_0, y_0)) = \det (D_y f(x_0, y_0)) \ne 0$$
+    then by the inverse function theorem, there exists $U_0 \times V_0 \ni (x_0, y_0)$ an open subset with 
+    $U_0 \ni x_0$ and $V_0 \ni y_0$ and $W_0 \ni (x_0, 0)$ an open neighborhood s.t. 
+    \begin{align*}
+        F \colon U_0 \times V_0 \to W_0
+    \end{align*}  
+    a diffeomorphism.
+
+    Now take $(x', y') \in W_0$ then there exists an unique $(x,y) \in U_0 \times V_0$ s.t. 
+    $$F(x,y) = (x', y') = (x, f(x,y))$$
+    i.e. there exists a unique $y \in V_0$ s.t. $f(x,y) = y'$. 
+
+    Therefore we can choose $U_0$ small enough so that $U_0 \times \set{0} \subseteq W_0$. Given $x \in U_{x_0}$ we have 
+    $(x, 0) \in W_0$, then $\exists \ ! y \in V_0$ s.t. $f(x,y) = 0$. This defines a function $h \colon U_0 \to V_0$ s.t. 
+    $f(x,h (x)) = 0$. We only need to show that $h$ is $C^1$, indeed 
+    \begin{align*}
+        F(x,h(x)) &= (x, f(x,h(x))) \\
+        &= (x, 0) 
+    \end{align*}  
+    Therefore 
+    $$F^{-1} (x, 0) = (x, h(x))$$
+    but by the inverse function theorem, we have that $F^{-1}$ is $C^1$ hence $h$ is $C^1$.  
+\end{proof}
+
+\begin{corollary}[Lagrange Multiplier]
+    Let $g \colon \R^n \to \R$ function and take the level set 
+    $$S = \set{x \in \R^n \colon g(x) = 0}$$
+    Let $U \supset S$ be an open subset of $\R^n$ s.t. $g \in C^1(U)$ and $\nabla g(x) \ne 0$ $\forall x \in S$. 
+    Let $f \colon U \to \R$ be differentiable, if $f$ attains an local minimum (maximum) on $S$ at some point $x_0$, 
+    then $\nabla f(x_0) = \lambda \nabla g(x_0)$ for some $\lambda \in \R$.
+\end{corollary}
+
+\begin{proof}
+    We have that $\nabla g(x_0) \ne 0$ therefore $\frac{\partial g}{\partial x_i} (x_0) \ne 0$ for some $i$, wlog say that 
+    $$\frac{\partial g}{\partial x_n} (x_0) \ne 0$$
+    We can write 
+    $$g \colon \R^{n-1 + 1} \to \R, \quad x = (x', x_n)$$
+    With $\frac{\partial g}{\partial x_n} (x_0', (x_{0})_n) \ne 0$ then by the implicit function theorem applied to $n \to n-1$ and $m \to 1$, 
+    there exists a neighborhood $U_{0} \ni x_0'$ and some $h \colon U_0 \to \R$ s.t. $g(x', h(x')) = 0$. Differentiating w.r.t. $x'$ we get 
+    \begin{align*}
+        Dx'g + \frac{\partial g}{\partial x_n} Dh(x') = 0
+    \end{align*} 
+    Hence 
+    $$\nabla h(x') = - \frac{\nabla_{x' g}}{g_{x_n}}$$
+    i.e. 
+    $$\nabla h(x_0') = -\frac{1}{g_{x_n} (x_0)} \nabla_{x'} g(x_0)$$
+    Define 
+    $$F \colon U_0 \to \R, \quad F(x') = f(x', h(x'))$$
+    But notice that $(x', h(x')) \in S$ but $F$ admits a local minimum (or maximum) at $x_0'$; therefore 
+    $$\nabla F(x_0') = 0 = \nabla_{x'} f(x_0) + \frac{\partial f}{\partial x_n} (x_0) \nabla_{x'} h(x_0')$$
+    Hence 
+    \begin{align*}
+        \nabla_{x'} f(x_0) &= \frac{f_{x_n} (x_0)}{g_{x_n} (x_0)} \nabla_{x'} g(x_0)
+    \end{align*}
+    But also 
+    $$\frac{\partial f}{\partial x_n} (x_0) = \frac{\partial f_{x_n} (x_0)}{\partial_{x_n} (x_0)} \frac{\partial g}{\partial x_n} (x_0)$$
+    Therefore 
+    $$\nabla_x f(x_0) = \frac{f_{x_n} (x_0)}{g_{x_n} (x_0)} \nabla g(x_0)$$
+\end{proof}
+
 \end{document}
