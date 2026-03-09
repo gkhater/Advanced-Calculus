@@ -2062,16 +2062,16 @@ Therefore we get that
     s.t. for $\norm{x-x_0}_{\infty} < \delta$ ($x \in B(x_0, \delta)$) we have 
     $$\norm{Df(x) - I}_\infty < \varepsilon$$
     and $[Df(x_0)] \in GL_n(\R)$ (since open). But notice that 
-    $$Df(x) - I = f(x) - x$$
+    $$Df(x) - I = D(f(x) - x)$$
     Define the function 
     $$g(x) = f(x) - x$$
     We have that for $\norm{x-x_0}_{\infty} < \delta$ we have that 
-    $$\norm{Df(x)}_\infty < \varepsilon_0$$
+    $$\norm{Dg(x)}_\infty < \varepsilon_0$$
     By MVT, for $1 \le i \le n$, 
     \begin{align*}
         \norm{g_i(x) - g_i(y)} &= \abs{\nabla g_i(c) \cdot (x-y)} \\
         &\le \abs{\nabla g_i(c)} \abs{x-y} \\
-        &\le \norm{\nabla g_i(c)}_\infty \norm{x-y}_\infty \sqrt{n} \sqrt{n}
+        &\le \norm{\nabla g_i(c)}_\infty \norm{x-y}_\infty \sqrt{n} \sqrt{n} \\
         &\le \norm{Dg(c)_\infty} \norm{x-y}_\infty \cdot n \\
         &\le \varepsilon_0 n \norm{x-y}_\infty
     \end{align*}
