@@ -2352,14 +2352,12 @@ provided that $f_y \ne 0$.
     $g \colon U \to \R^2 = (g_1, g_2)$ s.t. 
     $$f(g(x_3, x_4, x_5), g_2(x_3, x_4, x_5), x_3, x_4, x_5) = (0,0,0)$$
     for all $(x_3, x_4, x_5) \in U_0$. Note 
-    $$Dg(0,0,0) = - (D_{x_1, x_2}f (1,0,0,0,0)) D_{x_3,x_4,x_5} f(1,0,0,0,0)$$
+    $$Dg(0,0,0) = - (D_{x_1, x_2}f (1,0,0,0,0))^{-1} D_{x_3,x_4,x_5} f(1,0,0,0,0)$$
     In matrix form 
     \begin{align*}
         \begin{pmatrix}
-            \frac{\partial g_1}{\partial x_3} & \frac{\partial g_1}{\partial x_4} & \frac{\partial g_1}{\partial x_5} \\ 
-            \frac{\partial g_2}{\partial x_3} & \frac{\partial g_2}{\partial x_4} & \frac{\partial g_2}{\partial x_5} \\ 
-        \end{pmatrix} \begin{pmatrix}
-            0 & 0 & 0
+            \frac{\partial g_1}{\partial x_3}(0,0,0) & \frac{\partial g_1}{\partial x_4}(0,0,0) & \frac{\partial g_1}{\partial x_5}(0,0,0) \\ 
+            \frac{\partial g_2}{\partial x_3} (0,0,0)& \frac{\partial g_2}{\partial x_4}(0,0,0) & \frac{\partial g_2}{\partial x_5}(0,0,0) \\ 
         \end{pmatrix} &= - \begin{pmatrix}
             1 & 1 \\ 
             0 & 1
