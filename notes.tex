@@ -2320,4 +2320,145 @@ provided that $f_y \ne 0$.
     $$\nabla_x f(x_0) = \lambda \nabla g(x_0)$$
 \end{proof}
 
+\begin{example}
+    Consider the following system 
+    $$\begin{cases}
+        x_1 e^{x_2} + x_3 + \sin x_4 + x_5^2 = 1\\
+        x_1 \sin x_4 + x_2 + x_4 - x_3 x_5 = 0
+    \end{cases}$$
+    Verify that $(1, 0,0,0,0)$ solves the system of equations; show that in a neighborhood of $(0,0,0)$ there exists a 
+    $C^1$ function $g \colon (g_1, g_2)$ s.t. $g(0,0,0) = (1,0)$ and for every $(x_3, x_4, x_5)$ in tht neighborhood we have that 
+    $$(g_1(x_3, x_4, x_5), g_2(x_3, x_4, x_5), x_3, x_4, x_5)$$
+    are the unique solutions to the system. 
+
+    Then calculate $\frac{\partial g_i}{\partial x_i}$ with $i = 1,2$ $j = 3,4,5$.
+
+    \textbf{Solution.} $f \colon \R^{3+2} \to \R^2$ by 
+    $$f(x_1, x_2, x_3, x_4, x_5) = (x_1 e^{x_2} + x_3 + \sin x_4 + x_5^2 - 1, x_1 \sin x_4 + x_2 + x_4 - x_3 x_5 = 0)$$
+    Note that 
+    $$f(1,0,0,0,0) = (0,0)$$
+    Our objective is to solve 
+    $$f(x_1, x_2, x_3, x_4, x_5) = (0,0)$$
+    Note that 
+    $$Df(1,0,0,0,0) = \begin{pmatrix}
+        1 & 1 & 1 & 1 & 0 \\
+        0 & 1 & 0 & 2 & 0
+    \end{pmatrix}$$
+    Hence 
+    $$\det (D_{x_1, x_2}f (1,0,0,0,0)) = \det \begin{pmatrix}
+        1 & 1 \\ 0 & 1
+    \end{pmatrix} = 1 \ne 0$$
+    Then by the implicit function theorem, there exists a neighborhood $U$ of $(0,0,0)$ and a $C^1$ function 
+    $g \colon U \to \R^2 = (g_1, g_2)$ s.t. 
+    $$f(g(x_3, x_4, x_5), g_2(x_3, x_4, x_5), x_3, x_4, x_5) = (0,0,0)$$
+    for all $(x_3, x_4, x_5) \in U_0$. Note 
+    $$Dg(0,0,0) = - (D_{x_1, x_2}f (1,0,0,0,0)) D_{x_3,x_4,x_5} f(1,0,0,0,0)$$
+    In matrix form 
+    \begin{align*}
+        \begin{pmatrix}
+            \frac{\partial g_1}{\partial x_3} & \frac{\partial g_1}{\partial x_4} & \frac{\partial g_1}{\partial x_5} \\ 
+            \frac{\partial g_2}{\partial x_3} & \frac{\partial g_2}{\partial x_4} & \frac{\partial g_2}{\partial x_5} \\ 
+        \end{pmatrix} \begin{pmatrix}
+            0 & 0 & 0
+        \end{pmatrix} &= - \begin{pmatrix}
+            1 & 1 \\ 
+            0 & 1
+        \end{pmatrix}^{-1} \begin{pmatrix}
+            1 & 1 & 0 \\
+            0 & 2 & 0
+        \end{pmatrix} \\
+        &= - \begin{pmatrix}
+            1 & -1 & 0 \\
+            0 & 2 & 0 
+        \end{pmatrix} \\
+        &= \begin{pmatrix}
+            -1 & 1 & 0 \\
+            0 & -2 & 0
+        \end{pmatrix}
+    \end{align*} 
+\end{example}
+
+\section{Riemann Integration} 
+\textbf{Convention.} A rectangle $R \subset \R^n$ has the form 
+$$R = [a_1, b_1] \times [a_2, b_2] \times \cdots \times [a_n, b_n]$$
+We define the volume of $R$ 
+$$\operatorname{vol} (R) := (b_1 - a_1) \cdots (b_n - a_n)$$
+
+\begin{definition}
+    $[a,b] \subseteq \R$ a partition $P$ of $[a,b]$ is an ordered set 
+    $$P = \set{t_0, \cdots, t_k}$$
+    s..t 
+    $$t_0 = a < t_1 < t_2 < \cdots < t_k = b$$
+
+    Given a partitions $P_1, \cdots, P_n$ of $[a_1, b_1], \cdots, [a_n, b_n]$, we say that 
+    $$P = \set{P_1, \cdots, P_n}$$
+    is a partition of the rectangle $R = [a_1, b_1] \times \cdots \times [a_n, b_n]$ formed of all sub-rectangles with endpoints in $P_i$.
+    A partition $P = \set{P_1, \cdots, P_n}$ decompose $R$ into $R_1, \cdots, R_N$ with non-overlapping interiors, with 
+    $$\operatorname{vol} (R) := \sum_{i=1}^N \operatorname{vol} (R_i)$$
+
+    $A \subseteq \R$ a rectangle and $f \colon A \to \R$ bounded: 
+    $$m \le f \le M$$ 
+    Let $P$ be a partition of $A$ with corresponding rectangles $R_1, \cdots, R_n$. 
+    Let $m_i = \inf \set{f(x) \colon x \in R_i}$ and $M_i = \sup \set{f(x) \colon x \in R_i}$. Then we define the upper and lower sums 
+    $$L(P, f) = \sum_{i=1}^N m_i \operatorname{vol} (R_i), \quad V(P, f) = \sum_{i=1}^N M_i \operatorname{vol} (R_i)$$
+    Since $m \le m_i \le M_i \le M$ we have that 
+    $$m \operatorname{vol} (A) \le L(P, f) \le V(P, f) \le M \operatorname{vol} (A)$$
+\end{definition}
+
+\begin{definition}
+    Given a partition $P$ of $[a,b]$ a refinement $P^*$ of $P$ is a partition of $[a,b]$ s.t. 
+    $P \subset P^*$. 
+
+    Given a partition $P = \set{P_1, \cdots, P_n}$ of a rectangle $A = [a_1, b_1] \times \cdots \times [a_n, b_n]$; a 
+    refinement $P^*$ of $P$ is a partition of $A$ 
+    $$P^* = \set{P_1^*, \cdots, P^*_n}$$
+    s.t. each $P_i^*$ is a refinement of $P_i$. 
+
+    Given $P = \set{P_1, \cdots, P_n}$ and $Q = \set{Q_1, \cdots, Q_n}$ are partitions of a rectangle $A$, then we define 
+    $$P \cup Q := \set{P_1 \cup Q_1, \cdots, P_n \cup Q_n}$$
+    to be the common refinement of $P$ and $Q$.
+\end{definition}
+
+\begin{proposition}
+    Given a rectangle $A$ and $f \colon A \to \R$ bounded, and $P$ partition of $A$ and $P^*$ refinement of $P$, then 
+    $$L(P^*, f) \ge L(P, f) \text{ and } U(P^*, f) \le U(P, f)$$
+\end{proposition}
+
+\begin{proof}
+    $P^*$ a refinement of $P$ and let $R$ be a rectangle obtained from $P$, then 
+    $$R = R_1^* \cup \cdots \cup R_k^*$$
+    with $R_i^*$'s rectangles with disjoint interiors corresponding to $P^*$; 
+    Notice that 
+    \begin{align*}
+        L(P, f) &= \sum_{R \in P} \inf \set{f(x) \colon x \in R} \operatorname{vol} (R) \\
+        &= \sum_{R \in P} \sum_{i=1}^{k_R} \inf \set{f(x) \colon x \in R} \operatorname{vol} (R_i^*) \\
+        &\le \sum_{R \in P} \sum_{i=1}^{k_R} \inf \set{f(x) \colon x \in R^*} \operatorname{vol} (R_i^*) \\
+        &= L(P^*, f)
+    \end{align*}
+    similarly for $U(P, f) \ge U(P^*, f)$. 
+\end{proof}
+
+\begin{corollary}
+    Given $A \subseteq \R^n$ a rectangle, $f \colon A \to \R$ bounded and $P_1, \ P_2$ partition of $A$ then 
+    $$L(P_1, f) \le U(P_2, f)$$
+    Hence 
+    $$\sup_P L(P, f) \le \inf_P U(P, f)$$
+\end{corollary}
+
+\begin{proof}
+    take a common refinement.
+\end{proof}
+
+\begin{definition}
+    Let $f \colon A \to \R$ bounded with $A$ a rectangle, we say that $f$ is integrable over $\R$ iff 
+    $$\sup L(P, f) = \inf U(P, f)$$
+    and we write 
+    $$\int_{A} f dx := \sup_P L(P,f) = \inf_P U(P, f)$$
+    More generally we denote 
+    $$\underline{\int_A} f dx = \sup L(P, f), \quad \overline{\int_{A}} f dx = \inf L(P,f)$$
+    Note that these always exist with 
+    $$\underline{\int_A} f dx \le \overline{\int_a} f dx$$
+    with equality iff $f$ is integrable, we write $f \in \mathcal{R}$.
+\end{definition}
+
 \end{document}
