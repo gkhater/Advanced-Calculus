@@ -2711,6 +2711,8 @@ $\forall \varepsilon > 0$ $\exists P$ a partition of $A$ s.t. $U(P,f) - L(P, f) 
     Let $E \subset \R^n$, we say that $E$ has measure $0$ iff for every $\varepsilon > 0$, there exists a 
     countable cover of rectangles $\set{R_1, R_2, \cdots}$ of the set $E$ s.t. 
     $$\sum_{i=1}^\infty \vol(R_i) < \varepsilon$$
+
+    If $\forall \varepsilon$ we can find a finite set we say that $E$ has content zero.
 \end{definition}
 
 \begin{example}
@@ -2725,7 +2727,7 @@ $\forall \varepsilon > 0$ $\exists P$ a partition of $A$ s.t. $U(P,f) - L(P, f) 
 \end{example}
 
 \begin{proposition}
-    Any countable union of sets of measure zero have measure zero.
+    Any countable union of sets of measure zero has measure zero.
 \end{proposition}
 
 \begin{proof}
@@ -2749,6 +2751,165 @@ $\forall \varepsilon > 0$ $\exists P$ a partition of $A$ s.t. $U(P,f) - L(P, f) 
 \begin{corollary}
     Any countable set in $\R^n$ has measure zero. 
 \end{corollary}
+
+\begin{example}
+    A rectangle $A \subset \R^n$ does not have measure zero. 
+
+    Let $\mathring{R}_1, \mathring{R}_2, \cdots$ be a cover of $A$. But $A$ is compact; 
+    then $\exists i_1, \cdots, i_n$ s.t. 
+    $$A \subseteq R_{i_1} \cup \cdots \cup R_{i_n} $$
+    Hence 
+    $$\vol (A) \le \sum_{k=1}^n R_{i_k}$$
+    Therefore for $0 < \varepsilon < \vol (A)$ there is no (countable) cover of rectangles 
+    s.t. 
+    $$\sum_{i=1}^\infty \vol (R_i) < \varepsilon$$
+
+    \textbf{Consequence.} If $\mathring{E} \ne \varnothing$, then $E$ does not have measure zero.  
+\end{example}
+
+\begin{remark}
+    The converse of the above is not true: i.e. if $\mathbb{E}$ is empty, we could still have that $E$ doesn't have measure 
+    zero.
+
+    For example $\R \setminus \Q$ does not have measure zero in $\R$. In fact, suppose that it does, then 
+    $\R = (\R \setminus \Q) \cup \Q$ has measure zero, contradiction since $\R$ is open.  
+\end{remark}
+
+\begin{remark}
+    We must be careful of the ambient space: $\R$ has measure zero in $\R^2$ (more generally $\R^n$ has measure zero in 
+    $\R^{n+k}$ for $k > 0$). 
+
+    We will show that $(0, \infty) \times \set{0}$ has measure $0$ in $\R^2$ similarly $(-\infty, 0) \times \set{0}$ will 
+    have measure in $\R^2$. Fix $\varepsilon > 0$ let 
+    $$R_1 = [0,1] \times [-\frac{\varepsilon/4}{2}, \frac{\varepsilon/4}{2}], \ R_2 = [0,1] \times [\frac{\varepsilon/4}{2^2}, \frac{\varepsilon/4}{2^2}], \cdots, \ \R_n = [n-1, n] \times [-\frac{\varepsilon/4}{2_n}, \frac{\varepsilon/4}{2^n}]$$
+    Hence 
+    $$\vol (R_1) = \varepsilon/4, \ \vol (R_2) = \frac{\varepsilon/4}{2}, \cdots, \ \vol (R_n) = \frac{\varepsilon/4}{2^{n-1}}$$
+    Notice that $\set{R_1, R_2, \cdots}$ covers $[0, \infty)$ hence 
+    $$\sum_{i=1}^\infty = \varepsilon/4 \cdot 2 < \varepsilon$$
+
+    Another way to do this is to show that $[-n, n] \times \set{0} \text{ has measure $0$}$ 
+    Hence $\R = \bigcup_{n \in \N} [-n,n] \times \set{0}$ has measure zero.  
+\end{remark}
+
+\begin{definition}
+    Given $E \subseteq \R^n$, the boundary of $E$ is defined as follows: $x \in \partial E$ iff 
+    $\forall \varepsilon > 0, \ N_\varepsilon(x) \cap E \ne \varnothing \text{ and } N_\varepsilon(x) \ne \varnothing$. 
+    i.e. 
+    $$\partial E = \overline{E} \setminus \mathring{E}$$ 
+\end{definition}
+
+\begin{example}
+    If $A = [a_1, b_1] \times \cdots \times [a_n , b_n]$ then 
+    \begin{align*}
+        \partial A &= \set{a_1} \times [a_2, b_2] \times \cdots \times [a_n, b_n] \\
+        &\quad \cup \set{b_1} \times [a_2, b_2] \times \cdots \times [a_n, b_n] \\
+        &\vdots \\
+        &\quad \cup [a_1, b_1] \times \cdots \times \set{b_n} 
+    \end{align*}
+    therefore $\partial A$ has measure zero. 
+
+    Note that this is special to rectangles, indeed $\partial \Q = \R$ which doesn't have measure zero in $\R$.
+\end{example}
+
+\subsection{Lebesgue Criterion for Riemann integrability.} 
+\begin{definition}[Oscillation function]
+    Let $X, Y$ be metric spaces and $f \colon X \to Y$, take $E \subseteq X$ then we define the oscillation of $f$ on $E$ to be 
+    $$\operatorname{osc}_f (E) = \sup_{x_1, x_2 \in E} d_Y(f(x_1), f(x_2))$$    
+
+    For $x \in X$ we define the oscillation of $f$ at $x$ 
+    $$\omega_f (x) =  \inf_{\delta > 0} \operatorname{osc}_f (N_\delta (x)) = \lim_{\delta \to 0 \operatorname{osc} (N_\delta(x))}$$
+    i.e. 
+    $$\omega_f (x) = \inf_{\delta > 0} \left(\sup_{x_1, x_2 \in N_\delta(x)} d_y(f(x_1), f(x_2))\right)$$
+\end{definition}
+
+\begin{proposition}
+    $f$ continuous at $x_0$ $\iff$ $\omega_f(x_0) = 0$.
+\end{proposition}
+
+\begin{corollary}
+    Given a function $f$ the set of discontinuities 
+    $$D_f = \set{x \in X \colon \omega_f (x) > 0}$$
+\end{corollary}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\implies$] Let $\varepsilon > 0$ $f$ is continuous at $x_0$, then $\exists \delta_0 > 0$ s.t. 
+        $$d(f(x), f(x_0)) < \varepsilon/2 \ \forall x \in N_\delta(x_0)$$
+        So $x_1, x_2 \in N_\delta(x_0)$ therefore 
+        $$d_Y(f(x_1), f(x_2)) < \varepsilon$$
+        Therefore 
+        $$\operatorname{osc}(N_{\delta_0} (x_0)) \le \varepsilon$$
+        Hence 
+        $$\omega_f (x_0) = \inf_{\delta > 0} (\operatorname{osc} (N_{\delta} (x_0))) \le \varepsilon$$
+        Hence 
+        $$\omega_f(x_0) = 0$$
+
+        \item[$\impliedby$] Fix $\varepsilon > 0$ suppose $\omega_f (x_0) = \inf_{\delta > 0} (\operatorname{osc} N_\delta(x_0)) = 0$. 
+        Therefore $\exists \delta_0 > 0$ s.t. 
+        $$\operatorname{osc} (N_{\delta_0} (x_0)) = \sup_{x_1, x_2 \in N_{\delta_0} (x_0)} < \varepsilon$$
+        Therefore $\forall x \in N_{\delta_0}$ we have 
+        $$d(f(x), f(x_0)) < \varepsilon$$
+        hence $f$ is continuous at $x_0$.  
+    \end{itemize}
+\end{proof}
+
+\begin{proposition}
+    Let $f \colon X \to Y$ be a (not necc. continuous) map, and let 
+    $$G = \set{x \in X \colon \omega_f (x) < \alpha}$$
+    then $G$ is open $\forall \alpha > 0$.     
+
+    We say that $\omega$ is (lower) semi-continuous.
+\end{proposition}
+
+\begin{proof}
+    Take $x_0 \in G$, then 
+    $$\omega_f (x_0) = \inf_{\delta} \operatorname{osc} (N_\delta(x_0)) < \alpha$$
+    Therefore $\exists \delta_0 > 0$ s.t. 
+    $$\sup_{x_1, x_2 \in N_{\delta_0 }(x_0)} (d_Y(f(x_1), f(x_2))) < \alpha$$
+    We claim that 
+    $$N_{\delta_0} (x_0) \subset G$$
+    Indeed take $x \in N_{\delta_0} (x_0)$, then $\exists r > 0$ s.t. 
+    $$N_r(x) \subset N_{\delta_0} (x_0)$$
+    Hence 
+    $$\operatorname{osc}(N_r(x)) \le \operatorname{osc} (N_{\delta_0} (x_0)) < \alpha$$
+    Therefore 
+    $$\omega_f (x) = \inf_{\delta > 0} \operatorname{osc (N_\delta(x))} \le \operatorname{osc} (N_r(x)) < \alpha$$
+    Hence $x \in G$. Hence $x_0$ is an interior point and so $G$ is open. 
+\end{proof}
+
+\begin{proposition}
+    Let $A$ a rectangle in $\R^n$ and $f \colon A \to \R$ suppose that for every $x \in A$ we have 
+    $$\omega_f(x) < \alpha$$
+    for some $\alpha$, then there exists some partition $P_\alpha$ of $A$ s.t. 
+    $$U(P_\alpha, f) - L(P_\alpha,f) \le \alpha \vol (A)$$
+\end{proposition}
+
+\begin{proof}
+    $\omega_f (x) = \inf_\delta \sup_{x_1, x_2 \in N_\delta(x)} \abs{f(x_1) - f(x_2)} < \alpha$ 
+    then there exists a rectangle $R_X$ s.t. 
+    $$\sup_{x_1, x_2 \in R_X} \abs{f(x_1) - f(x_2)} < \alpha$$
+    Therefore 
+    $$0 \le \sup_{R_x} F - \inf_{R_X} \le \alpha$$
+    Now since $A$ is compact we can find some finite index set $x_1, \cdots, x_k$ s.t. 
+    $$A \subseteq \mathring{R_{x_1}} \cup \cdots \cup \cdots \mathring{R_{x_k}} \subseteq R_{x_1} \cup \cdots \cup \cdots R_{x_k}$$
+    Use the vertices and edges of $R_{x_i}$'s and $A$ to construct a partition 
+    $P_\alpha = \set{\tilde{R_1}, \tilde{R_2}, \cdots, \tilde{R}_N}$ of $A$. But notice 
+    $$\tilde{R}_i \subseteq R_{x_t} \ \text{for some $t$}$$
+    Hence 
+    $$\sup_{\tilde{R}_i} f - \inf_{\tilde{R}_i} f \le \alpha$$
+    Hence 
+    \begin{align*}
+        U(P_\alpha, f) - L(P_\alpha, f) &= \sum_{i=1}^N (\sup f - \inf f) \vol (\tilde{R}_i) \\
+        &\le \alpha \vol (A)
+    \end{align*} 
+\end{proof}
+
+\begin{theorem}[Lebesgue Criterion for integrability]
+    $A \subseteq \R^n$ rectangle and $f \colon A \to \R$ bounded, then $f$ is integrable over $A$ 
+    $\iff$ $f$ is continuous except on a set of measure zero. 
+\end{theorem}
+
+
 
 
 
