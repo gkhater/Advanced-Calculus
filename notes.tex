@@ -3005,6 +3005,163 @@ $\forall \varepsilon > 0$ $\exists P$ a partition of $A$ s.t. $U(P,f) - L(P, f) 
     \end{itemize}
 \end{proposition}
 
+\begin{example}
+    The dirichlet function is discontinuous on $\R$, therefore $f$ is not integrable. 
+    
+    For $x \in [0,1] \times [0,1]$ and $f(x) = \begin{cases}
+        1 \quad &x \ne 1/2 \\
+        0 \quad &x = 1/2,  \ y \in \Q \\
+        -1 \quad & x = 1/2, \ y \not\in \Q
+    \end{cases}$
+    Draw the picture. Note that $x$ is discontinuous on $\set{1/2} \times [0,1]$ which has measure zero. Then $f$ is integrable. Lte's compute the integral. 
+    Indeed, by the homework, we have that if $f, g \in \mathcal{R}(A)$ and $f = g$ except on a set of measure zero, then 
+    $$\int_A f = \int_A g$$
+    Apply this here $g(x) =1$, we get 
+    $$\int_A f = \int_A g = 1$$
+\end{example}
 
+\begin{corollary}
+    Given a rectangle $A \subseteq \R^n$ and $f \colon A \to \R$ is integrable and $\psi \colon (a,b) \to \R$ with $(a,b) \supset f(A)$ continuous, 
+    then $\psi \circ f \in \mathcal{R} (A)$.  
+\end{corollary}
+
+\begin{proof}
+    Let $g = \psi \circ f$, $f$ is integrable, then $Df$ has measure zero. Now if $f$ is continuous at $x_0$, then $g$ must be continuous at $x_0$. Therefore 
+    $Dg \subseteq Df$ and hence $Dg$ has measure zero. So $g$ is integrable. 
+\end{proof}
+
+\textbf{Consequence.} If $f,g \in \mathcal{R}(A)$, then $fg \in \mathcal{R}(A)$. This is because 
+$$fg = \frac{1}{4} [(f+g)^2 - (f-g)^2]$$
+Which is a composition of a continuous and a differentiable function. 
+
+\begin{remark}
+    if $f,g \in \mathcal{R}(A)$ this doesn't imply $f \circ g \in \mathcal{R}(A)$. Counter example, 
+    $$\psi(x) = \begin{cases}
+        1 \quad &x \ne 0 \\
+        0 \quad &x = 0
+    \end{cases}, \quad f(x) = \begin{cases}
+        1/q \quad x = p/q \text{ irreducible, or $x = 0$} \\
+        0 \quad x \in \Q
+    \end{cases}$$
+    In the HW, we show that $f$ is integrable in fact $Df = \Q$; and $\psi$ is integrable on $[0,1]$ since $D_\psi = \set{0}$. 
+    $$\psi \circ f = \begin{cases}
+        1 \quad& x \in \Q \\
+        0 \quad &x \not\in \Q
+    \end{cases}$$
+    Which is not integrable.
+\end{remark}
+
+\begin{corollary}
+    Let $C$ be a bounded set in $\R^n$ and $A$ rectangle in $\R^n$ containing $C$. Then 
+    $$\chi_C (x) = \begin{cases}
+        1 \quad& x \in C \\
+        0 \quad& x \not\in C
+    \end{cases}$$ 
+    is integrable iff $\partial C$ has measure zero iff has content zero. 
+\end{corollary} 
+
+\begin{proof}
+    $D_{\chi_C} = \partial C$.
+\end{proof}
+
+\begin{definition}
+    Let $C$ be a bounded set of boundary measure zero in $\R^n$, and take $f \colon C \to \R$. Extend
+    $f$ to be zero outside $C$, i.e. define 
+    $$f_C (x) = \begin{cases}
+        f(x) \quad x \in C \\
+        0 \quad x \not\in C
+    \end{cases}$$
+    Then we define 
+    $$\int_C f dx := \int_A f_C (x)$$
+    for some $A$ a rectangle containing $C$ (whenever RHS is defined).
+\end{definition}
+
+\begin{remark}
+    Note that the definition above is well-defined, indeed let $A_1, A_2$ be two rectangles containing $C$. Now notice that 
+    $f_C = 0$ outside $A_1 \cap A_2$. Therefore by HW, 
+    $$f_C \in \mathcal{R}(A_1) \iff f_C \in \mathcal{R}(A_2)$$
+    and 
+    $$\int_{A_1} f_C dx = \int_{A_2} f_C dx$$
+    so the integral is well defined.
+\end{remark}
+
+\textbf{Consequences.} Let $C$ be bounded with $\partial C$ has measure zero
+\begin{itemize}
+    \item If $f_1, f_2$ integrable over $C$, then $f_1 + \alpha f_2$ is integrable over $C$ with 
+    $$\int_C f_1 + \alpha f_2 dx = \int_C f_1 d + \alpha \int_C f_2 dx$$
+
+    \item If $f,g$ integrable over $C$, $f \le g$ then 
+    $$\int_C f dx \le \int_C g dx$$
+    
+    \item $f$ is integrable over $C$ iff $f$ is continuous on $C$ except on a set of measure zero.
+\end{itemize}
+
+\begin{example}
+    Let $C$ be the triangle in $\R^2$ with vertices $(0,0), (0,1)$ and $(1,1)$. Calculate 
+    $$\int_C x d(x,y)$$
+    note that $f$ is integrable since it is continuous on $C$. Let $A = [0,1] \times [0,1]$ and let 
+    $f_c = \begin{cases}
+        x \quad & x \in C \\
+        0 \quad & x
+    \end{cases}$. Let 
+    $$P_n = \set{0, 1/n, 2/n, \cdots, 1}$$
+    on $[0,1]$. Let $R_{ij} = [\frac{i-1}{n}, \frac{i}{n}] \times [\frac{j-1}{n},\frac{j}{n}]$ 
+    and let $P$ be the corresponding partition of $[0,1] \times [0,1]$. We have cases: 
+    \begin{itemize}
+        \item if $j \le i-1$: $m_{ij} = \frac{i-1}{n}, \ M_{ij} = \frac{i}{n}$. 
+        \item if $j = i$: $m_{ij} = 0, \ M_{ij} = \frac{i}{n}$. 
+        \item $j = i+1$: $m_{ij} = 0, \quad M_{ij} = \frac{i}{n}$. 
+        \item $j > i+1$: $m_{ij} = 0, \quad M_{ij} = 0$.
+    \end{itemize}
+    Therefore 
+    \begin{align*}
+        L(P,f) &= \sum_{i,j = 1}^n m_{i,j} \vol (R_{i,j}) \\
+        &= \frac{1}{n^2} \sum_{i = 1}^n \sum_{j=1}^n m_{i,j} \\
+        &= \frac{1}{n^2} \sum_{i=2}^n \sum_{j=1}^{i-1} \frac{i-1}{n} \cdot \frac{1}{n^2} \\
+        &= \frac{1}{n^3} \sum_{i=1}^n (i-1)^2 \\
+        &= \frac{(n-1)n(2n-1)}{6n^3} \\
+        \\
+        L(P,f) &= \sum_{i=1}^n \sum_{j=1}^n M_{i,j} \vol (R_{i,j} ) \\
+        &= \frac{1}{n^2} \left(\sum_{i=1}^{n} \sum_{j=1}^{i} \frac{i}{n} + \sum_{i=1}^{n-1} \frac{i}{n} \cdot \frac{1}{n}\right) \\
+        &= \frac{1}{n^3} \left(\sum_{i=1}^n i^2 + \sum_{i=1}^{n-1} i\right) \\
+        &= \frac{n(n+1)(2n+1) + 3(n-1)n}{6n^3} 
+    \end{align*} 
+    And $f(x,y)$ is integrable with 
+    $$L(P,f) \le \int_C x d(x,y) \le U(P,f)$$
+    Therefore for all $n$ we have 
+    $$\frac{n(n-1)(2n+1)}{6n^3} \le \int_C x d(x,y) \le \frac{n(n+1)(2n+1) + 3(n-1)n}{6n^3} $$
+    let $n \to \infty$< we get 
+    $$\int_C xd(x,y) = 1/3$$
+    
+    If only there was a shorter way...
+\end{example}
+
+\subsection{Fubini's Theorem} 
+
+\begin{theorem}[Fubini's theorem]
+    $A \subseteq \R^n$ rectangle, and $f \colon A \to \R$ bounded. Then 
+    $$\underline{\int_A} f dx = \inf_P L(P,f), \quad \overline{\int_A} f dx = \sup_P U(P,f)$$
+    Fubini's theorem: $A \subseteq \R^n$ a rectangle, and $B \subseteq \R^m$ a rectangle. With $x\in A, \ y \in B$ 
+    $$f := f(x,y) \colon \ A \times B \to \R$$
+    and $f$ integrable over $A \times B$, then the functions
+    $$\mathcal{L}(y) = \underline{\int_A} f(x,y) dx, \quad \mathcal{U}(y) = \overline{\int_A} f(x,y) dx$$
+    are integrable over $B$ with 
+    $$\int_B \left(\underline{\int_A}f(x,y) dx\right) dy = \int_B \left(\overline{\int_A}f(x,y) dx\right) = \int_{A \times B} f(x,y) d(x,y)$$
+    By symmetry 
+    $$\int_{A \times B} f(x,y) d(x,y)= \int_A \left(\underline{\int_B}f(x,y) dy\right) dx = \int_A \left(\overline{\int_B}f(x,y) dy\right) dx$$
+    In the particular case when 
+    $$x \to f(x,y)$$
+    is integrable on $A$ for every $y$, we get 
+    $$\int_{A \times B} \int_B \left(\int_A f(x,y) dx\right) dy = \int_A \left(\int_B f(x,y) dy\right) dx$$
+\end{theorem}
+
+\begin{corollary}
+    By induction, if $f$ is continuous over $[a_1, b_1] \times [a_2, b_2] \times \cdots \times [a_n, b_n]$ then 
+    $$\int_{[a_1, b_1] \times \cdots \times [a_n, b_n]} f(x) dx = \int_{[a_1, b_1]} \int_{[a_2, b_2]} \cdots \int_{[a_n, b_n]} f(x) dx_n \cdots dx_1$$
+\end{corollary}
+
+\begin{example}
+    Use Fubini to calculate $\int_C x d(x,y)$ where $C$ is the triangle like above. 
+\end{example}
 
 \end{document}
