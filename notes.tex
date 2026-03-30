@@ -2909,7 +2909,101 @@ $\forall \varepsilon > 0$ $\exists P$ a partition of $A$ s.t. $U(P,f) - L(P, f) 
     $\iff$ $f$ is continuous except on a set of measure zero. 
 \end{theorem}
 
+\begin{proposition}
+    Let $D_f$ be the set of discontinuities of $f$, we can write $D_f = \set{x \colon \omega_f (x) > 0}$. 
+    \begin{itemize}
+        \item[$\implies$] We have that $f$ is integrable, let 
+        $$H_\alpha = \set{x \colon \omega_f \ge \alpha}$$ 
+        We show that for every $\alpha > 0$ that $H_\alpha$ has measure zero. In fact we prove that it has content zero. 
+        Notice that $D_f = \bigcup_{k=1}^\infty H_{2^{-\alpha}}$, which is a countable union of sets of measure zero, and therefore 
+        has measure zero. 
 
+        Fix $\alpha > 0$ and let $\varepsilon > 0$. Now $f$ is integrable over $A$, then $\exists P$ a partition of $A$ into rectangles $R_1, \cdots, R_N$
+        s.t. $U(P,f) - L(P,F) < \frac{\varepsilon}{2} \alpha$. We have three cases: 
+        \begin{enumerate}[label = \roman*)]
+            \item $R_i \in c_1 \iff R_i \cap H_\alpha = \varnothing$
+            \item $R_i \in c_2 \iff R_i \cap H_\alpha \subseteq \partial (R_i)$
+            \item $R_i \in c_3 \iff \mathring{R_i} \cap H_\alpha \ne \varnothing$. 
+        \end{enumerate}
+        Notice that since $A = \bigcup_{i=1}^N R_i$, we have  
+        $$H_\alpha = \left(\bigcup_{R \in c_2} R \cap H_\alpha\right) \cup \left(\bigcup_{R \in c_3} R \cap H_\alpha\right) := E_2 \cup E_3$$
+        \begin{itemize}
+            \item if $R \in c_2$, then $R \cap H_\alpha \subseteq \partial R_2$, but the boundary of a rectangle has measure zero. Therefore 
+            $R \cap H_\alpha$ ha measure zero for every $R \in C_2$. 
+            Therefore $E_2$ is a finite union of measure zero sets and hence has measure zero and compact. Then we can 
+            cover $E_2$ with finitely many rectangles $\hat{R_1}, \cdots, \hat{R_k}$ s.t. 
+            $$\sum_{i=1}^k \vol(\hat{R_j}) < \varepsilon/2$$
+
+            \item if $R \in c_3$, then $R \cap H_\alpha \ne \varnothing$, then $\exists x_0 \in \mathring{R }\cap H_\alpha$, and $\delta_0 > 0$ s.t. 
+            $$N_{\delta_0}(x) \subseteq \mathring{R}$$
+            Now since $x_0 \in H_\alpha$ 
+            $$\sup_{x_1, x_2 \in N_{\delta_0}(x_0)} \abs{f(x_1) - f(x_2)} = \operatorname{osc}_f (N_{\delta_0} (x_0)) \ge \omega_f (x_0) \ge \alpha$$
+            Therefore 
+            $$\sup_R f - \inf_R f \ge \sup_{N_{\delta_0} (x_0)} - \inf_{N_{\delta_0} (x_0)} \ge \alpha$$
+            Hence 
+            $$\frac{\varepsilon \alpha}{2} > U(P,f) - L(P,f) = \sum_i (M_i - m_i) \vol (R_i) \ge \sum_{R \in c_3} (M_r - m_r) \vol( R)$$
+            Hence 
+            $$\frac{\varepsilon \alpha}{2} > \alpha \sum_{R \in C_3} \vol (R) \implies \sum_{R \in C_3} \vol (R) < \varepsilon/2$$
+            Therefore 
+            $$E \subseteq_{R \in C_3} R, \quad \sum_{R \in c_3} \vol (R) < \varepsilon/2$$
+        \end{itemize}
+        Hence 
+        $$H_\alpha \subset \set{\hat{R}_1, \cdots, \hat{R}_k} \cup \set{R \in C_3}$$
+        with total volume $< \varepsilon$. Therefore $H_\alpha$ has measure zero. 
+        
+        \item[$\impliedby$] We have that $D_f$ has measure zero, we show that $f \in R(A)$. Let $\varepsilon > 0$, 
+        we want to find $P$ s.t. 
+        $$U(P,f)- L(P,f) < \varepsilon$$
+        We write $M = \sup \abs{f}$ and let $\alpha = \frac{\varepsilon}{2M + \vol (A)}$. Take 
+        $$H_\alpha = \set{x \in A \colon \omega_f \ge \alpha} \subseteq D_f$$
+        and $D_f$ has measure zero, therefore $H_\alpha$ has measure zero. Moreover, $H_\alpha$ is compact so it has content zero 
+        i.e. there exists finitely many rectangles $R_1, \cdots, R_N$ covering $H_\alpha$ s.t. 
+        $$\sum_{i=1}^N \vol (R_i) < \alpha$$
+        Now use the vertices of $R_i$ and $A$ to construct a partition $P$ of $A$ into rectangles $S_1, \cdots, S_L$. 
+        We have the following cases: 
+        \begin{enumerate}[label = \roman*)]
+            \item $S_j \in c_1 \iff S_j \cap H_\alpha \ne \varnothing$ here $S_j \subseteq R_i$ for some $i$. 
+            \item $S_j \in c_2 \iff S_j \cap H_\alpha = \varnothing$ .
+        \end{enumerate}    
+        For $S_j \in C_2$, $S_j \cap H_\alpha = \varnothing$  hence for $x \in S_j$ we have that 
+        $$\omega_f (x) < \alpha$$
+        hence by Lemma above, we can find some partition of $S_j$ into sub-rectangles $S_{j,k}$ s.t. 
+        $$\sum_{k=1}^{k_j} (M_{s_j,k} - m_{s_j,k}) \le \alpha \vol (S_j)$$
+        Now use the vertices of $S_{j,k}, \ S_j \in C_2$ to construct a refinement $P^*$ of $P$ into sub-rectangles $Q_1, \cdots, Q_T$. 
+        We now define cases for $Q_i$: 
+        \begin{itemize}
+            \item $Q_t \in c_3 \iff Q_t \subseteq S_j$ where $S_j \cap H_\alpha \ne \varnothing$. then 
+            \begin{align*}
+                \sum_{Q_t \in c_3} (M_{Q_t} - m_{Q_t} ) \vol (Q_t) &\le \sum_{Q_t \in c_3} 2M \vol (Q_t) \\
+                &= 2M \sum_{Q_t \in c_3} \vol (Q_t) \\
+                &\le 2M \sum_{i=1}^N \vol(R_i) \\
+                &< 2M \alpha
+            \end{align*} 
+
+            \item $Q_t \in c_4 \iff Q_t \subseteq S_j$ where $S_j \cap H_\alpha \ne \varnothing$. In this case 
+            $Q_t \subseteq S_{j,k}$ for some $j,k$. Hence 
+            \begin{align*}
+                \sum_{Q_t \in c_4} (M_{Q_t} - m_{Q_t}) \vol (Q_t) &= \sum_{S_j \in c_2} \sum_{Q_t \in S_{j,k}} (M_{Q_t} - m_{Q_t}) \vol (Q_t) \\
+                &\le \sum_{S_j \in c_2} \sum_{k=1}^{k_j} (M_{S_{j_k}} - m_{S_{j_k}}) \vol (S_{j_k})
+            \end{align*}
+            This is because fixing $j$, $\set{Q_t \colon Q_t \subseteq S_{j_k}}$ are a refinement of the partition 
+            $\set{S_{j_k} \colon k = 1, \cdots, k_j}$ of $S_j$. Hence 
+            \begin{align*}
+                \sum_{Q_t \in c_4} (M_{Q_t} - m_{Q_t}) \vol (Q_t) &\le \sum_{S_j \in c_2} \alpha \vol (S_j) \\
+                &\le \alpha \vol (A)
+            \end{align*}
+            Therefore 
+            \begin{align*}
+                U(P^*,f) - L(P^*, f) &= \sum_Q (M_Q - m_Q) \vol (Q) \\
+                &= \sum_{Q \in c_3 }(M_Q - m_Q) \vol (Q) + \sum_{Q \in c_4} (M_Q - m_Q) \vol (Q) \\
+                &< 2M \alpha + \alpha \vol (A) \\
+                &= (2M + \vol (A)) \alpha \\
+                &= \varepsilon
+            \end{align*}
+            Therefore $f$ is integrable.
+        \end{itemize} 
+    \end{itemize}
+\end{proposition}
 
 
 
