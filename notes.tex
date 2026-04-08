@@ -3244,5 +3244,111 @@ Which is a composition of a continuous and a differentiable function.
     \end{align*}
 \end{example}
 
+\subsection{The Change of variable formula.} 
+\textbf{Some motivation.} Let $S$ be a compact set with $\partial S$ has measure zero. Let $U$ be an open subset of $\R^n$ 
+with $S \subseteq U$. Let $\Phi \colon U \to V$ a $C^1$ diffeomorphism with $\det D\Phi(x) \ne 0$ and let $f$ be a continuous function 
+on $\Phi(S)$. Then 
+$$\int_{\Phi(S)} f(y) dy = \int_S f \circ \phi(x) \ \det D\Phi(x) \ dx$$
+
+\begin{example}
+    Let $S = I = [a,b]$ and 
+    $$\phi \colon [a,b] \to [c,d]$$
+    an increasing smooth function. Then 
+    $$\int_{c}^{d} f(y) \ dy = \int_{a}^b f(\phi(x)) \ \phi'(x) \ dx$$
+    Suppose that $\phi$ is decreasing, then 
+    $$\int_a^b f(\phi(x)) \ \phi'(x) \ dx = \int_{d}^c f(y) \ dy = -\int_{c}^d f(y) \ dy$$
+    Therefore 
+    $$\int_c^d f(y) \ dy = \int_a^b f(\phi(x)) (-\phi(x)) \ dx$$
+\end{example}
+
+
+\textbf{Recall.} Say we have $\phi \colon U \to V$ a diffeomorphism, $U,V \subseteq \R^n$ open 
+then $E \subseteq U$ open/closed/compact then $\phi(E)$ is also open/closed/compact. 
+Let $E$ s.t. $\overline{S} \subseteq U$, then 
+$$\phi(\partial E) = \partial \phi(E)$$
+Let $E \subseteq \R^n$ with measure zero then $\phi(E)$ has measure zero. 
+Hence if $S$ is compact with measure zero boundary, then $\phi(S)$ is compact with measure zero boundary. 
+
+\textbf{Step 2.} Take $\phi \colon U \to V$ diffeomorphism, and let $Q \subseteq U$ be a cube. We want to compare 
+$$\int_{\phi(Q)} dy \text{ and } \phi_{Q} \ dx = \vol (Q)$$
+Note that there is an open set $O$ s.t. 
+$$Q \subseteq O \subseteq \overline{O} \subseteq U$$
+Now $\phi$ is $C^1$ in $U$, therefore $D\phi$ is continuous on $\overline{O}$, which is compact. Therefore 
+$D\phi$ is bounded in $\overline{O}$, then from a previous PS 
+$$\abs{\phi(x) - \phi(y)} \le C \abs{x-y}$$
+for some $C \in \R$, i.e. $\phi$ is Lipschitz in $\overline{O}$. Let $S \subset O$ be compact, then we want to compare 
+$$\int \chi_S \text{ with } \operatorname{diam} S$$
+if $S$ is compact, then $S \subseteq [a_1,b_1] \times [a_2,b_2] \times \cdots \times [a_n,b_n]$. Then 
+$$\int_S dx \le (b_1-a_1) (b_2 - a_2) \cdots (b_n -a_n) \le (\operatorname{diam} S)^n$$
+Now $E \subseteq O$ then 
+$$\operatorname{diam} \phi(E) \le C \operatorname{diam} E$$
+Now if $Q$ is a cube of side $S$, then 
+\begin{align*}
+    \int_{\phi(Q)} dy &\le (\operatorname{diam} \phi(Q))^n \\
+    &\le C^n (\operatorname{diam} Q)^n\\ 
+    &= C^n s^n n^{1/2} \\
+    &= M \vol (Q) \\
+    &= M \int_Q dx 
+\end{align*}
+There exists $C > 0$ s.t. for every $Q \subseteq O$ 
+$$\int_{\phi(Q)} dy \le C \int_Q dx$$
+Now let $E = \bigcup_{k=1}^N Q_k$ with $Q_k \subseteq O$ with nonoverlapping interiors.
+\begin{align*}
+    \int_{\phi(E)} dy &= \sum_{k=1}^N \int_{\phi(Q_k)} dy \\
+    &\le \sum_{i=1}^N C \int_{Q_k} dx \\
+    &\le C \int_E \ dx
+\end{align*}
+Therefore for $E = \bigcup_{k=1}^N Q_k \subseteq O$ we have that 
+$$\int_{\phi(E)} dy \le C \int_{E} \ dx$$
+
+\begin{theorem}[Egorov Theorem (weak version)]
+    Let $S$ be a compact set with measure zero boundary. Then there exists a set $E = \bigcup_{k=1}^N Q_k$ 
+    containing $S$ s.t. 
+    $$\int_{E \setminus S} \ dx < \varepsilon $$     
+\end{theorem}
+
+\begin{proof}
+    Let $S$ be compact, and $A$ be a rectangle containing $S$, and $\chi_S$ is integrable over $A$ since $\partial S$ has 
+    measure zero. Then 
+    $$\int_S dx = \int_A \chi_S \ dx$$
+    Let $\varepsilon > 0$, then $\exists P$ a partition of $A$ s.t. 
+    $$U(P,\chi_S) - L(P,\chi_S)< \varepsilon$$
+    By refining further, we can make $P$ be a partition of cubes. Let $E = \bigcup_{\substack{Q \in P \\ Q \cap S \ne \varnothing}} Q$, 
+    then $S \subseteq E$ and 
+    \begin{align*}
+        U(P,\chi_S) &= \sum_{Q \in P} M_Q \vol (Q) \\ 
+        &= \sum_{\substack{Q \in P \\ Q \cap S \ne \varnothing}} \vol (Q) \\
+        &= \sum_{Q \subseteq E} \vol (Q)
+    \end{align*}
+    But then  $E = S \cup (E \setminus S)$ and $\partial S, \partial (E \setminus S)$ has measure zero. 
+    \begin{align*}
+        \int_A \chi_E \ dx &= \int_A \chi_S + \int_A \chi_{E \setminus S} \\
+        \int_A \chi_{E \setminus S} &= \int_A \chi_S - \int_A \chi_S \\
+        &\le U(P,\chi_S) - L(P,\chi_S) \\
+        &< \varepsilon
+    \end{align*}
+    Therefore in general let $S$ be a compact subset $O$ with measure zero boundary 
+    then $\exists C \in \R$ s.t. 
+    $$\int_{\phi(S)} dy  \le C \int_{S} dy$$
+
+    Now let $\varepsilon > 0$, $S$ is compact with measure zero boundary. Then there exists 
+    $$K_\varepsilon = \bigcup_{i=1}^N Q_i \textbf{ containing $S$}$$
+    s.t. 
+    $$\int_{S \setminus K_\varepsilon} dx < \varepsilon$$
+    But since $K_\varepsilon$ is a finite union of cubes
+    $$\int_{\phi(K_\varepsilon)} dy \le C \int_{K_\varepsilon} \ dx$$
+    But $\phi(S) \subseteq \phi(K_\varepsilon)$ therefore 
+    \begin{align*}
+        \int_{\phi(S)} \ dy &\le \int_{\phi(K_\varepsilon)} dy \\
+        &\le C \int_{K_\varepsilon} dy \\
+        &= C (\int_S \ dx + \int_{K_\varepsilon \setminus S} dx)
+    \end{align*}
+    Then we have 
+    $$\int_{\phi(S)} dy \le (C + \int_S \ dx + \varepsilon)$$
+    Letting $\varepsilon \to 0$ we get 
+    $$\int_S dy \le C \int_S \ dx$$
+\end{proof}
+
+
 
 \end{document}
