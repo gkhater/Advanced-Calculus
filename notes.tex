@@ -3365,6 +3365,8 @@ Which is a composition of a continuous and a differentiable function.
     Hence $f$ maps zero measure set to zero measure sets. 
 \end{proof}
 
+\subsubsection{Egorov's Theorem}
+
 \begin{theorem}[Egorov (Weak version)]
     Let $S \subset \R^n$ be bounded with $\partial S$ has measure zero. Then for every $\varepsilon > 0$, $\exists Q_1, Q_2, \cdots, Q_N$ 
     s.t. $S \subseteq K_\varepsilon = \bigcup_{i=1}^N Q_i$ and 
@@ -3395,5 +3397,447 @@ Which is a composition of a continuous and a differentiable function.
     Therefore if $\partial S$ has measure zero then $\int_{K_\varepsilon \setminus S} \ dx$ makes sense. 
     Because $\partial K_\varepsilon \setminus S \subseteq \partial K_\varepsilon \cup \partial S$ which both have measure zero.
 \end{remark}
+
+\begin{lemma}
+    $A \subseteq \R^n$ rectangle and $f \colon A \to \R$ bounded, then $f \in \mathcal{R}(A)$ $\iff$ $\forall \varepsilon > 0$, $\exists \delta > 0$ s.t. 
+    $\forall$ partition $P$ s.t. $\max \operatorname{diam} R_i < \delta$ $U(P,f) - L(P,f) < \varepsilon$
+\end{lemma}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\impliedby$] Riemann criterion. 
+        \item[$\implies$] Suppose $f$ is integrable, let $\varepsilon > 0$ then $\exists \delta > 0$ s.t. for every partition 
+        $P$ s.t. $\max \operatorname{diam} R_i < \delta$ we have 
+        $$\abs{\sum_{i=1}^N f(\xi_i) \vol (R_i) - I} < \varepsilon/4$$
+        Then 
+        $$\abs{\sum_{i=1}^N f(\xi_i) \vol (R_i) - f(\eta_i) \vol (R_i)} < \varepsilon$$
+        Taking the $\sup_{\xi_i}, \ \inf_{\eta_i}$, we get 
+        $$\sum_{i=1}^N \abs{M_i - m_i} \vol (R_i) < \varepsilon$$
+    \end{itemize}
+\end{proof}
+
+
+\begin{proof}[Proof of Egorov]
+    Let $S$ bounded with measure zero boundary, let $Q$ be a cube containing $S$. Clearly $\chi_S$ is integrable over $Q$ and 
+    $$\int_S \ dx = \int_Q \chi_S \ dx$$
+    Given $\varepsilon > 0$, by the Lemma, $\exists \delta > 0$ s.t. $\forall P$ partition of $Q$ with rectangles $R_1, \cdots, R_k$ and $\max \operatorname{diam} R_i < \delta$, 
+    we have 
+    $$U(P, \chi_S) - L(P, \chi_S) < \varepsilon$$
+    Now choose such a partition $P$ of cubes formed of cubes $Q_1, Q_2, \cdots, Q_k$ s.t. $\operatorname{diam} Q_i < \delta$. 
+    Note that 
+    $$U(P, \chi_S) = \sum_{i \colon Q_i \cap S \ne \varnothing} \vol (Q_i)$$
+    so we define $K_\varepsilon = \bigcup_{i \colon Q_i \cap S \ne \varnothing}$, note that 
+    $$\int_{K_\varepsilon} \ dx = \int_S \ dx + \int_{K_\varepsilon} \ dx$$
+    Hence 
+    \begin{align*}
+        \int_{K_\varepsilon \setminus S } \ dx &= \int_{K_\varepsilon} \ dx - \int_S \ dx \\
+        &= \sum_{Q_i \cap S \ne \varnothing} \vol (Q_i) - \int_S \ dx \\
+        &\le U(P, \chi_S) - L(P, \chi_S) \\
+        &< \varepsilon
+    \end{align*} 
+    In the particular case where $U$ open and $S \subset \overline{S} \subset U$, take $\delta' < \min \set{\delta, d(S, \partial U)}$ where $d(S, \partial U)$ is positive 
+    because $\overline{S}$ and $\partial U$ are two disjoint closed sets.
+\end{proof}
+
+\subsubsection{Case of a Linear transformation}
+\begin{remark}
+    If $T \colon \R^n \to \R^n$ is an injective linear transformation, then it is a diffeomorphism. 
+\end{remark}
+
+\begin{remark}
+    Every $n \times n$ invertible matrix can be written as a product of elementary matrices of $3$ types: 
+    \begin{enumerate}
+        \item Swap row $i$ and row $j$ of $I_n$, in this case 
+        $$T(x_1,\cdots, x_i, \cdots, x_j, \cdots, x_n) = (x_1, \cdots, x_j, \cdots, x_n)$$
+        with $\det T = -1$.
+        \item Scale row $i$ of $I_n$ by $\alpha \ne 0$, 
+        $$T(x_1, \cdots, x_i, \cdots, x_n) = (x_1, \cdots, \alpha x_i, \cdots, x_n)$$
+        with $\det T = \alpha$
+        \item Row $i$ $\to$ row $i + \alpha$ row $j$ 
+        $$T(x_1, \cdots, x_i, \cdots, x_n) = T(x_1, \cdots, x_i + \alpha x_j, \cdots, x_n)$$
+        with $\det T = 1$
+    \end{enumerate}
+    Every $T \in \mathcal{L} (\R^n, \R^n)$ can be written as a composition of elementary linear trasformations. 
+\end{remark}
+
+\begin{lemma}
+    Let $A \subseteq \R^n$ be a rectangle and $T \in \mathcal{L}(\R^n, \R^n)$ an elementary L.T then 
+    $$\int_{T(R)} \ dy = \abs{\det T } \int_R \ dx = \abs{\det T} \vol (R)$$
+\end{lemma}
+
+\begin{proof}
+    Let $[a_1, b_1] \times \cdots \times [a_n,b_n]$
+    \begin{itemize}
+        \item $T$ type $1$: wlog $T(x_1, x_2, \cdots, x_n) = (x_2, x_1, \cdots, x_n)$, then 
+        $$T(R) = [a_2, b_2] \times [a_1, b_1] \times \cdots \times [a_n, b_n]$$
+        Then
+        $$\int_{T(R)} \ dy = \vol (T(R)) = \vol (R) = \abs{\det T} \vol (R)$$
+
+        \item $T$ type $2$: wlog $T(x_1, \cdots, x_n) = (\alpha x_1, \cdots, x_n)$. 
+        For $\alpha > 0$ we have 
+        $$T(R) = [\alpha a_1, \alpha b_1] \times [a_2, b_2] \times \cdots \times [a_n, b_n]$$
+        then 
+        $$\int_{T(R)} \ dy = \vol (T(R)) = \alpha \vol (R) = \abs{\det T} \vol (R)$$
+        if $\alpha < 0$ we have that 
+        $$T(R) = [\alpha b_1, \alpha a_1] \times \cdots \times [a_n, b_n]$$
+        then 
+        $$\int_{T(R)} \ dy = \vol (T(R)) = - \alpha \vol (R) = \abs{\det T} \vol (R)$$
+
+        \item $T$ Type $3$: $T(x_1, x_2, \cdots, x_n) = (x_1 + \alpha x_2, \cdots, x_n)$ then $T(R)$ is not a rectangle. 
+        $$T(x_1, \cdots, x_n) = (y_1, \cdots, y_n)$$
+        where $y_2 = x_2, \cdots, y_n = x_n$ but $y_1 = \alpha x_2 + x_1$ with $a_1 \le x_1 \le b_1$ therefore 
+        $$\alpha y_2 + a_1 \le y_1 \le \alpha y_2 + b_1$$
+        Therefore $T(R) = \set{(y_1, \cdots, y_n) \colon a_n \le y_n \le b_n, \cdots, a_2 \le y_2 \le b_n, \ \alpha y_2 + y_1 \le y_1 \le \alpha y_2 + b_1}$
+        Then by Fubini's theorem 
+        \begin{align*}
+            \int_{T(R)} \ dy = \int_{a_n}^{b_n} \int_{a_n-1}^{b_n-1} \cdots \int_{a_2}^{b_2} \int_{a_1 + \alpha y_2}^{b_1 \alpha y_2} \ d y_1 \ d y_2 \cdots \ dy_n \\
+            &= (b_1-a_1) \cdots (b_n - a_n) \\
+            &= \vol (R)
+        \end{align*} 
+    \end{itemize}
+\end{proof}
+
+\begin{lemma}
+    Let $S$ be bounded with measure zero boundary and $T$ elementary linear transformation then 
+    $$\int_{T(S)} \ dy \le \abs{\det T} \int_{S} \ dy$$
+\end{lemma}
+
+\begin{proof}
+    $S$ is bounded and with measure zero boundary, therefore by Egorov $\exists K_\varepsilon = \bigcup_{i=1}^N Q_i$ with $Q_i$ having non 
+    overlapping interior and $S \subseteq K_\varepsilon$ and $\int_{K_\varepsilon \setminus S} \ dy < \varepsilon$. Then 
+    $$\int_{T(S)} \ dy \le \int_{T(K_\varepsilon)} \ dy = \int_{\bigcup_{i=1}^N T(Q_i)} \ dy = \sum_{i=1}^N \int_{T(Q_i)} \ dy$$
+    Where the last equality is because $T(Q_i) \cap T(Q_j) = T(Q_i \cap Q_j)$  which has measure zero. Hence 
+    \begin{align*}
+        \int_{T(S)} \ dy &\le \abs{\det T} \int_{\bigcup_{i=1}^N Q_i} \ dx \\
+        &= \abs{\det T} (\int_S \ dx + \int_{K_\varepsilon \setminus S} \ dx) \\
+        &< \abs{\det T} \int_S \ dx + \varepsilon \abs{\det T}
+    \end{align*}
+    Since this is true $\forall \varepsilon > 0$ we have that 
+    $$\int_{T(S)} \ dy \le \abs{\det T} \int_S \ dx$$
+    Now elt $T = T_1 \circ T_2 \circ T_N$ with $T_i$ elementary, then 
+    \begin{align*}
+        \int_{T(S)} \ dy &= \int_{T_1 (T_2 \circ T_n (S))} \ dy \\
+        &\le \abs{\det T_1} \int_{T_2 \circ T_N s} \ dy \\
+        &\vdots \\
+        &\le \abs{\det T_1 \det T_2 \cdots \det T_N} \int_S \ dx \\
+        &= \abs{\det T} \int_S \ dx
+    \end{align*}
+    Since $T^{-1}$ is an injective linear transformation, then 
+    \begin{align*}
+        \int_S \ dx &= \int_{T^{-1} T(S)} \ dx \\
+        \int_S \ dx &\le \abs{\det T^{-1}} \int_{T(S)} \ dx \\
+        \int_{T(S)} \ge \abs{\det T} \int_S \ dx 
+    \end{align*}
+    Hence they are equal.
+\end{proof}
+
+
+\begin{theorem}
+    If $T \colon \R^n \to \R^n$ injective linear transformation, $S \subset \R^n$ bounded with zero measure boundary then 
+    $$\int_{T(S)} \ dy = \abs{\det T} \int_S \ dx$$
+\end{theorem}
+
+\subsubsection{The Operator Norm} 
+\begin{definition}
+    Let $V,W$ normed spaces and we denote by $B(V,W)$ the space of continuous linear transformations  
+    from $V$ to $W$. 
+
+    Notice that $T \in B(V,W) \iff \exists M > 0$ s.t. $\abs{Tx} \le M \abs{x}$ $\forall x \in V$ $\iff$
+    $\exists M > 0$ s.t. $\abs{Tx}_W \le \abs{Tx}_V$ for $\abs{x} = 1$ iff 
+    $$\sup_{x \colon \abs{x} = 1} < \infty$$
+    We then define the operator norm on $B(V,W)$ to be 
+    $$\abs{T}_{B(V,W)} = \sup_{x \colon \abs{x} = 1} \abs{Tx}_W$$
+    Note that this depends on $\abs{.}_V, \ \abs{\cdot}_W$.
+\end{definition}
+
+\begin{remark}
+    Note that this is indeed a norm: 
+    \begin{itemize}
+        \item $\abs{T} \ge 0$ $\iff$ $\abs{Tx}_W = 0$ $\forall \abs{x} = 1$ $\iff Tx = 0$ $\forall x \in V$ 
+        $\iff Tx = 0$. 
+
+        \item $\abs{\alpha T} = \sup \abs{\alpha Tx} = \abs{\alpha} \abs{T}$. 
+        
+        \item $\abs{T+S} = \sup \abs{T+S} \le \sup \abs{Tx} + \sup \abs{Sx}$ 
+    \end{itemize}
+
+    Moreover, notice that if $x \in V$, with $\norm{x} = 1$, then $\abs{Tx} \le \abs{T}$. 
+    Then $\forall x \in V$ we have $\abs{Tx} \le \abs{T} \abs{x}$. 
+
+    Then if $T,S \in B(V,V)$ then 
+    \begin{align*}
+        \abs{T \circ S x} &\le \abs{T} \cdot \abs{Sx} \\
+        &\le \abs{T} \abs{S} \abs{x} 
+    \end{align*}
+    Hence $\abs{T \circ S} \le \abs{T} \circ \abs{S}$.
+\end{remark}
+
+\begin{definition}
+    In the finite dimensional case, if $A \in M_{m \times n} (\R)$, 
+    given norms $\abs{.}_n, \abs{.}_m$ then the operator of $A$ is 
+    $$\abs{A} := \sup_{x \colon \abs{x}_n = 1} \abs{Ax}_m$$
+\end{definition}
+
+\begin{lemma}
+    Consider the infinity norm on $\R^n, \ \R^m$ and let 
+    $\abs{\cdot}_\infty$ be the induced norm on $M_{n \times m} (\R)$ 
+    $$\abs{A}_\infty = \max_{1 \le i \le n} \sum_{j=1} \abs{a_{i,j}}$$
+\end{lemma}
+
+\begin{example}
+    $A = \begin{pmatrix}
+        1 & 2 & 7 \\
+        3 & -5 & 14
+    \end{pmatrix}$ then 
+    $$\abs{A}_\infty= 22$$
+\end{example}
+
+\begin{proof}
+    Let $x \in \R^n$ then $x = (x_1, \cdots, x_n)$ s.t. $\abs{x}_\infty = 1$, 
+    Now $Ax = (y_1, \cdots, y_m)$ with 
+    $$y_i = \sum_{j=1}^n a_{ij} x_j$$
+    So 
+    \begin{align*}
+        \abs{y_i} &\le \sum_{j=1}^n \abs{a_{ij}} \abs{x_j} \\
+        \abs{y_i} &\le \sum_{j} \abs{a_{ij}}  
+    \end{align*}
+    Therefore 
+    $$\abs{Ax}_\infty = \max {y_i} \le \max_i \sum_{j} \abs{a_{ij}}$$
+    Now given $A$ let $i_0$ be such that 
+    $$\sum_j a_{i_0,j} = \max_{1 \le i \le m} \sum_j \abs{a_{ij}}$$
+    Now take 
+    $$x = (x_1, x_2, \cdots, x_n), \quad x_j =  \begin{cases}
+        1 \quad a_{i_0j} \ge 0 
+        -1 \quad a_{i_0j} < 0
+    \end{cases}$$
+    Now we have that 
+    $$y_0 := A x_0 = (y_1, \cdots, y_m)$$ 
+    with $\abs{A x_0}_\infty = \sum_{j=1}^n \abs{a_{i_0}j}$ hence the max is attained and 
+    $$\abs{A}_\infty = \max_{1 \le i \le n} \sum_{j=1}^n \abs{a_{ij}}$$  
+\end{proof}
+
+\begin{theorem}
+    Let $U \subseteq \R^n$ open and let $\phi \colon U \to \R^n$ Diffeomorphism and 
+    $Q \subseteq U$ a cube, then 
+    $$\int_{\phi(Q)} \ dy \le (\max_{z \in Q} \abs{D\phi(z)}_\infty)^n \vol (Q)$$
+\end{theorem}
+
+\begin{proof}
+    $Q$ is a cube, say of center $a$ and side length $2r$, then by $MVT$ ($Q$ is convex)
+    $$\phi_i(x) - \phi_i(y)  = \nabla \phi_i(c) \cdot (x-y)$$
+    with $c$ on the line segment joining $x$ to $y$. So 
+    \begin{align*}
+        \phi_i(x) - \phi_i(y) &= \sum_{i=1}^n \frac{\partial \phi_i}{\partial x_j} (x_j - y_j) \\
+        \abs{\phi_i(x) - \phi_i(y)} &\le \sum_{i=1}^n \abs{\frac{\partial \phi_i}{\partial x_j}}\abs{x_j - y_j} 
+    \end{align*}
+    Then letting $a = (a_1, \cdots, a_n)$ be the center of $Q$ we have $\forall x \in Q$
+    \begin{align*}
+        \abs{\phi_i(x) - \phi_i(a)} &\le \sum_{j=1}^n \abs{\frac{\partial \phi_i}{\partial x_j} (c)} \abs{x_j-a_j} \\
+        &\le r \sum_{i=1}^n \abs{\frac{\partial \phi_i}{\partial x_j} (c)} \\
+        &\le r \abs{D\phi(c)}_\infty \\
+        &\le r \max_{z \in Q} \abs{Df(z)}_\infty
+    \end{align*}
+    Hence $\forall x \in Q$
+    $$\abs{\phi(x) - \phi(a)}_\infty \le r \max_{z \in Q} \abs{D\phi(z)}_\infty $$
+    Therefore $\phi(Q)$ is contained in a cube $\hat{Q}$ of center 
+    $$\abs{\phi(x) - \phi(a)}_\infty \le 2 r \max_{z \in Q} \abs{D\phi(z)}_\infty$$
+    Therefore 
+    \begin{align*}
+        \int_{\phi(Q)} &\le \int_{\hat{Q}} \ dy \\
+        &= \vol (\hat{Q}) \\
+        &= (2r)^n (\max_{z \in Q} \abs{D\phi(z)}_\infty)^n \\
+        &= \vol (Q) (\max_{z \in Q} \abs{D\phi(z)}_\infty)^n 
+    \end{align*}
+\end{proof} 
+
+\begin{theorem}[Case $f = 1$ on a cube, $\le$]
+    $U \subseteq \R^n$ and 
+    $$\phi \colon U \to \R^n$$ 
+    Diffeomorphism, $Q \subseteq U$ cube then 
+    $$\int_{\phi(Q)} \le \int_Q \abs{\det D\phi(x)} \ dx$$
+\end{theorem}
+
+\begin{proof}
+    $Q$ is compact and $D\phi$ is continuous, so $\abs{D\phi}$ is uniformly continuous 
+    on $Q$. Letting $M = \max_{z \in Q} \abs{D\phi(z)^{-1}}$, then $\exists \delta > 0$ s.t. 
+    for $x,y \in Q$ with $\abs{x-y}_\infty < \delta$ 
+    $$\abs{D\phi(x) - D\phi(y)}_\infty < \frac{\varepsilon}{M+1}$$
+    This means that 
+    \begin{align*}
+        \abs{D\phi(x)^{-1} \circ D\phi(y)}_\infty - \abs{I_n}_\infty &\le \abs{D\phi(x)^{-1} \circ D\phi(y) - I_n}_\infty \\
+        &= \abs{D\phi(x)^{-1} \circ (D\phi(y) - D\phi(x))}_\infty \\
+        &\le \abs{D\phi(x)^{-1}}_\infty \abs{D\phi(y) - D\phi(x)}_\infty \\
+        &\le \varepsilon \cdot \frac{\varepsilon}{M+1} \\
+        &< \varepsilon
+    \end{align*}
+    Hence $\forall \abs{x-y}_\infty < \delta$
+    $$\abs{D\phi(x)^{-1} \circ D\phi(y)}_\infty < 1 + \varepsilon$$
+    
+    Now partition $Q$ into cubes $Q_1, Q_2, \cdots, Q_n$ with side length less than $\delta$, 
+    Let $x_i$ be in $Q_i$, and let $T = D\phi(x_i)^{-1}$ an invertible L.T so $T \circ \phi$ is a Diffeomorphism with 
+    $$D (T \circ \phi) (x) = T \circ D \phi (x) = D \phi(x_i)^{-1} D\phi(x)$$
+    Then applying the previous theorem, we have 
+    \begin{align*}
+        \int_{T \circ \phi (Q_i)} \ dy &\le (\max_{z \in Q} \abs{D\phi(x_i)^{-1} \circ D\phi(x)})^n \vol (Q_i) \\
+        &<(1+\varepsilon)^n \vol (Q_i) \\
+    \end{align*}  
+    Now since $T$ is an injective linear transformation, we have 
+    \begin{align*}
+        \int_{T \circ \phi(Q_i)} \ dy &= \abs{\det T} \int_{\phi(Q_i)} \ dx \\
+        &= \abs{\det D\phi(x_i)^{-1}} \int_{\phi(Q_i)} \ dx 
+    \end{align*}
+    Conclusion 
+    $$\abs{\det D\phi(x_i)^{-1}} \int_{\phi(Q_i)} \ dy \le (1+ \varepsilon)^n \vol (Q_i)$$
+    hence 
+    $$\int_{\phi(Q_i)} \ dy \le (1 + \varepsilon)^n \abs{\det D\phi(x_i)} \vol (Q_i)$$
+    Since this holds for all $x_i \in Q_i$, we choose $x_i$ s.t 
+    $\abs{\det D\phi(x_i)} = \min_{x \in Q_i} \abs{\det D\phi(x)}$. So 
+    \begin{align*}
+        \int_{\phi(Q)} &= \sum_{i=1}^n \int_{\phi(Q_i)} \ dy \\
+        &\le (1+\varepsilon)^n \sum_{i=1}^N \inf_{x \in Q_i} \abs{\det D\phi(x)} \\
+        &\le (1+ \varepsilon)^n L(P, \abs{\det D\phi(x)}) \\
+        &\le (1+ \varepsilon)^n \int_{Q} \abs{\det D\phi(x)} \ dx 
+    \end{align*}
+    Let $\varepsilon \to 0$. 
+\end{proof}
+
+\begin{theorem}
+    Assume the above and $f \colon \phi(Q) \to \R$ with $f \ge 0$ and continuous function then 
+    $$\int_{\phi(Q)} f(y) \ dy \le \int_Q f \circ \phi(x) \abs{\det D\phi (x)} \ dx$$
+\end{theorem}
+
+\begin{proof}
+    $f \circ \phi \colon Q \to \R$ continuous then uniformly continuous then 
+    given $\varepsilon > 0$ $\exists \delta > 0$ s.t. for $\abs{x-y}_\infty < \delta$
+    $$\abs{f \circ \phi(x) - f \circ \phi(y)} < \varepsilon$$
+    Partition $Q$ into sub-cubes with disjoint interior and with sidelength smaller than 
+    $\delta$. On each $Q_i$ $f \circ \phi$ is continuous so it attains its maximum at some point $x_i \in Q_i$.. 
+    Moreover for every $x \in Q_i$ we have 
+    $$\abs{f \circ \phi(x) - f \circ \phi(x_j)} < \varepsilon$$
+    where $f \circ \phi(x_j)$ is $\max_{Q_i} f \circ \phi = \max_{\phi(Q_i)} f$. 
+    Then 
+    \begin{align*}
+        \int_{\phi(Q)} f(y) \ dy &= \sum_{i=1}^N \int_{\phi(Q_i)} f(y) \ dy \\
+        &\le \sum_{i=1}^N \int_{\phi(Q_i)} \max f \ dy \\
+        &= \sum_{i=1}^N \max_{\phi(Q_i)} f \int_{\phi(Q_i) }\ dy  \\
+        &\le \int_{i=1}^N \max_{\phi(Q_i)} f \int_{Q_i} \abs{\det D \phi(x)} \ dx \\
+        &= \sum_{i=1}^N \int_{Q_i} \max_{\phi(Q_i)} \abs{\det D\phi(x)} \ dx \\
+        &\le \sum_{i=1}^N \int_{Q_i} (f \circ \phi + \varepsilon) \abs{\det D\phi(x)} \ dx \\
+        &= \int_Q f \circ \phi(x) \abs{\det D\phi(x)} \ dx + \varepsilon \int_Q \abs{\det D\phi (x)} \ dx
+    \end{align*}
+    and now let $\varepsilon \to 0$. 
+\end{proof}
+
+\subsection{Extension theorem} 
+
+\begin{theorem}
+    Let $U \subset \R^n$ and $S \subset \R^n$ compact, then for every $\varepsilon > 0$, there exists an 
+    open set $V_\varepsilon$ s.t. $S \subset V_\varepsilon \subset \overline{V_\varepsilon} \subset U$ and a  
+    continuous function $F \colon V_\varepsilon \to \R$ s.t. on $S$ 
+    $$\abs{f(x) - F(x)} < \varepsilon$$
+    Moreover $\sup F \le \max f$ and if $f \ge 0$ we can chose $F_\varepsilon$ to be $\ge 0$. 
+\end{theorem}
+
+\begin{proof}
+    Take $\delta_0 = d(S, \partial U) > 0$. Give $\varepsilon > 0$, $f$ is uniformly continuous on $S$
+    so $\exists \delta < \delta_0 / 2$ s.t. 
+    $$\abs{f(x) - f(y)} < \varepsilon, \quad \forall \abs{x-y} < \delta$$
+    Now $\set{B(x,\delta)}_{x \in S}$ is an open cover of $S$, which by compactness has a finite subcover 
+    with $B(x,\delta) \subset \overline{B(x,\delta)} \subset U$. 
+    $$V_\varepsilon = B(x_1, \delta) \cup \cdots \cup B(x_N, \delta)$$
+    with $S \subset V_\varepsilon \subset \overline{V_\varepsilon} \subset U$. 
+    For each $1 \le i \le N$ define 
+    $$\varphi_i(x) = \max \set{0, \delta - \abs{x-x_i}}$$
+    If $x \in B(x_i, \delta)$ we have that $\varphi_i (x) > 0$ if 
+    $x \not\in B(x_i, \delta)$ $\varphi_i(x) = 0$. 
+
+    So $\varphi_i(x)$ is continuous on $V_\varepsilon$ and $\varphi_i > 0$. Moreover, for 
+    every $x \in S$ we have $x \in V_\varepsilon$, i.e. $\exists i_x$ s.t. 
+    $x \in B(x_{i_x}, \delta)$ and 
+    $$\varphi_{i_x} > 0$$
+    Therefore $\sum_{i=1}^N \varphi_i (x) > 0$ for all $x \in V_\varepsilon$. 
+    Now define 
+    $$\psi_i (x) = \frac{\varphi_i(x)}{\sum_{j=1}^n \varphi_j(x)}$$
+    Therefore $\sum_{i=1}^N \psi_i(x) = 1$. 
+    
+    Define $F(x) = \sum_{i=1}^N \psi_i(x) f (x_i)$, clearly $F$ is continuous on $V_\varepsilon$. 
+    and $\min f \le F(x) \le \max f$. Now for any $x \in S$ we compute 
+    \begin{align*}
+        F(x) - f(x) &= \sum_{i=1}^N \psi_i(x) f(x_i) \\
+        &= \sum_{i=1}^N \psi_i(x) f(x_i) - \sum_{i=1}^N f(x) \psi_i(x) \\
+    \end{align*}
+    Then 
+    \begin{align*}
+        \abs{F(x) - f(x)} &\le \sum_{i=1}^N \psi_i(x) \abs{f(x_i) - f(x)} \\
+    \end{align*}
+    Now $x \in S$ so if $x \in B(x_i, \delta)$ then $\psi_i(x) \abs{f(x_i) - f(x)} < \varepsilon \psi_i(x)$ 
+    and if $x \not\in B(x_i, \delta)$ then $\psi_i(x) = 0$ so $\psi_i(x) \abs{f(x_i) - f(x)} \le \varepsilon\varepsilon \psi_i(x)$. 
+    But there is at least one $i$ s.t. $x \in B(x_i, \delta)$ then $\forall x \in S$ we have 
+    $$\abs{F_\varepsilon - f(x)} < \sum_{i=1}^n \psi_i(x) \varepsilon = \varepsilon$$
+\end{proof}
+
+\begin{theorem}
+    $U \subset \R^n$ open and $\phi \colon U \to \R^n$ Diffeomorphism and $S \subset U$ compact. 
+    and $f \colon \phi(s) \to \R$ continuous and then 
+    $$\int_{\phi(S)} f(y) \ dy = \int_S f \circ \phi (x) \abs{\det D\phi(x)} \ dx$$ 
+\end{theorem}
+
+\begin{proof}
+    \textbf{Case $f \ge 0$.} $\exists V$ open s.t. $S \subset V \subset \overline{V} \subset U$. 
+    Now $f \circ \phi > 0$ and continuous on the compact $S$. Given $\varepsilon > 0$, $\exists V_\varepsilon \subset \overline{V_\varepsilon} \subset V$
+    and a continuous function $F_\varepsilon \ge 0$ s.t. for $x \in S$
+    $$\abs{F_\varepsilon(x) - f \circ \phi(x)} < \varepsilon$$
+    By Egorov, there exists cubes $Q_1, Q_2, \cdots, Q_N$ with non-overlapping interior and subset of $V_\varepsilon$ 
+    s.t. 
+    $$\int_{K_\varepsilon \setminus S} \ dx < \varepsilon$$
+    with $K_\varepsilon = \bigcup_{i=1}^N Q_i$. Now 
+    \begin{align*}
+        \int_\phi(S) F_\varepsilon \circ \phi^{-1} (y) \ dy &\le \int_{\phi(K_\varepsilon)} F_\varepsilon \circ \phi^{-1} (y) \ dy \\
+        &= \sum_{i=1}^N \int_{\phi(Q_i)} F_\varepsilon \circ \phi^{-1} (y) \ dy \\
+        &\le \sum_{i=1}^N \int_{Q_i} F_\varepsilon (x) \abs{\det D\phi(x)} \ dx \\
+        &= \int_{K_\varepsilon} F_\varepsilon (x) \abs{\det D\phi(x)} \ dx \\
+        &= \int_S F_\varepsilon (x) \abs{\det D\phi(x)} \ dx + \int_{K_\varepsilon \setminus S} F_\varepsilon(x) \abs{\det D\phi(x)} \ dx\\
+    \end{align*}
+    But $F_\varepsilon (x) \le \max_S f \circ \phi$ and $K_\varepsilon \setminus S \subset \overline{V}$ and 
+    $$\abs{\det D\phi(x)} \le M', \quad \forall x \in \overline{V}$$
+    Then 
+    \begin{align*}
+        \int_{\phi(S)} F_\varepsilon \circ \phi^{-1} (y) \ dy \le \int_S F_\varepsilon(x) \abs{\det D\phi(x)} \ dx + MM' \varepsilon
+    \end{align*}
+    Let $\varepsilon \to 0$, then $M M' \varepsilon \to 0$ and 
+    \begin{align*}
+        \abs{\int_S F_\varepsilon \abs{\det \phi(x)} \ dx - \int_S f \circ \phi(x) \abs{\det D\phi(x)} \ dx} &\le \int_S \abs{F_\varepsilon(x) - f \circ \phi(x)} \ \abs{\det D\phi(x)} \ dx \\
+        &< \varepsilon \int_S \abs{\det D\phi(x) \ dx} \le \varepsilon M'
+    \end{align*}
+    So 
+    $$\lim_{\varepsilon \to 0} \int_S F_\varepsilon \abs{\det \phi(x)} \ dx = \int_S f \circ \phi(x) \abs{\det D\phi(x)} \ dx$$
+    Similarly we get 
+    $$\lim_{\varepsilon \to 0} \int_{\phi(S)} F_\varepsilon \circ \phi^{-1} (y) \ dy = \int_{\phi(S)} f(y) \ dy$$
+
+    Therefore for $f \ge 0$ continuous, we have that 
+    $$\int_{\phi(S)} f(y) \ dy \le \int_S f \circ \phi(x) \abs{\det D\phi(x)} \ dx$$
+    But we have that 
+    $$\int_S f \circ \phi(x) \abs{\det D\phi(x)} \ dx = \int_{\phi^{-1} (\phi(S))} f \circ \phi(x) \abs{\det D\phi(x)} \ dx$$
+    applying the inequality on the above with 
+    $$f \rightleftarrows \phi(s), \ \phi \rightleftarrows \phi^{-1}, \ f \leftrightarrow f \circ \phi \abs{\det D\phi}$$
+    Then
+    \begin{align*}
+        \int_S f \circ \phi(x) \abs{\det D\phi(x)} \ dx &\le \int_{\phi(S)} F \circ \phi^{-1} (x) \abs{\det D\phi^{-1}(y)} \ dy \\
+        &\le \int_{\phi(S)} f(y) \abs{\det D\phi(\phi^{-1}(y))} \abs{D\phi^{-1}(y)} \ dy \\ 
+        &= \int_{\phi(S)} f(y) I \\
+        &= \int_{\phi(S)} f(y) \ dy
+    \end{align*}
+    
+    Finally we get that if $f \ge 0$ and $S$ compact, ... we get 
+    $$\int_S f(y) \ dy = \int_{\phi(S)} f \circ \phi(x) \abs{\det D\phi(x)} \ dx$$
+
+    Then for $f$ continuous on $S$, we write 
+    $$f = f^+ - f^-$$
+    or write 
+    $$\tilde{f} = f + \abs{\min f}$$
+    use equality. 
+\end{proof}
+
+
 
 \end{document}
